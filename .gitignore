@@ -1,6 +1,9 @@
 # build directory
 build
 
+# documentation directory
+documentation
+
 # Compiled Object files
 *.slo
 *.lo
