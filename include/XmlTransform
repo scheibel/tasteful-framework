@@ -1,0 +1,72 @@
+/**
+  * (C) LGPL-3
+  *
+  * Tasteful Framework <https://github.com/scheibel/tasteful-framework>
+  *
+  * Copyright: 2012 Lux, Scheibel
+  * Authors:
+  *     Roland Lux <rollux2000@googlemail.com>
+  *     Willy Scheibel <willyscheibel@gmx.de>
+  * 
+  * This file is part of Tasteful Framework.
+  *
+  * Tasteful Framework is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Lesser General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  * 
+  * Tasteful Framework is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Lesser General Public License for more details.
+  * 
+  * You should have received a copy of the GNU Lesser General Public License
+  * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
+  **/
+
+#pragma once
+
+#include <QString>
+#include <QDomDocument>
+#include <QDomNode>
+#include <QFile>
+#include <QDir>
+#include <QHash>
+#include <DomHelper>
+
+class XmlTransform : protected DomHelper {
+	public:
+		typedef QDomNode (XmlTransform::*Transform)(QDomNode);
+	
+		XmlTransform();
+		virtual ~XmlTransform();
+	
+		void setFilename(QString filename);
+	private:
+		QDomNode doTransform(QString selector, QDomNode node);
+		QDomNode transformElement(QDomElement element);
+	
+		QHash<QString, Transform> transforms;
+		QHash<QString, XmlTransform*> partials;
+	protected:
+		QDomNode $(NodeCreator creator);
+		QDomNode $(QString text);
+		
+		QDomDocument getDocument(QString filename);
+		QDomNode findContentNode(QDomNode node);
+		QDomNode findFirstNodeWithAttribute(QDomNode node, QString attribute);
+	
+		void replaceChildren(QDomNode node, QDomNode contentNode);
+	
+		void addPartial(QString selector, XmlTransform* partial);
+	
+		template <class T>
+		void addTransform(QString selector, QDomNode (T::*transform)(QDomNode)) {
+			transforms.insert(selector, (Transform)transform);
+		};
+		virtual void transformNode(QDomNode node);
+		virtual void transform();
+	
+		QDomDocument document;
+		QString filename;
+};

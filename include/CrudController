@@ -1,0 +1,122 @@
+/**
+  * (C) LGPL-3
+  *
+  * Tasteful Framework <https://github.com/scheibel/tasteful-framework>
+  *
+  * Copyright: 2012 Lux, Scheibel
+  * Authors:
+  *     Roland Lux <rollux2000@googlemail.com>
+  *     Willy Scheibel <willyscheibel@gmx.de>
+  * 
+  * This file is part of Tasteful Framework.
+  *
+  * Tasteful Framework is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Lesser General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  * 
+  * Tasteful Framework is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Lesser General Public License for more details.
+  * 
+  * You should have received a copy of the GNU Lesser General Public License
+  * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
+  **/
+
+#pragma once
+
+#include <Controller>
+#include <routing>
+
+using namespace internal;
+
+template <class DataMapper>
+class CrudController : virtual public Controller {
+	public:
+		typedef DataMapper::Model Model;
+		typedef DataMapper::Identity Identity;
+		
+		CrudController() : Controller::Controller(), dataMapper(DataMapper::instance()) {}
+		~CrudController() {}
+		
+		void index() {
+			render(listViewFor(allModels()));
+		}
+		void show() {
+			Identity id = getParameter("id", Identity());
+			
+			render(showViewFor(dataMapper.get(id), id));
+		}
+		void create() {
+			render(editViewFor(nullptr, Identity()));
+		}
+		void edit() {
+			Identity id = getParameter("id", Identity());
+			
+			render(editViewFor(dataMapper.get(id), id));
+		}
+		void save() {
+			Identity id = getParameter("id", Identity());
+			
+			Model* model = nullptr;
+			
+			if (dataMapper.isValidId(id)) {
+				model = dataMapper.get(id);
+			} else {
+				model = dataMapper.newModel();
+			}
+			
+			if (model) {
+				QVariantMap record;
+				
+				dataMapper.buildFromRecord(model, record);
+				dataMapper.save(model);
+			}
+			
+			redirect("");
+		}
+		void remove() {
+			Identity id = getParameter("id", Identity());
+			
+			Model* model = dataMapper.get(id);
+			
+			if (model) {
+				dataMapper.remove(model);
+			}
+			
+			redirect("");
+		}
+		
+		static connectRoutes(QString urlPrefix) {
+			if (!urlPrefix.endsWith("/")) urlPrefix += "/";
+			GET(urlPrefix+"index") = &CrudController::index;
+			GET(urlPrefix+"show") = &CrudController::show;
+			GET(urlPrefix+"create") = &CrudController::create;
+			GET(urlPrefix+"edit") = &CrudController::edit;
+			POST(urlPrefix+"save") = &CrudController::save;
+			GET(urlPrefix+"remove") = &CrudController::remove;
+		}
+	protected:
+		DataMapper& dataMapper;
+		
+		QHash<Identity, Model*> allModels() {
+			QHash<Identity, Model*> models;
+			
+			for (Model* model : findAll()) {
+				models.insert(dataMapper.idOf(model));
+			}
+			
+			return models;
+		};
+		
+		virtual QList<Model*> findAll() {
+			return dataMapper.all();
+		}
+		
+		virtual View* listViewFor(QHash<Identity, Model*> models) = 0;
+		virtual View* showViewFor(Model* model, Identity id) = 0;
+		virtual View* editViewFor(Model* model, Identity id) = 0;
+};
+
+#endif

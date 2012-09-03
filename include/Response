@@ -1,0 +1,65 @@
+/**
+  * (C) LGPL-3
+  *
+  * Tasteful Framework <https://github.com/scheibel/tasteful-framework>
+  *
+  * Copyright: 2012 Lux, Scheibel
+  * Authors:
+  *     Roland Lux <rollux2000@googlemail.com>
+  *     Willy Scheibel <willyscheibel@gmx.de>
+  * 
+  * This file is part of Tasteful Framework.
+  *
+  * Tasteful Framework is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Lesser General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  * 
+  * Tasteful Framework is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Lesser General Public License for more details.
+  * 
+  * You should have received a copy of the GNU Lesser General Public License
+  * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
+  **/
+
+#pragma once
+
+#include <QStringList>
+#include <QHash>
+#include <QString>
+#include <QFile>
+#include <HttpResponse>
+#include <internal/MimeDatabase>
+#include <AbstractSession>
+
+using namespace internal;
+
+class Response : public HttpResponse {
+	public:
+		Response(unsigned statusCode = http::OK);
+	
+		HttpResponse& asHttpResponse();
+	
+		void setMimeType(QString mimeType);
+		void setMimeTypeForFileName(QString filename);
+		
+		void setSession(AbstractSession* session);
+		
+		//void setContentFromFile(const QFile& contentFile);
+		
+		Response& asDownload(QString name);
+		
+		static Response notFound();
+		static Response redirect(QString url);
+		static Response redirectPermanently(QString url);
+		static Response forContent(QString content, unsigned statusCode = http::OK);
+		static Response forContent(QByteArray content, unsigned statusCode = http::OK);
+		static Response forFile(QFile& file);
+		static Response download(QFile& file, QString name=QString());
+		static Response download(QByteArray content, QString name);
+		static Response accessDenied();
+	private:		
+		static MimeDatabase mimeDatabase;
+};
