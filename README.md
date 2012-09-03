@@ -9,6 +9,7 @@ Requirements
  * Qt 4.8
  * C++11
  * CMake 2.6
+ * Tasteful Server
 
 Building Tasteful Framework
 -----------------------------------
