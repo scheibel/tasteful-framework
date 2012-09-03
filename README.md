@@ -2,17 +2,31 @@ Tasteful Framework
 ============
 
 Tasteful Framework is web framework library written in C++ based on Tasteful Server.
+It provides an MVC-architecture with routes, controllers, models and views as well as a datamapper as an object-relational mapper.
+
+An example application is in current progress and will be published here as soon as it is finished.
+
+As it is now, only Linux is tested as development and deployment environment, so no build information for Windows, MacOS or any other OS is provided.
+Since all platform-dependent features of the Tasteful Framework are provided through Qt, it should also run on any other OS to which Qt was ported.
+
+Content
+------------
+
+ * [Requirements](#requirements)
+ * [Building Tasteful Framework](#building-tasteful-framework)
+ * [Installation](#installation)
+ * [License](#license)
 
 Requirements
 ---------------------
 
- * Qt 4.8
- * C++11
- * CMake 2.6
- * Tasteful Server
+ * [Qt 4.8](http://qt.nokia.com/)
+ * [gcc 4.6](http://gcc.gnu.org/)
+ * [CMake 2.6](http://www.cmake.org/)
+ * [Tasteful Server](https://github.com/scheibel/tasteful-server)
 
 Building Tasteful Framework
------------------------------------
+------------------------------------------
 
     > mkdir build && cd build
     > cmake ..
@@ -23,13 +37,7 @@ Installation
 
 The Tasteful Framework library and its header files can be installed in your system using the following command:
 
-### Linux
-
     > sudo make install
-
-### Windows and MacOS
-
-Windows and MacOS are not tested yet.
 
 License
 -----------
