@@ -34,8 +34,8 @@ using namespace internal;
 template <class DataMapper>
 class CrudController : virtual public Controller {
 	public:
-		typedef DataMapper::Model Model;
-		typedef DataMapper::Identity Identity;
+		typedef typename DataMapper::Model Model;
+		typedef typename DataMapper::Identity Identity;
 		
 		CrudController() : Controller::Controller(), dataMapper(DataMapper::instance()) {}
 		~CrudController() {}
@@ -88,7 +88,8 @@ class CrudController : virtual public Controller {
 			redirect("");
 		}
 		
-		static connectRoutes(QString urlPrefix) {
+		/*
+		static void connectRoutes(QString urlPrefix) {
 			if (!urlPrefix.endsWith("/")) urlPrefix += "/";
 			GET(urlPrefix+"index") = &CrudController::index;
 			GET(urlPrefix+"show") = &CrudController::show;
@@ -96,7 +97,7 @@ class CrudController : virtual public Controller {
 			GET(urlPrefix+"edit") = &CrudController::edit;
 			POST(urlPrefix+"save") = &CrudController::save;
 			GET(urlPrefix+"remove") = &CrudController::remove;
-		}
+		}*/
 	protected:
 		DataMapper& dataMapper;
 		
@@ -104,7 +105,7 @@ class CrudController : virtual public Controller {
 			QHash<Identity, Model*> models;
 			
 			for (Model* model : findAll()) {
-				models.insert(dataMapper.idOf(model));
+				models.insert(dataMapper.idOf(model), model);
 			}
 			
 			return models;
@@ -118,5 +119,3 @@ class CrudController : virtual public Controller {
 		virtual View* showViewFor(Model* model, Identity id) = 0;
 		virtual View* editViewFor(Model* model, Identity id) = 0;
 };
-
-#endif
