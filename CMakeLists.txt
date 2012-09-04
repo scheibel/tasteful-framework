@@ -76,7 +76,6 @@ set(Framework_headers
 	include/AbstractSession
 	include/View
 	include/DomHelper
-	include/Cookies
 	include/CrudController
 	include/RedirectException
 	include/TemplateLayout
