@@ -28,6 +28,7 @@
 
 #include <XmlTransform>
 #include <TemplateLayout>
+#include <QDomNode>
 #include <View>
 
 class TemplateView : public View, protected XmlTransform {
@@ -38,6 +39,8 @@ class TemplateView : public View, protected XmlTransform {
 		
 		virtual QList<QString> header();
 		virtual QByteArray content();
+		QDomNode contentNode();
+		
 	
 		void setLayout(TemplateLayout* layout);
 		template <class T = TemplateLayout>

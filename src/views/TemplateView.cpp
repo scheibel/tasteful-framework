@@ -50,6 +50,15 @@ QByteArray TemplateView::content() {
 	return document.toString().toUtf8();
 }
 
+QDomNode TemplateView::contentNode() {
+	transform();
+	if (layout) {
+		document = layout->layout(document);
+	}
+	
+	return findContentNode(document.documentElement());
+}
+
 void TemplateView::setLayout(TemplateLayout* layout)
 {
 	this->layout = layout;

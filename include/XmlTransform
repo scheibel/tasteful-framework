@@ -57,6 +57,8 @@ class XmlTransform : protected DomHelper {
 		QDomNode findFirstNodeWithAttribute(QDomNode node, QString attribute);
 	
 		void replaceChildren(QDomNode node, QDomNode contentNode);
+		void removeChildren(QDomNode node);
+		void appendChildren(QDomNode node, QDomNode contentNode);
 	
 		void addPartial(QString selector, XmlTransform* partial);
 	

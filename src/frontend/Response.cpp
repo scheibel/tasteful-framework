@@ -47,9 +47,7 @@ void Response::setMimeTypeForFileName(QString filename) {
 }
 
 void Response::setSession(AbstractSession* session) {
-	Cookie cookie("sessionId", session->getIdentifier());
-	cookie.setPath("/");
-	getCookies().set(cookie);
+	setCookie("sessionId", session->getIdentifier()).setPath("/");
 }
 
 Response& Response::asDownload(QString name) {

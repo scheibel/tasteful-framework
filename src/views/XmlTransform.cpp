@@ -53,7 +53,7 @@ QDomDocument XmlTransform::getDocument(QString filename)
 	}
 	QDomDocument doc;
 	if (!doc.setContent(&file)) {
-		std::cerr << "File " << filename.toStdString() << "not valid xml" << std::endl;
+		std::cerr << "File " << filename.toStdString() << " is not valid xml" << std::endl;
 	}
 	file.close();
 	return doc;
@@ -64,11 +64,8 @@ QDomNode XmlTransform::findContentNode(QDomNode node) {
 	if (contentNode.isNull()) contentNode = node.ownerDocument().elementsByTagName("body").at(0);
 	if (contentNode.isNull()) {
 		contentNode = node.ownerDocument().createElement("body");
-		QDomNodeList children =  node.childNodes();
-		for (int i=0; i<children.size();++i) {
-			QDomNode child = children.at(i);
-			contentNode.appendChild(node.removeChild(child));
-		}
+		
+		contentNode.appendChild(node);
 	}
 	return contentNode;
 }
@@ -92,11 +89,20 @@ void XmlTransform::addPartial(QString selector, XmlTransform* partial) {
 
 void XmlTransform::replaceChildren(QDomNode node, QDomNode contentNode)
 {
+	removeChildren(node);
+	appendChildren(node, contentNode);
+}
+
+void XmlTransform::removeChildren(QDomNode node)
+{
 	QDomNodeList oldChildren = node.childNodes();
 	for (int i = 0;i<oldChildren.size();++i) {
 		node.removeChild(oldChildren.at(i));
 	}
-		
+}
+
+void XmlTransform::appendChildren(QDomNode node, QDomNode contentNode)
+{
 	QDomNodeList children = contentNode.childNodes();
 	for (int i = 0;i<children.size();++i) {
 		QDomNode child = node.ownerDocument().importNode(children.at(i), true);
