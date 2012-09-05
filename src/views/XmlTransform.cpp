@@ -36,12 +36,21 @@ XmlTransform::~XmlTransform() {
 }
 
 void XmlTransform::transform() {
-	document = getDocument(filename);
-	transformNode(document.documentElement());
+	if (!filename.isNull() && !filename.isEmpty()) {
+		document = getDocument(filename);
+		
+		contentNode = document.documentElement();
+	}
+	
+	transformNode(contentNode);
 }
 
 void XmlTransform::setFilename(QString filename) {
 	this->filename = filename;
+}
+
+void XmlTransform::setNode(QDomNode node) {
+	contentNode = node;
 }
 
 QDomDocument XmlTransform::getDocument(QString filename)
@@ -60,6 +69,10 @@ QDomDocument XmlTransform::getDocument(QString filename)
 }
 
 QDomNode XmlTransform::findContentNode(QDomNode node) {
+	if (node.ownerDocument().isNull()) {
+		return contentNode;
+	}
+	
 	QDomNode contentNode = findFirstNodeWithAttribute(node, "data-content");
 	if (contentNode.isNull()) contentNode = node.ownerDocument().elementsByTagName("body").at(0);
 	if (contentNode.isNull()) {

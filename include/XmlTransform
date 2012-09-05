@@ -42,6 +42,7 @@ class XmlTransform : protected DomHelper {
 		virtual ~XmlTransform();
 	
 		void setFilename(QString filename);
+		void setNode(QDomNode node);
 	private:
 		QDomNode doTransform(QString selector, QDomNode node);
 		QDomNode transformElement(QDomElement element);
@@ -70,5 +71,6 @@ class XmlTransform : protected DomHelper {
 		virtual void transform();
 	
 		QDomDocument document;
+		QDomNode contentNode;
 		QString filename;
 };
