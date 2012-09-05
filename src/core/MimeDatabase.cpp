@@ -46,7 +46,7 @@ void MimeDatabase::loadMimeTypes() {
 	loadMimeTypesFromFilename(homeFilename);
 }
 
-void MimeDatabase::loadMimeTypesFromFilename(QString filename) {
+void MimeDatabase::loadMimeTypesFromFilename(const QString& filename) {
 	QFile file(filename);
 	
 	if (file.open(QIODevice::ReadOnly)) {
@@ -73,11 +73,11 @@ void MimeDatabase::loadMimeTypesFromFilename(QString filename) {
 	}
 }
 
-void MimeDatabase::addMimeType(QString mimeType, QString extension) {
+void MimeDatabase::addMimeType(const QString& mimeType, const QString& extension) {
 	mimeTypes.insert(extension, mimeType);
 }
 
-QString MimeDatabase::getMimeTypeFor(QString filename, QString defaultValue) {
+QString MimeDatabase::getMimeTypeFor(const QString& filename, const QString& defaultValue) const {
 	QString extension = QFileInfo(filename).suffix();
 	
 	return mimeTypes.contains(extension) ? mimeTypes.value(extension) : defaultValue;

@@ -26,7 +26,7 @@
 
 #include <internal/Dispatcher>
 #include <RedirectException>
-#include<Logger>
+#include <Logger>
 
 using namespace internal;
 
@@ -51,13 +51,13 @@ void Dispatcher::initializeRoutes() {
 	}
 }
 
-Response Dispatcher::dispatch(Request& request) {
+Response Dispatcher::dispatch(Request& request) const {
 	Route* route = findMatch(RequestedAction(request.getMethod(), request.getPath()));
 	if (!route) return defaultDispatch(request);
 	return performActionFor(route, request);
 }
 
-Response Dispatcher::defaultDispatch(Request& request) {
+Response Dispatcher::defaultDispatch(Request& request) const {
 	if (request.getMethod()==HttpMethod::HEAD) {
 		Route* route = findMatch(RequestedAction(HttpMethod::GET, request.getPath()));
 		if (route) {
@@ -69,7 +69,7 @@ Response Dispatcher::defaultDispatch(Request& request) {
 	return Response::notFound();
 }
 
-Route* Dispatcher::findMatch(const RequestedAction& requestedAction) {
+Route* Dispatcher::findMatch(const RequestedAction& requestedAction) const {
 	Route* route = findStaticMatch(requestedAction);
 	if (!route) route = findDynamicMatch(requestedAction);
 	if (!route) route = findWildcardMatch(requestedAction);
@@ -79,11 +79,11 @@ Route* Dispatcher::findMatch(const RequestedAction& requestedAction) {
 	return route;
 }
 
-Route* Dispatcher::findStaticMatch(const RequestedAction& requestedAction) {
+Route* Dispatcher::findStaticMatch(const RequestedAction& requestedAction) const {
 	return staticRoutes.value(RouteRegistry::keyFor(requestedAction), nullptr);
 }
 
-Route* Dispatcher::findDynamicMatch(const RequestedAction& requestedAction) {
+Route* Dispatcher::findDynamicMatch(const RequestedAction& requestedAction) const {
 	for (Route* route: dynamicRoutes) {
 		if (route->match(requestedAction)) {
 			return route;
@@ -92,7 +92,7 @@ Route* Dispatcher::findDynamicMatch(const RequestedAction& requestedAction) {
 	return nullptr;
 }
 
-Route* Dispatcher::findWildcardMatch(const RequestedAction& requestedAction) {
+Route* Dispatcher::findWildcardMatch(const RequestedAction& requestedAction) const {
 	for (Route* route: wildcardRoutes) {
 		if (route->match(requestedAction)) {
 			return route;
@@ -101,7 +101,7 @@ Route* Dispatcher::findWildcardMatch(const RequestedAction& requestedAction) {
 	return nullptr;
 }
 
-Response Dispatcher::performActionFor(Route* route, Request& request) {
+Response Dispatcher::performActionFor(Route* route, Request& request) const {
 	if (!route) return Response::notFound();
 	Action* action = route->getAction();
 	if (!action) return Response::notFound();

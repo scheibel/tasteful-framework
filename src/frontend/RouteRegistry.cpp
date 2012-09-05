@@ -37,7 +37,7 @@ void RouteRegistry::addMethodStringToRoutes(const QString& methodPointerString, 
 	methodsToRoutes.insert(methodPointerString, route);	
 }
 
-Route* RouteRegistry::getRouteForMethodString(const QString& methodPointerString) {
+Route* RouteRegistry::getRouteForMethodString(const QString& methodPointerString) const {
 	return methodsToRoutes.value(methodPointerString, nullptr);
 }
 
@@ -49,7 +49,7 @@ QList<Route*> RouteRegistry::routes() {
 	return instance().getRoutes();
 }
 
-QList<Route*> RouteRegistry::getRoutes() {
+QList<Route*> RouteRegistry::getRoutes() const {
 	return _routes.values();
 }
 
@@ -57,7 +57,7 @@ RouteRegistry::Key RouteRegistry::keyFor(Route* route) {
 	return Key(route->getMethod(), route->getUrlPattern());
 }
 
-RouteRegistry::Key RouteRegistry::keyFor(Request& request) {
+RouteRegistry::Key RouteRegistry::keyFor(const Request& request) {
 	return Key(request.getMethod(), request.getPath());
 }
 
@@ -65,12 +65,12 @@ RouteRegistry::Key RouteRegistry::keyFor(const RequestedAction& requestedAction)
 	return Key(requestedAction.getMethod(), requestedAction.getPath());
 }
 
-RouteRegistry::Key RouteRegistry::keyFor(HttpMethod method, const QString& urlPattern) {
+RouteRegistry::Key RouteRegistry::keyFor(const HttpMethod& method, const QString& urlPattern) {
 	QString correctedPattern = urlPattern.startsWith("/") ? urlPattern : "/"+urlPattern;
 	return Key(method, correctedPattern);
 }
 
-Route* RouteRegistry::obtain(HttpMethod method, const QString& urlPattern) {
+Route* RouteRegistry::obtain(const HttpMethod& method, const QString& urlPattern) {
 	Key key = keyFor(method, urlPattern);
 	if (!_routes.contains(key)) {
 		Route* route = Route::create(method, urlPattern);
@@ -80,6 +80,6 @@ Route* RouteRegistry::obtain(HttpMethod method, const QString& urlPattern) {
 	return _routes[key];
 }
 
-Route* RouteRegistry::getOrCreate(HttpMethod method, const QString& urlPattern) {
+Route* RouteRegistry::getOrCreate(const HttpMethod& method, const QString& urlPattern) {
 	return instance().obtain(method, urlPattern);
 }

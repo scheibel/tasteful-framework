@@ -29,12 +29,12 @@
 Download::Download(const Download& download) : file(download.file.fileName()), name(download.name), content(download.content) {
 }
 
-Download::Download(const QFile& file, QString name) : file(file.fileName()), name(name) {
+Download::Download(const QFile& file, const QString& name) : file(file.fileName()), name(name) {
 }
 
-Download::Download(QByteArray content, QString name) : content(content), name(name) {
+Download::Download(const QByteArray& content, const QString& name) : content(content), name(name) {
 }
 
-Response Download::getResponse() {
+Response Download::getResponse() const {
 	return content.isNull() ? Response::download(file, name) : Response::download(content, name);
 }

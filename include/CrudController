@@ -28,7 +28,7 @@
 
 #define DEFINE_CRUD_ACTIONS(MapperClass) \
 	protected:\
-		MapperClass& getDataMapper() {\
+		MapperClass& getDataMapper() const {\
 			static MapperClass& dataMapper = MapperClass::instance();\
 			\
 			return dataMapper;\
@@ -91,7 +91,7 @@
 			redirect("");\
 		}\
 	protected:\
-		QHash<Identity, Model*> allModels() {\
+		QHash<Identity, Model*> allModels() const {\
 			QHash<Identity, Model*> models;\
 			\
 			for (Model* model : findAll()) {\

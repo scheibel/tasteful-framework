@@ -34,11 +34,11 @@ namespace internal {
 		public:
 			MimeDatabase();
 			
-			QString getMimeTypeFor(QString filename, QString defaultValue = "");
+			QString getMimeTypeFor(const QString& filename, const QString& defaultValue = "") const;
 		protected:
-			void addMimeType(QString mimeType, QString extension);
+			void addMimeType(const QString& mimeType, const QString& extension);
 			void loadMimeTypes();
-			void loadMimeTypesFromFilename(QString filename);
+			void loadMimeTypesFromFilename(const QString& filename);
 		private:
 			QHash<QString, QString> mimeTypes;
 	};

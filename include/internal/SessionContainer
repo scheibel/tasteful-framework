@@ -35,11 +35,14 @@ namespace internal {
 			SessionContainer(AbstractSession* session);
 			
 			template <typename T = AbstractSession>
-			T* getSession() {
-				return (T*)session;
-			};
+			T* getSession() const;
 			void setSession(AbstractSession* newSession);
 		protected:
 			AbstractSession* session;
 	};
+	
+	template <typename T>
+	T* SessionContainer::getSession() const {
+		return (T*)session;
+	}
 }

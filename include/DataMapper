@@ -52,22 +52,22 @@ public:
 
 	static Subclass& instance();
 	
-	virtual T* newModel() = 0;
-	virtual void buildFromRecord(T* model, QVariantMap& record) = 0;
-	virtual void buildRecordFrom(T* model, QVariantMap& record) = 0;
-	virtual QString table() = 0;
-	virtual QList<QString> selectVariables() = 0;
-	virtual QString identityFieldName() = 0;
-	virtual QString databaseId();
+	virtual T* newModel() const = 0;
+	virtual void buildFromRecord(T* model, const QVariantMap& record) const = 0;
+	virtual void buildRecordFrom(T* model, const QVariantMap& record) const = 0;
+	virtual QString table() const = 0;
+	virtual QList<QString> selectVariables() const = 0;
+	virtual QString identityFieldName() const = 0;
+	virtual QString databaseId() const;
 	virtual void saveRelationsOf(T* model);
 	
-	Database& getDatabase();
-	Identity idOf(T* model);
-	bool isValidId(Identity id);
-	T* obtainFromIdentityMap(QVariantMap& map);
+	Database& getDatabase() const;
+	Identity idOf(T* model) const;
+	bool isValidId(Identity id) const;
+	T* obtainFromIdentityMap(const QVariantMap& map);
 	T* get(Identity id);
-	T* getBy(QString whereClause);
-	QList<T*> find(QString whereClause);
+	T* getBy(const QString& whereClause);
+	QList<T*> find(const QString& whereClause);
 	QList<T*> all();
 	
 	Identity saveReturningId(T* model);
@@ -102,17 +102,17 @@ Subclass& DataMapper<Subclass, T, I>::instance() {
 }
 
 template <class Subclass, class T, typename I>
-I DataMapper<Subclass, T, I>::idOf(T* model) {
+I DataMapper<Subclass, T, I>::idOf(T* model) const {
 	return identities.idOf(model);
 }
 
 template <class Subclass, class T, typename I>
-bool DataMapper<Subclass, T, I>::isValidId(Identity id) {
+bool DataMapper<Subclass, T, I>::isValidId(Identity id) const {
 	return (bool)id;
 }
 
 template <class Subclass, class T, typename I>
-T* DataMapper<Subclass, T, I>::obtainFromIdentityMap(QVariantMap& map) {
+T* DataMapper<Subclass, T, I>::obtainFromIdentityMap(const QVariantMap& map) {
 	T* model = nullptr;
 	
 	QVariant variantId = map[identityFieldName()]; // hack because of compile errors if those two lines are just one
@@ -137,7 +137,7 @@ T* DataMapper<Subclass, T, I>::get(Identity id) {
 }
 
 template <class Subclass, class T, typename I>
-T* DataMapper<Subclass, T, I>::getBy(QString whereClause) {
+T* DataMapper<Subclass, T, I>::getBy(const QString& whereClause) {
 	QSqlQuery query = getDatabase().build(SELECT("*").FROM(table()).WHERE(whereClause).LIMIT(1));
 	
 	if (query.exec()) {
@@ -163,7 +163,7 @@ T* DataMapper<Subclass, T, I>::getBy(QString whereClause) {
 } 
 
 template <class Subclass, class T, typename I>
-QList<T*> DataMapper<Subclass, T, I>::find(QString whereClause) {
+QList<T*> DataMapper<Subclass, T, I>::find(const QString& whereClause) {
 	QList<T*> results;
 	
 	QSqlQuery query = getDatabase().build(SELECT("*").FROM(table()).WHERE(whereClause));
@@ -247,7 +247,7 @@ bool DataMapper<Subclass, T, I>::remove(T* model) {
 }
 
 template <class Subclass, class T, typename I>
-QString DataMapper<Subclass, T, I>::databaseId() {
+QString DataMapper<Subclass, T, I>::databaseId() const {
 	return QString();
 }
 
@@ -257,6 +257,6 @@ void DataMapper<Subclass, T, I>::saveRelationsOf(T* model) {
 }
 
 template <class Subclass, class T, typename I>
-Database& DataMapper<Subclass, T, I>::getDatabase() {
+Database& DataMapper<Subclass, T, I>::getDatabase() const {
 	return Database::get(databaseId());
 }

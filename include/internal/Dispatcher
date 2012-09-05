@@ -42,20 +42,20 @@ namespace internal {
 		public:
 			Dispatcher();
 			
-			Response dispatch(Request& request);
+			Response dispatch(Request& request) const;
 		private slots:
 			void addRoute(Route* route);
 		private:
 			void initializeRoutes();
 			
-			Response defaultDispatch(Request& request);
+			Response defaultDispatch(Request& request) const;
 			
-			Route* findMatch(const RequestedAction& requestedAction);
-			Route* findStaticMatch(const RequestedAction& requestedAction);
-			Route* findDynamicMatch(const RequestedAction& requestedAction);
-			Route* findWildcardMatch(const RequestedAction& requestedAction);
+			Route* findMatch(const RequestedAction& requestedAction) const;
+			Route* findStaticMatch(const RequestedAction& requestedAction) const;
+			Route* findDynamicMatch(const RequestedAction& requestedAction) const;
+			Route* findWildcardMatch(const RequestedAction& requestedAction) const;
 			
-			Response performActionFor(Route* route, Request& request);
+			Response performActionFor(Route* route, Request& request) const;
 			
 			QHash<RouteRegistry::Key, Route*> staticRoutes;
 			QList<Route*> dynamicRoutes;

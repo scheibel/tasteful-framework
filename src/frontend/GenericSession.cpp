@@ -34,6 +34,6 @@ GenericSession::~GenericSession() {
 	
 }
 
-bool GenericSession::has(QString key) {
+bool GenericSession::has(const QString& key) const {
 	return values.contains(key);
 }

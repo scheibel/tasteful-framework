@@ -28,18 +28,18 @@
 
 RouteActionAssigner ROOT = GET("/");
 
-RouteActionAssigner GET(QString urlPattern) {
+RouteActionAssigner GET(const QString& urlPattern) {
 	return RouteActionAssigner(RouteRegistry::getOrCreate(HttpMethod::GET, urlPattern));
 }
 
-RouteActionAssigner PUT(QString urlPattern) {
+RouteActionAssigner PUT(const QString& urlPattern) {
 	return RouteActionAssigner(RouteRegistry::getOrCreate(HttpMethod::PUT, urlPattern));
 }
 
-RouteActionAssigner POST(QString urlPattern) {
+RouteActionAssigner POST(const QString& urlPattern) {
 	return RouteActionAssigner(RouteRegistry::getOrCreate(HttpMethod::POST, urlPattern));
 }
 
-RouteActionAssigner DELETE(QString urlPattern) {
+RouteActionAssigner DELETE(const QString& urlPattern) {
 	return RouteActionAssigner(RouteRegistry::getOrCreate(HttpMethod::DELETE, urlPattern));
 }

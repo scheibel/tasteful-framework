@@ -35,11 +35,11 @@ class AbstractSession : public QObject {
 		AbstractSession();
 		virtual ~AbstractSession();
 		
-		bool isValid();
-		bool isInvalid();
+		bool isValid() const;
+		bool isInvalid() const;
 		void setInvalid(bool newState);
 		
-		QString getIdentifier();
+		QString getIdentifier() const;
 		void setIdentifier(const QString& newIdentifier);
 		
 		void touch();

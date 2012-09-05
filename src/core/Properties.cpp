@@ -30,7 +30,7 @@
 
 using namespace internal;
 
-Properties::Properties(QString filename) : filename(filename) {
+Properties::Properties(const QString& filename) : filename(filename) {
 	settings = new QSettings(filename, QSettings::IniFormat);
 }
 
@@ -38,6 +38,6 @@ Properties::~Properties() {
 	delete settings;
 }
 
-QString Properties::getFilename() {
+QString Properties::getFilename() const {
 	return filename;
 }

@@ -28,37 +28,37 @@
 
 using namespace internal;
 
-StringAction::StringAction(QString content) : content(content) {
+StringAction::StringAction(const QString& content) : content(content) {
 }
 
-Response StringAction::operator()(Request request) {
+Response StringAction::operator()(Request& request) const {
 	return Response::forContent(content);
 }
 		
 FileAction::FileAction(const QFile& file) : file(file.fileName()) {
 }
 
-Response FileAction::operator()(Request request) {
+Response FileAction::operator()(Request& request) const {
 	return Response::forFile(file);
 }
 
-DownloadAction::DownloadAction(Download download) : download(download) {
+DownloadAction::DownloadAction(const Download& download) : download(download) {
 }
 
-Response DownloadAction::operator()(Request request) {
+Response DownloadAction::operator()(Request& request) const {
 	return download.getResponse();
 }
 
-ResponseAction::ResponseAction(Response reply) : response(response) {
+ResponseAction::ResponseAction(const Response& response) : response(response) {
 }
 
-Response ResponseAction::operator()(Request request) {
+Response ResponseAction::operator()(Request& request) const {
 	return response;
 }
 
 LambdaAction::LambdaAction(Lambda lambda) : lambda(lambda) {
 }
 	
-Response LambdaAction::operator()(Request request) {
+Response LambdaAction::operator()(Request& request) const {
 	return lambda(request);
 }

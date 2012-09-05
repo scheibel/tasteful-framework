@@ -40,25 +40,25 @@ class Response : public HttpResponse {
 	public:
 		Response(unsigned statusCode = http::OK);
 	
-		HttpResponse& asHttpResponse();
+		HttpResponse& asHttpResponse() const;
 	
-		void setMimeType(QString mimeType);
-		void setMimeTypeForFileName(QString filename);
+		void setMimeType(const QString& mimeType);
+		void setMimeTypeForFileName(const QString& filename);
 		
 		void setSession(AbstractSession* session);
 		
 		//void setContentFromFile(const QFile& contentFile);
 		
-		Response& asDownload(QString name);
+		Response& asDownload(const QString& name);
 		
 		static Response notFound();
-		static Response redirect(QString url);
-		static Response redirectPermanently(QString url);
-		static Response forContent(QString content, unsigned statusCode = http::OK);
-		static Response forContent(QByteArray content, unsigned statusCode = http::OK);
-		static Response forFile(QFile& file);
-		static Response download(QFile& file, QString name=QString());
-		static Response download(QByteArray content, QString name);
+		static Response redirect(const QString& url);
+		static Response redirectPermanently(const QString& url);
+		static Response forContent(const QString& content, unsigned statusCode = http::OK);
+		static Response forContent(const QByteArray& content, unsigned statusCode = http::OK);
+		static Response forFile(const QFile& file);
+		static Response download(const QFile& file, const QString& name=QString());
+		static Response download(const QByteArray& content, const QString& name);
 		static Response accessDenied();
 	private:		
 		static MimeDatabase mimeDatabase;

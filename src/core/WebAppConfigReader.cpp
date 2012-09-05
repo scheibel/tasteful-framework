@@ -36,6 +36,10 @@ using namespace internal;
 WebAppConfigReader::WebAppConfigReader(const QString& filename) : filename(filename) {
 }
 
+QString WebAppConfigReader::getFilename() const {
+	return filename;
+}
+
 WebAppConfig WebAppConfigReader::parse() {
 	config = WebAppConfig();
 	config.rootDir = QFileInfo(filename).path();

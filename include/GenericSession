@@ -37,13 +37,13 @@ class GenericSession : public AbstractSession
 		GenericSession();
 		~GenericSession();
 		
-		bool has(QString key);
+		bool has(const QString& key) const;
 		template <typename T>
-		T get(QString key) {
+		T get(const QString& key) const {
 			return values.value(key).value<T>();
 		};
 		template <typename T>
-		void set(QString key, T value) {
+		void set(const QString& key, T value) {
 			values.insert(key, QVariant::fromValue(value));
 		};
 	protected:

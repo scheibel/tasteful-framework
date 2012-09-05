@@ -38,7 +38,7 @@ class WebAppConfigReader : public QObject {
 	
 		WebAppConfig parse();
 	
-		QString getFilename();
+		QString getFilename() const;
 	private slots:
 		void startElement(const QString& namespaceURI, const QString& localName, const QString& qName, const QXmlAttributes& atts);
 		void endElement(const QString& namespaceURI, const QString& localName, const QString& qName);

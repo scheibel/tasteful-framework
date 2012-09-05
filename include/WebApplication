@@ -41,10 +41,10 @@ class WebApplication {
 		WebApplication(int& argc, char** argv);
 		~WebApplication();
 	
-		int run();
+		int run() const;
 		template<class SessionClass> void setSessionClass();
 	
-		QStringList arguments();
+		QStringList arguments() const;
 	
 		void setUpFromConfig(const QString& configFile);
 		void setUpFromConfig(const WebAppConfig& config);
@@ -52,7 +52,7 @@ class WebApplication {
 		void addServer(const ServerConfig& serverConfig);
 		void addServer(const QHostAddress& address, unsigned port);
 		void addSecureServer(const QHostAddress& address, unsigned port, const QString& certificateFile, const QString& privateKeyFile);
-		void addSecureServer(const QHostAddress& address, unsigned port, QSslCertificate certificate, QSslKey privateKey);
+		void addSecureServer(const QHostAddress& address, unsigned port, const QSslCertificate& certificate, const QSslKey& privateKey);
 	
 		void addMySqlDatabase(const QString& hostName, const QString& databaseName, const QString& userName, const QString& password, const QString& id=QString());
 		void addSqliteDatabase(const QString& fileName, const QString& id=QString());
@@ -61,20 +61,20 @@ class WebApplication {
 	
 		void addPublicDirectory(const QString& dir);
 		void addResourceDirectory(const QString& dir);
-		void addPublicDirectories(QStringList dirs);
-		void addResourceDirectories(QStringList dirs);
+		void addPublicDirectories(const QStringList& dirs);
+		void addResourceDirectories(const QStringList& dirs);
 		template<typename T, typename... Rest>
-		void addPublicDirectories(T dir, Rest... dirs) {
+		void addPublicDirectories(const T& dir, Rest... dirs) {
 			addPublicDirectory(dir);
 			addPublicDirectories(dirs...);
 		}
 		template<typename T, typename... Rest>
-		void addResourceDirectories(T dir, Rest... dirs) {
+		void addResourceDirectories(const T& dir, Rest... dirs) {
 			addResourceDirectory(dir);
 			addResourceDirectories(dirs...);
 		}
 	protected:
-		QString getPath(const QString& dir);
+		QString getPath(const QString& dir) const;
 	private:
 		QDir rootDir;
 		QCoreApplication app;

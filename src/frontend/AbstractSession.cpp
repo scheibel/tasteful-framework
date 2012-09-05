@@ -35,11 +35,11 @@ AbstractSession::AbstractSession() : invalidState(false), milliseconds(0) {
 AbstractSession::~AbstractSession() {
 }
 
-bool AbstractSession::isValid() {
+bool AbstractSession::isValid() const {
 	return !invalidState;
 }
 
-bool AbstractSession::isInvalid() {
+bool AbstractSession::isInvalid() const {
 	return invalidState;
 }
 
@@ -47,7 +47,7 @@ void AbstractSession::setInvalid(bool newState) {
 	invalidState = newState;
 }
 
-QString AbstractSession::getIdentifier() {
+QString AbstractSession::getIdentifier() const {
 	return identifier;
 }
 

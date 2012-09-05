@@ -48,7 +48,7 @@ Response FrontController::dispatch(Request& request) {
 	return canDeliver(file) ? Response::forFile(file) : dispatcher.dispatch(request);
 }
 
-bool FrontController::canDeliver(QFile& file) {
+bool FrontController::canDeliver(const QFile& file) const {
 	QFileInfo fileInfo(file);
 	
 	QString absolutePath = fileInfo.absolutePath()+"/";

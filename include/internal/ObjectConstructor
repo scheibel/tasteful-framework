@@ -30,8 +30,8 @@ namespace internal {
 	template <class Superclass>
 	class AbstractObjectConstructor {
 		public:
-			virtual Superclass* createInstance() = 0;
-			Superclass* operator()() {
+			virtual Superclass* createInstance() const = 0;
+			Superclass* operator()() const {
 				return createInstance();
 			};
 	};
@@ -39,7 +39,7 @@ namespace internal {
 	template <class Superclass, class ConcreteClass>
 	class ObjectConstructor : public AbstractObjectConstructor<Superclass> {
 		public:
-			Superclass* createInstance() {
+			Superclass* createInstance() const {
 				return new ConcreteClass();
 			};
 	};

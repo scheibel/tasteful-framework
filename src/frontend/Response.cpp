@@ -34,15 +34,15 @@ Response::Response(unsigned statusCode) {
 	setHeader(http::Server, "tasteful server");
 }
 
-HttpResponse& Response::asHttpResponse() {
+HttpResponse& Response::asHttpResponse() const {
 	return *(HttpResponse*)this;
 }
 
-void Response::setMimeType(QString mimeType) {
+void Response::setMimeType(const QString& mimeType) {
 	contentType.setTypeAndSubtype(mimeType);
 }
 
-void Response::setMimeTypeForFileName(QString filename) {
+void Response::setMimeTypeForFileName(const QString& filename) {
 	setMimeType(mimeDatabase.getMimeTypeFor(filename));
 }
 
@@ -50,7 +50,7 @@ void Response::setSession(AbstractSession* session) {
 	setCookie("sessionId", session->getIdentifier()).setPath("/");
 }
 
-Response& Response::asDownload(QString name) {
+Response& Response::asDownload(const QString& name) {
 	setMimeTypeForFileName(name);
 	setHeader(http::ContentDisposition,"attachment;filename=\""+name+"\"");
 	return *this;
@@ -60,31 +60,33 @@ Response& Response::asDownload(QString name) {
 	return Response(http::NotFound);
 }
 
-Response Response::redirect(QString url) {
+Response Response::redirect(const QString& url) {
 	Response response(http::Found);
 	response.setHeader(http::Location, url);
 	return response;
 }
 
-Response Response::redirectPermanently(QString url) {
+Response Response::redirectPermanently(const QString& url) {
 	Response response(http::MovedPermanently);
 	response.setHeader(http::Location, url);
 	return response;
 }
 
-Response Response::forContent(QString content, unsigned statusCode) {
+Response Response::forContent(const QString& content, unsigned statusCode) {
 	Response response(statusCode);
 	response.setContent(content.toUtf8());
 	return response;
 }
 
-Response Response::forContent(QByteArray content, unsigned statusCode) {
+Response Response::forContent(const QByteArray& content, unsigned statusCode) {
 	Response response(statusCode);
 	response.setContent(content);
 	return response;
 }
 
-Response Response::forFile(QFile& file) {
+Response Response::forFile(const QFile& constFile) {
+	QFile file(constFile.fileName());
+	
 	if (!file.open(QIODevice::ReadOnly)) {
 		return Response::notFound();
 	}
@@ -96,13 +98,11 @@ Response Response::forFile(QFile& file) {
 	return response;
 }
 
- Response Response::download(QFile& file, QString name) {
-	Response response = Response::forFile(file);
-	if (name.isNull()) name = QFileInfo(file).fileName();
-	return response.asDownload(name);
+ Response Response::download(const QFile& file, const QString& name) {
+	return Response::forFile(file).asDownload(name.isNull() ? QFileInfo(file).fileName() : name);
 }
 
-Response Response::download(QByteArray content, QString name) {
+Response Response::download(const QByteArray& content, const QString& name) {
 	return Response::forContent(content).asDownload(name);
 }
 

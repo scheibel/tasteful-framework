@@ -50,16 +50,16 @@ WebApplication::~WebApplication() {
 	delete frontController;
 }
 
-int WebApplication::run() {
+int WebApplication::run() const {
 	return app.exec();
 }
 
-QStringList WebApplication::arguments() {
+QStringList WebApplication::arguments() const {
 	static QStringList _arguments = app.arguments();
 	return _arguments;
 }
 
-QString WebApplication::getPath(const QString& dir) {
+QString WebApplication::getPath(const QString& dir) const {
 	return QDir::isRelativePath(dir) ? rootDir.filePath(dir) : dir;
 }
 
@@ -71,12 +71,12 @@ void WebApplication::addResourceDirectory(const QString& dir) {
 	QDir::addSearchPath("resources", getPath(dir));
 }
 
-void WebApplication::addPublicDirectories(QStringList dirs) {
-	for (QString& dir: dirs) addPublicDirectory(dir);
+void WebApplication::addPublicDirectories(const QStringList& dirs) {
+	for (const QString& dir: dirs) addPublicDirectory(dir);
 }
 
-void WebApplication::addResourceDirectories(QStringList dirs) {
-	for (QString& dir: dirs) addResourceDirectory(dir);
+void WebApplication::addResourceDirectories(const QStringList& dirs) {
+	for (const QString& dir: dirs) addResourceDirectory(dir);
 }
 
 void WebApplication::addPublicDirectories() {
@@ -125,7 +125,7 @@ void WebApplication::addSecureServer(const QHostAddress& address, unsigned port,
 	addSecureServer(address, port, certificate, privateKey);
 }
 
-void WebApplication::addSecureServer(const QHostAddress& address, unsigned port, QSslCertificate certificate, QSslKey privateKey) {
+void WebApplication::addSecureServer(const QHostAddress& address, unsigned port, const QSslCertificate& certificate, const QSslKey& privateKey) {
 	HttpsServer* server = new HttpsServer(certificate, privateKey, FrameworkEntryPoint(frontController));
 	server->listen(address, port);
 	servers << server;

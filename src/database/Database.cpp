@@ -34,7 +34,7 @@ using namespace internal;
 QHash<QString, Database*> Database::databases;
 QReadWriteLock Database::lock;
 
-Database::Database(QSqlDatabase database) : database(database) {
+Database::Database(const QSqlDatabase& database) : database(database) {
 }
 
 Database& Database::get() {
@@ -45,7 +45,7 @@ Database& Database::get(const QString& id) {
 	return getByIdAndThreadId(id, QString::number(QThread::currentThreadId()));
 }
 
-Database& Database::getByIdAndThreadId(QString id, QString threadId) {
+Database& Database::getByIdAndThreadId(const QString& id, const QString& threadId) {
 	QString databaseId = id.isNull() ? threadId : id + "-" + threadId;
 	
 	lock.lockForRead();
@@ -97,7 +97,7 @@ void Database::add(const DatabaseConfig& config) {
 	if (!config.password.isNull()) database.setPassword(config.password);
 }
 
-QSqlQuery Database::build(QString sql) {
+QSqlQuery Database::build(const QString& sql) const {
 	QSqlQuery query(database);
 	
 	query.prepare(sql);
@@ -105,7 +105,7 @@ QSqlQuery Database::build(QString sql) {
 	return query;
 }
 
-QSqlQuery Database::build(QString sql, QVariantMap bindings) {
+QSqlQuery Database::build(const QString& sql, const QVariantMap& bindings) const {
 	QSqlQuery query = build(sql);
 	
 	for (QString key : bindings.keys()) {
@@ -115,7 +115,7 @@ QSqlQuery Database::build(QString sql, QVariantMap bindings) {
 	return query;
 }
 
-QSqlQuery Database::build(const SqlBuilder& sqlBuilder) {
+QSqlQuery Database::build(const SqlBuilder& sqlBuilder) const {
 	QString sql = sqlBuilder.getQuery();
 	
 	QSqlQuery query = build(sql);
@@ -123,7 +123,7 @@ QSqlQuery Database::build(const SqlBuilder& sqlBuilder) {
 	return query;
 }
 
-QSqlQuery Database::build(const SqlBuilder& sqlBuilder, QVariantMap bindings) {
+QSqlQuery Database::build(const SqlBuilder& sqlBuilder, const QVariantMap& bindings) const {
 	QString sql = sqlBuilder.getQuery();
 	
 	QSqlQuery query = build(sql, bindings);

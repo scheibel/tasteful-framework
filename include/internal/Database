@@ -42,14 +42,14 @@ namespace internal {
 			
 			static void add(const DatabaseConfig& config);
 			
-			QSqlQuery build(QString sql);
-			QSqlQuery build(QString sql, QVariantMap bindings);
-			QSqlQuery build(const SqlBuilder& sqlBuilder);
-			QSqlQuery build(const SqlBuilder& sqlBuilder, QVariantMap bindings);
+			QSqlQuery build(const QString& sql) const;
+			QSqlQuery build(const QString& sql, const QVariantMap& bindings) const;
+			QSqlQuery build(const SqlBuilder& sqlBuilder) const;
+			QSqlQuery build(const SqlBuilder& sqlBuilder, const QVariantMap& bindings) const;
 		private:
-			Database(QSqlDatabase database);
+			Database(const QSqlDatabase& database);
 			
-			static Database& getByIdAndThreadId(QString id, QString threadId);
+			static Database& getByIdAndThreadId(const QString& id, const QString& threadId);
 			
 			QSqlDatabase database;
 			

@@ -41,7 +41,7 @@ namespace internal {
 			template<class SessionClass> void setSessionClass();
 		private:
 			Response dispatch(Request& request);
-			bool canDeliver(QFile& file);
+			bool canDeliver(const QFile& file) const;
 		
 			SessionPool sessionPool;
 			Dispatcher dispatcher;

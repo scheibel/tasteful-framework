@@ -33,10 +33,10 @@
 class Download {
 	public:
 		Download(const Download& download);
-		Download(const QFile& file, QString name=QString());
-		Download(QByteArray content, QString name);
+		Download(const QFile& file, const QString& name=QString());
+		Download(const QByteArray& content, const QString& name);
 	
-		Response getResponse();
+		Response getResponse() const;
 	private:
 		QFile file;
 		QString name;

@@ -31,10 +31,10 @@
 namespace internal {
 	class SqlHelper {
 		protected:
-			SqlBuilder SELECT(QString variables);
-			SqlBuilder INSERT();
-			SqlBuilder UPDATE(QString tablename);
-			SqlBuilder REPLACE();
-			SqlBuilder DELETE();
+			SqlBuilder SELECT(const QString& variables) const;
+			SqlBuilder INSERT() const;
+			SqlBuilder UPDATE(const QString& tablename) const;
+			SqlBuilder REPLACE() const;
+			SqlBuilder DELETE() const;
 	};
 }

@@ -43,7 +43,7 @@ namespace internal {
 			static RouteRegistry _instance;
 		
 			void addMethodStringToRoutes(const QString& methodPointerString, Route* route);
-			Route* getRouteForMethodString(const QString& methodPointerString);
+			Route* getRouteForMethodString(const QString& methodPointerString) const;
 		signals:
 			void routeAdded(Route* route);
 		public:
@@ -51,16 +51,16 @@ namespace internal {
 		
 			static RouteRegistry& instance();
 		
-			QList<Route*> getRoutes();
+			QList<Route*> getRoutes() const;
 			static QList<Route*> routes();
 		
-			Route* obtain(HttpMethod method, const QString& urlPattern);
-			static Route* getOrCreate(HttpMethod method, const QString& urlPattern);
+			Route* obtain(const HttpMethod& method, const QString& urlPattern);
+			static Route* getOrCreate(const HttpMethod& method, const QString& urlPattern);
 		
 			static Key keyFor(Route* route);
-			static Key keyFor(Request& request);
+			static Key keyFor(const Request& request);
 			static Key keyFor(const RequestedAction& requestedAction);
-			static Key keyFor(HttpMethod method, const QString& urlPattern);
+			static Key keyFor(const HttpMethod& method, const QString& urlPattern);
 		
 			template <typename T>
 			static void assignMethodToRoute(void (T::*methodPointer)(), Route* route) {
@@ -94,7 +94,7 @@ namespace internal {
 				return *this = new ControllerAction<T>(methodPointer);
 			}
 			
-			QSharedPointer<Action> operator=(QString string) {
+			QSharedPointer<Action> operator=(const QString& string) {
 				return *this = new StringAction(string);
 			}
 			
@@ -106,11 +106,11 @@ namespace internal {
 				return *this = new FileAction(file);
 			}
 			
-			QSharedPointer<Action> operator=(Download download) {
+			QSharedPointer<Action> operator=(const Download& download) {
 				return *this = new DownloadAction(download);
 			}		
 			
-			QSharedPointer<Action> operator=(Response response) {
+			QSharedPointer<Action> operator=(const Response& response) {
 				return *this = new ResponseAction(response);
 			}
 			

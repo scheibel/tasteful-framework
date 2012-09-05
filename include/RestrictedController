@@ -36,6 +36,6 @@ class RestrictedController : public Controller {
 		
 		bool beforeAction();
 	protected:
-		virtual bool isAuthorized() = 0;
+		virtual bool isAuthorized() const = 0;
 		virtual void unauthorized();
 };

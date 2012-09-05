@@ -42,7 +42,7 @@ namespace internal {
 	class RequestedAction {
 		public:
 			RequestedAction();
-			RequestedAction(HttpMethod method, QString path);
+			RequestedAction(const HttpMethod& method, const QString& path);
 		
 			HttpMethod getMethod() const;
 			QString getPath() const;
@@ -53,23 +53,23 @@ namespace internal {
 	
 	class Route {
 		public:
-			Route(HttpMethod method, QString urlPattern);
+			Route(const HttpMethod& method, const QString& urlPattern);
 		
-			static Route* create(HttpMethod method, QString urlPattern);
+			static Route* create(const HttpMethod& method, const QString& urlPattern);
 		
 			HttpMethod getMethod() const;
 			QString getUrlPattern() const;
 			Action* getAction() const;
 			void setAction(QSharedPointer<Action> action);
 		
-			virtual bool match(const RequestedAction& requestedAction) = 0;
-			virtual QString urlFor(QVariantMap parameters) = 0;
+			virtual bool match(const RequestedAction& requestedAction) const = 0;
+			virtual QString urlFor(const QVariantMap& parameters) const = 0;
 		
-			virtual bool isStatic();
-			virtual bool isDynamic();
-			virtual bool isWildcard();
+			virtual bool isStatic() const;
+			virtual bool isDynamic() const;
+			virtual bool isWildcard() const;
 		protected:
-			QString urlParameters(QVariantMap parameters);
+			QString urlParameters(const QVariantMap& parameters) const;
 		
 			HttpMethod method;
 			QString urlPattern;
@@ -78,30 +78,30 @@ namespace internal {
 
 	class StaticRoute : public Route {
 		public:
-			StaticRoute(HttpMethod method, QString urlPattern);
+			StaticRoute(const HttpMethod& method, const QString& urlPattern);
 		
-			virtual bool isStatic();
-			virtual bool match(const RequestedAction& requestedAction);
-			virtual QString urlFor(QVariantMap parameters);
+			virtual bool isStatic() const;
+			virtual bool match(const RequestedAction& requestedAction) const;
+			virtual QString urlFor(const QVariantMap& parameters) const;
 	};
 
 	class DynamicRoute : public Route {
 		public:
-			DynamicRoute(HttpMethod method, QString urlPattern);
+			DynamicRoute(const HttpMethod& method, const QString& urlPattern);
 		
-			virtual bool isDynamic();
-			virtual bool match(const RequestedAction& requestedAction);
-			virtual QString urlFor(QVariantMap parameters);
+			virtual bool isDynamic() const;
+			virtual bool match(const RequestedAction& requestedAction) const;
+			virtual QString urlFor(const QVariantMap& parameters) const;
 
-			QHash<QString, QString> getMatchedParts(QString path);
+			QHash<QString, QString> getMatchedParts(const QString& path) const;
 		private:
 			class UrlPart {
 				public:
-					UrlPart(QString part);
+					UrlPart(const QString& part);
 				
-					QString getName();
-					bool isVariable();
-					bool match(QString otherPart);
+					QString getName() const;
+					bool isVariable() const;
+					bool match(const QString& otherPart) const;
 				private:
 					QString part;
 					bool variable;
@@ -111,11 +111,11 @@ namespace internal {
 
 	class WildcardRoute : public Route {
 		public:
-			WildcardRoute(HttpMethod method, QString urlPattern);
+			WildcardRoute(const HttpMethod& method, const QString& urlPattern);
 		
-			virtual bool isWildcard();
-			virtual bool match(const RequestedAction& requestedAction);
-			virtual QString urlFor(QVariantMap parameters);
+			virtual bool isWildcard() const;
+			virtual bool match(const RequestedAction& requestedAction) const;
+			virtual QString urlFor(const QVariantMap& parameters) const;
 		private:
 			QRegExp regexp;
 	};

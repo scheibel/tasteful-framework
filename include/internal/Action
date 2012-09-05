@@ -38,7 +38,7 @@ class Controller;
 namespace internal {
 	class Action {
 		public:
-			virtual Response operator()(Request request) = 0;
+			virtual Response operator()(Request& request) const = 0;
 	};
 	
 	template <typename T>
@@ -49,7 +49,7 @@ namespace internal {
 			ControllerAction(MethodPointer methodPointer) : methodPointer(methodPointer) {
 			}
 				
-			Response operator()(Request request) {
+			Response operator()(Request& request) const {
 				T controller;
 				controller.initialize(request);
 				if (controller.beforeAction()) {
@@ -64,9 +64,9 @@ namespace internal {
 
 	class StringAction : public Action {
 		public:
-			StringAction(QString content);
+			StringAction(const QString& content);
 				
-			Response operator()(Request request);
+			Response operator()(Request& request) const;
 		private:
 			QString content;
 	};
@@ -75,35 +75,35 @@ namespace internal {
 		public:
 			FileAction(const QFile& file);
 				
-			Response operator()(Request request);
+			Response operator()(Request& request) const;
 		private:
 			QFile file;
 	};
 
 	class DownloadAction : public Action {
 		public:
-			DownloadAction(Download download);
+			DownloadAction(const Download& download);
 				
-			Response operator()(Request request);
+			Response operator()(Request& request) const;
 		private:
 			Download download;
 	};
 
 	class ResponseAction : public Action {
 		public:
-			ResponseAction(Response response);
+			ResponseAction(const Response& response);
 				
-			Response operator()(Request request);
+			Response operator()(Request& request) const;
 		private:
 			Response response;
 	};
 
 	class LambdaAction : public Action {
 		public:
-			typedef std::function<Response(Request)> Lambda;
+			typedef std::function<Response(Request&)> Lambda;
 			LambdaAction(Lambda lambda);
 				
-			Response operator()(Request request);
+			Response operator()(Request& request) const;
 		private:
 			Lambda lambda;
 	};

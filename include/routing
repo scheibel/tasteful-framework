@@ -31,7 +31,7 @@
 using namespace internal;
 
 extern RouteActionAssigner ROOT;
-RouteActionAssigner GET(QString urlPattern);
-RouteActionAssigner PUT(QString urlPattern);
-RouteActionAssigner POST(QString urlPattern);
-RouteActionAssigner DELETE(QString urlPattern);
+RouteActionAssigner GET(const QString& urlPattern);
+RouteActionAssigner PUT(const QString& urlPattern);
+RouteActionAssigner POST(const QString& urlPattern);
+RouteActionAssigner DELETE(const QString& urlPattern);

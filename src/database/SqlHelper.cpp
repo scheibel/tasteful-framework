@@ -28,7 +28,7 @@
 
 using namespace internal;
 
-SqlBuilder SqlHelper::SELECT(QString variables) {
+SqlBuilder SqlHelper::SELECT(const QString& variables) const {
 	SqlBuilder sqlBuilder(Sql::SELECT);
 	
 	sqlBuilder.setSelectVariables(variables);
@@ -36,11 +36,11 @@ SqlBuilder SqlHelper::SELECT(QString variables) {
 	return sqlBuilder;
 }
 
-SqlBuilder SqlHelper::INSERT() {
+SqlBuilder SqlHelper::INSERT() const {
 	return SqlBuilder(Sql::INSERT);
 }
 
-SqlBuilder SqlHelper::UPDATE(QString tablename) {
+SqlBuilder SqlHelper::UPDATE(const QString& tablename) const {
 	SqlBuilder sqlBuilder(Sql::UPDATE);
 	
 	sqlBuilder.setTable(tablename);
@@ -48,10 +48,10 @@ SqlBuilder SqlHelper::UPDATE(QString tablename) {
 	return sqlBuilder;
 }
 
-SqlBuilder SqlHelper::REPLACE() {
+SqlBuilder SqlHelper::REPLACE() const {
 	return SqlBuilder(Sql::REPLACE);
 }
 
-SqlBuilder SqlHelper::DELETE() {
+SqlBuilder SqlHelper::DELETE() const {
 	return SqlBuilder(Sql::DELETE);
 }

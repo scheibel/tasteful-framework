@@ -33,24 +33,24 @@
 namespace internal {
 	class Properties {
 	public:
-		Properties(QString filename);
+		Properties(const QString& filename);
 		~Properties();
 		
-		QString getFilename();
+		QString getFilename() const;
 		
 		template <typename T>
-		T property(QString key, T defaultValue) {
+		T property(const QString& key, const T& defaultValue) const {
 			QVariant value = settings->value(key);
 			
 			return value.isValid() ? value.value<T>() : defaultValue;
 		}
 		
-		QVariant basicProperty(QString key) {
+		QVariant basicProperty(const QString& key) const {
 			return settings->value(key);
 		}
 		
 		template <typename T>
-		T property(QString section, QString field, T defaultValue) {
+		T property(const QString& section, const QString& field, const T& defaultValue) const {
 			return property<T>(section + "/" + field, defaultValue);
 		}
 	private:

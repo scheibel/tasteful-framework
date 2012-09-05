@@ -28,79 +28,81 @@
 
 using namespace internal;
 
-SqlBuilder::SqlBuilder(Sql::QueryType type) {
+SqlBuilder::SqlBuilder(Sql::QueryType type) : stream(&sql) {
 	switch (type) {
 		case Sql::SELECT:
-			sql = "SELECT";
+			stream << "SELECT";
 		break;
 		case Sql::INSERT:
-			sql = "INSERT";
+			stream << "INSERT";
 		break;
 		case Sql::UPDATE:
-			sql = "UPDATE";
+			stream << "UPDATE";
 		break;
 		case Sql::REPLACE:
-			sql = "REPLACE";
+			stream << "REPLACE";
 		break;
 		case Sql::DELETE:
-			sql = "DELETE";
+			stream << "DELETE";
 		break;
 	}
+}
+
+SqlBuilder::SqlBuilder(const SqlBuilder& builder) : sql(builder.sql), stream(&sql) {
 }
 
 QString SqlBuilder::getQuery() const {
 	return sql;
 }
 
-SqlBuilder& SqlBuilder::setSelectVariables(QString selectVariables) {
-	sql += " " + selectVariables;
+SqlBuilder& SqlBuilder::setSelectVariables(const QString& selectVariables) {
+	stream << " " << selectVariables;
 	
 	return *this;
 }
 
-SqlBuilder& SqlBuilder::setTable(QString tablename) {
-	sql += " " + tablename;
+SqlBuilder& SqlBuilder::setTable(const QString& tablename) {
+	stream << " " << tablename;
 	
 	return *this;
 }
 
-SqlBuilder& SqlBuilder::FROM(QString tablename) {
-	sql += " FROM " + tablename;
+SqlBuilder& SqlBuilder::FROM(const QString& tablename) {
+	stream << " FROM " << tablename;
 	
 	return *this;
 }
 
-SqlBuilder& SqlBuilder::INTO(QString tablename) {
-	//sql += " INTO " + tablename;
-	sql += " " + tablename;
+SqlBuilder& SqlBuilder::INTO(const QString& tablename) {
+	stream << " " << tablename;
 	
 	return *this;
 }
 
-SqlBuilder& SqlBuilder::SET(QString variables) {
-	sql += " SET " + variables;
+SqlBuilder& SqlBuilder::SET(const QString& variables) {
+	stream << " SET " << variables;
 	
 	return *this;
 }
 
-SqlBuilder& SqlBuilder::WHERE(QString whereClause) {
-	sql += " WHERE " + whereClause;
+SqlBuilder& SqlBuilder::WHERE(const QString& whereClause) {
+	stream << " WHERE " << whereClause;
 	
 	return *this;
 }
 
 SqlBuilder& SqlBuilder::LIMIT(unsigned lowerLimit, unsigned count) {
 	if (count) {
-		sql += " LIMIT " + QString::number(lowerLimit) + ", " + QString::number(count);
+		stream << " LIMIT " << QString::number(lowerLimit) << ", " << QString::number(count);
 	} else {
-		sql += " LIMIT " + QString::number(lowerLimit);
+		stream << " LIMIT " << QString::number(lowerLimit);
 	}
 	
 	return *this;
 }
 
-SqlBuilder& SqlBuilder::GROUPBY(QString fieldname) {
-	sql += " GROUP BY " + fieldname;
+SqlBuilder& SqlBuilder::GROUPBY(const QString& fieldname) {
+	stream << " GROUP BY " << fieldname;
 	
 	return *this;
 }
