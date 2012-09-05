@@ -30,7 +30,7 @@
 
 using namespace internal;
 
-class RestrictedController : virtual public Controller {
+class RestrictedController : public Controller {
 	public:
 		RestrictedController();
 		
