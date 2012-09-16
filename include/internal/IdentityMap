@@ -34,13 +34,13 @@ namespace internal {
 	class IdentityMap {
 	public:
 		IdentityMap();
-		Identity idOf(T* model);
-		bool hasModel(Identity id);
-		T* getModel(Identity id);
+		Identity idOf(T* model) const;
+		bool hasModel(Identity id) const;
+		T* getModel(Identity id) const;
 		void registerModel(Identity id, T* model);
 	private:
 		QHash<Identity, T*> identities;
-		QReadWriteLock lock;
+		mutable QReadWriteLock lock;
 	};
 
 	template <class T, typename Identity>
@@ -48,7 +48,7 @@ namespace internal {
 	}
 
 	template <class T, typename Identity>
-	Identity IdentityMap<T, Identity>::idOf(T* model) {
+	Identity IdentityMap<T, Identity>::idOf(T* model) const {
 		lock.lockForRead();
 		Identity id = identities.key(model);
 		lock.unlock();
@@ -56,7 +56,7 @@ namespace internal {
 	}
 
 	template <class T, typename Identity>
-	bool IdentityMap<T, Identity>::hasModel(Identity id) {
+	bool IdentityMap<T, Identity>::hasModel(Identity id) const {
 		lock.lockForRead();
 		bool has = identities.contains(id);
 		lock.unlock();
@@ -64,7 +64,7 @@ namespace internal {
 	}
 
 	template <class T, typename Identity>
-	T* IdentityMap<T, Identity>::getModel(Identity id) {
+	T* IdentityMap<T, Identity>::getModel(Identity id) const {
 		lock.lockForRead();
 		T* model = hasModel(id) ? identities[id] : nullptr;
 		lock.unlock();

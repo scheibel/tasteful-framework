@@ -54,7 +54,7 @@ public:
 	
 	virtual T* newModel() const = 0;
 	virtual void buildFromRecord(T* model, const QVariantMap& record) const = 0;
-	virtual void buildRecordFrom(T* model, const QVariantMap& record) const = 0;
+	virtual void buildRecordFrom(T* model, QVariantMap& record) const = 0;
 	virtual QString table() const = 0;
 	virtual QList<QString> selectVariables() const = 0;
 	virtual QString identityFieldName() const = 0;

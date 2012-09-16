@@ -27,17 +27,17 @@
 #pragma once
 
 #define DEFINE_CRUD_ACTIONS(MapperClass) \
+	public:\
+		typedef typename MapperClass::Model Model;\
+		typedef typename MapperClass::Identity Identity;\
 	protected:\
 		MapperClass& getDataMapper() const {\
 			static MapperClass& dataMapper = MapperClass::instance();\
 			\
 			return dataMapper;\
 		}\
-		\
+		QList<Model*> findAll() const;\
 	public:\
-		typedef typename MapperClass::Model Model;\
-		typedef typename MapperClass::Identity Identity;\
-		\
 		void index() {\
 			render(listViewFor(allModels()));\
 		}\
