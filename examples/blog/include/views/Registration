@@ -1,0 +1,18 @@
+#pragma once
+
+#include <views/BlogView>
+#include <QString>
+
+class Registration : public BlogView {
+	public:
+		Registration(QString email = QString(), QString error = QString());
+		
+		QDomNode registrationForm(QDomNode node);
+		QDomNode errorMessage(QDomNode node);
+		QDomNode emailValue(QDomNode node);
+		//QDomNode passwordValue(QDomNode node);
+		//QDomNode password2Value(QDomNode node);
+	private:
+		QString email;
+		QString error;
+};

@@ -1,0 +1,17 @@
+#pragma once
+
+#include <controllers/LoggedInController>
+#include <CrudController>
+#include <datamappers/BlogPostMapper>
+
+class BlogPostController : public LoggedInController {
+	DEFINE_CRUD_ACTIONS(BlogPostMapper);
+	public:
+		BlogPostController();
+	protected:
+		//QList<BlogPost*> findAll() const;
+		
+		View* listViewFor(QHash<unsigned, BlogPost*> blogEntries);
+		View* showViewFor(BlogPost* blogEntry, unsigned id);
+		View* editViewFor(BlogPost* blogEntry, unsigned id);
+};

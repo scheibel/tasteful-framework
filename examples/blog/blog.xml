@@ -1,0 +1,29 @@
+<application>
+	<name>blog</name>
+	<threadcount>8</threadcount>
+	
+	<directories>
+		<public>public</public>
+		<resource>templates</resource>
+	</directories>
+	
+	<server>
+		<port>9000</port>
+	</server>
+	
+	<server>
+		<host>localhost</host>
+		<port>9090</port>
+		<certificate>server.crt</certificate>
+		<privatekey>server.key</privatekey>
+	</server>
+	
+	<database>
+		<id>blog</id>
+		<type>mysql</type>
+		<host>localhost</host>
+		<name>blog</name>
+		<user>blog</user>
+		<password>1234567890</password>
+	</database>
+</application>

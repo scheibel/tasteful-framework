@@ -1,0 +1,17 @@
+#pragma once
+
+#include <TemplateLayout>
+#include <session/Session>
+
+class Layout : public TemplateLayout {
+	public:
+		Layout();
+		
+		void setSession(Session* newSession);
+	protected:
+		QDomNode stylesheets(QDomNode node);
+		QDomNode login(QDomNode node);
+		QDomNode menu(QDomNode node);
+	private:
+		Session* session;
+};

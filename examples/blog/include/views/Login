@@ -1,0 +1,17 @@
+#pragma once
+
+#include <views/BlogView>
+#include <QString>
+
+class Login : public BlogView {
+	public:
+		Login(QString email = QString(), bool loginAttempt = false);
+		
+		QDomNode loginForm(QDomNode node);
+		QDomNode errorMessage(QDomNode node);
+		QDomNode emailValue(QDomNode node);
+		//QDomNode passwordValue(QDomNode node);
+	private:
+		bool loginAttempt;
+		QString email;
+};

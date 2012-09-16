@@ -1,0 +1,10 @@
+#pragma once
+
+#include <controllers/BlogController>
+
+class LoggedInController : public BlogController {
+	public:
+		LoggedInController();
+	protected:
+		bool isAuthorized();
+};

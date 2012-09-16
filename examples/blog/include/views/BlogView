@@ -1,0 +1,10 @@
+#pragma once
+
+#include <TemplateView>
+
+class BlogView : public TemplateView {
+	public:
+		BlogView();
+		
+		void initialize();
+};

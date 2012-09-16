@@ -1,0 +1,15 @@
+#pragma once
+
+#include <views/BlogView>
+#include <models/BlogPost>
+
+class BlogPostSummary : public BlogView {
+	public:
+		BlogPostSummary(BlogPost* blogPost);
+		
+		QDomNode url(QDomNode node);
+		QDomNode title(QDomNode node);
+		QDomNode shorttext(QDomNode node);
+	private:
+		BlogPost* blogPost;
+};
