@@ -136,6 +136,7 @@ DynamicRoute::UrlPart::UrlPart(const QString& part) {
 		variable = true;
 		this->part = part.mid(1);
 	} else {
+		variable = false;
 		this->part = part;
 	}
 }
@@ -191,6 +192,7 @@ QString DynamicRoute::urlFor(const QVariantMap& parameters) const
 	for (const UrlPart& urlPart: urlParts) {
 		if (urlPart.isVariable()) {
 			if (!params.contains(urlPart.getName())) return "";
+			
 			list << params.take(urlPart.getName()).toString();
 		} else {
 			list << urlPart.getName();

@@ -40,7 +40,9 @@ class UrlHelper {
 		template<typename T>
 		QString url(void (T::*methodPointer)(), QVariantMap parameters) {
 			Route* route = RouteRegistry::routeFor(methodPointer);
+			
 			if (!route) return "";
+			
 			return route->urlFor(parameters);
 		}
 		

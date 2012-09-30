@@ -15,7 +15,7 @@ class BlogPostList : public BlogView {
 
 class BlogPostLine : public BlogView {
 	public:
-		BlogPostLine(QDomNode node, BlogPost* blogPost);
+		BlogPostLine(QDomNode node, BlogPost* blogPost, unsigned blogPostId);
 		
 		QDomNode id(QDomNode node);
 		QDomNode title(QDomNode node);
@@ -24,4 +24,5 @@ class BlogPostLine : public BlogView {
 		QDomNode deleteLink(QDomNode node);
 	private:
 		BlogPost* blogPost;
+		unsigned blogPostId;
 };

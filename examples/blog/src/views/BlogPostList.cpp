@@ -1,5 +1,7 @@
 #include <views/BlogPostList>
 #include <views/BlogPostSummary>
+#include <datamappers/BlogPostMapper>
+#include <controllers/BlogPostController>
 
 BlogPostList::BlogPostList(QHash<unsigned, BlogPost*> blogPosts) : BlogView(), blogPosts(blogPosts) {
 	setFilename("blogposttable.html");
@@ -12,14 +14,14 @@ QDomNode BlogPostList::blogPostTable(QDomNode node) {
 	
 	node.removeChild(trNode);
 	
-	for (BlogPost* blogPost : blogPosts) {
-		node.appendChild(BlogPostLine(trNode.cloneNode(), blogPost).contentNode());
+	for (unsigned id : blogPosts.keys()) {
+		node.appendChild(BlogPostLine(trNode.cloneNode(), blogPosts.value(id), id).contentNode());
 	}
 	
 	return node;
 }
 
-BlogPostLine::BlogPostLine(QDomNode node, BlogPost* blogPost) : BlogView(), blogPost(blogPost) {
+BlogPostLine::BlogPostLine(QDomNode node, BlogPost* blogPost, unsigned blogPostId) : BlogView(), blogPost(blogPost), blogPostId(blogPostId) {
 	setNode(node);
 	
 	addTransform("id", &BlogPostLine::id);
@@ -32,7 +34,7 @@ BlogPostLine::BlogPostLine(QDomNode node, BlogPost* blogPost) : BlogView(), blog
 QDomNode BlogPostLine::id(QDomNode node) {
 	removeChildren(node);
 	
-	node.appendChild($(QString::number(0)));
+	node.appendChild($(QString::number(blogPostId)));
 	
 	return node;
 }
@@ -46,19 +48,19 @@ QDomNode BlogPostLine::title(QDomNode node) {
 }
 
 QDomNode BlogPostLine::showLink(QDomNode node) {
-	node.toElement().setAttribute("href", "#");
+	node.toElement().setAttribute("href", url(&BlogPostController::show, { { "id", blogPostId } }));
 	
 	return node;
 }
 
 QDomNode BlogPostLine::editLink(QDomNode node) {
-	node.toElement().setAttribute("href", "#");
+	node.toElement().setAttribute("href", url(&BlogPostController::edit, { { "id", blogPostId } }));
 	
 	return node;
 }
 
 QDomNode BlogPostLine::deleteLink(QDomNode node) {
-	node.toElement().setAttribute("href", "#");
+	node.toElement().setAttribute("href", url(&BlogPostController::remove, { { "id", blogPostId } }));
 	
 	return node;
 }

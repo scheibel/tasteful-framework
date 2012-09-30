@@ -22,6 +22,12 @@ int main(int argc, char* argv[]) {
 	POST("register") = &RegisterController::signup;
 	
 	GET("myblogposts") = &BlogPostController::index;
+	GET("myblogposts/new") = &BlogPostController::create;
+	GET("myblogposts/:id") = &BlogPostController::show;
+	GET("myblogposts/:id/edit") = &BlogPostController::edit;
+	POST("myblogposts/:id/save") = &BlogPostController::save;
+	GET("myblogposts/:id/delete") = &BlogPostController::remove;
+	DELETE("myblogposts/:id/delete") = &BlogPostController::remove;
 	
 	GET("blogposts") = &AllBlogPostController::index;
 	
