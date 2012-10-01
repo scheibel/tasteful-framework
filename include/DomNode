@@ -1,0 +1,258 @@
+/**
+  * (C) LGPL-3
+  *
+  * Tasteful Framework <https://github.com/scheibel/tasteful-framework>
+  *
+  * Copyright: 2012 Lux, Scheibel
+  * Authors:
+  *     Roland Lux <rollux2000@googlemail.com>
+  *     Willy Scheibel <willyscheibel@gmx.de>
+  * 
+  * This file is part of Tasteful Framework.
+  *
+  * Tasteful Framework is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Lesser General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  * 
+  * Tasteful Framework is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Lesser General Public License for more details.
+  * 
+  * You should have received a copy of the GNU Lesser General Public License
+  * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
+  **/
+
+#pragma once
+
+#include <functional>
+#include <QString>
+#include <QDomNode>
+#include <QList>
+#include <QHash>
+#include <DomHelper>
+#include <QSharedPointer>
+
+class NodeCreator;
+
+namespace dom {
+	
+typedef enum {
+	AUTO_CREATE,
+	NULL_OBJECT,
+	RAISE_EXCEPTION
+} MissBehavior;
+
+class AbstractNode {
+	public:	
+		virtual void setMissBehavior(MissBehavior missBehavior) = 0;
+	
+		virtual bool isNull() = 0;
+		virtual bool isNew() = 0;
+	
+		virtual QString toString() = 0;
+		virtual QDomNode asQDomNode() = 0;
+	
+		virtual AbstractNode* parent() = 0;
+		virtual AbstractNode* get(const QString& name) = 0;
+		virtual QList<AbstractNode*> all() = 0;
+		virtual QList<AbstractNode*> children() = 0;
+	
+		virtual AbstractNode* prepend(AbstractNode* otherNode) = 0;
+		virtual AbstractNode* append(AbstractNode* otherNode) = 0;
+		virtual AbstractNode* prependChild(AbstractNode* childNode) = 0;
+		virtual AbstractNode* appendChild(AbstractNode* childNode) = 0;
+		virtual AbstractNode* replaceWith(AbstractNode* childNode) = 0;
+		virtual void remove() = 0;
+};
+
+class NullNode : public AbstractNode {
+	public:
+		void setMissBehavior(MissBehavior missBehavior) {}
+		bool isNew() { return false; }
+		bool isNull() { return true; }
+		QDomNode asQDomNode() { return QDomNode(); }
+		QString toString() { return QString(); }
+		AbstractNode* parent() { return new NullNode(); }
+		AbstractNode* get(const QString& name) { return new NullNode(); }
+		QList<AbstractNode*> all() { return QList<AbstractNode*>(); }
+		QList<AbstractNode*> children() { return QList<AbstractNode*>(); }
+		AbstractNode* prepend(AbstractNode* otherNode) { return new NullNode(); }
+		AbstractNode* append(AbstractNode* otherNode) { return new NullNode(); }
+		AbstractNode* prependChild(AbstractNode* childNode) { return new NullNode(); }
+		AbstractNode* appendChild(AbstractNode* childNode) { return new NullNode(); }
+		AbstractNode* replaceWith(AbstractNode* childNode) { return new NullNode(); }
+		void remove() {}
+};
+	
+class Node : public AbstractNode {
+	public:
+		Node(QDomNode qNode, MissBehavior missBehavior, bool _isNew = false);
+		Node(const QString& text, MissBehavior missBehavior);
+		Node(NodeCreator nodeCreator, MissBehavior missBehavior);
+		
+		void setMissBehavior(MissBehavior missBehavior);
+	
+		bool isNull();
+		bool isNew();
+	
+		QDomNode asQDomNode();
+		QString toString();
+	
+		AbstractNode* parent();
+		AbstractNode* get(const QString& name);
+		QList<AbstractNode*> all();
+		QList<AbstractNode*> children();
+	
+		AbstractNode* prepend(AbstractNode* otherNode);
+		AbstractNode* append(AbstractNode* otherNode);
+		AbstractNode* prependChild(AbstractNode* childNode);
+		AbstractNode* appendChild(AbstractNode* childNode);
+		AbstractNode* replaceWith(AbstractNode* childNode);
+		void remove();
+	protected:
+		QDomDocument emptyDocument;
+		QDomNode qNode;
+		bool _isNew;
+		MissBehavior missBehavior;
+
+		AbstractNode* handleMiss(const QString& name);
+};
+	
+};
+
+class RawXml {
+	public:
+		RawXml(DomNode& node);
+	
+		const QString& operator=(const QString& rawXml);
+	
+		QString toString();
+	private:
+		DomNode& node;
+};
+
+class DomAttribute {
+	public:
+		DomAttribute();
+		DomAttribute(QDomNode node, const QString& name, const QString& defaultValue = QString());
+	
+		QString name();
+		QString value();
+	
+		void remove();
+	
+		QDomAttr asQDomAttr();
+		const QString& operator=(const QString& str);
+	
+		QString toString();
+	private:
+		QDomAttr attr;
+};
+
+class DomAttributes {
+	public:
+		DomAttributes(QDomNode node);
+	
+		int size();
+	
+		QHash<QString, DomAttribute>::iterator begin();
+		QHash<QString, DomAttribute>::iterator end();
+	
+		void remove(const QString& name);
+	
+		DomAttribute& operator[](const QString& name);
+	
+		QString toString();
+	private:
+		QDomNode node;
+		QHash<QString, DomAttribute> attributes;
+};
+
+class DomNode;
+
+class DomNodeList : public QList<DomNode> {
+	public:
+		QString toString();
+	
+		static DomNodeList convert(QList<dom::AbstractNode*> nodes);
+};
+
+class DomNode {
+	public:
+		DomNode();
+		DomNode(dom::AbstractNode* node);
+		DomNode(const QString& text, dom::MissBehavior missBehavior=dom::AUTO_CREATE);
+		DomNode(const char* text, dom::MissBehavior missBehavior=dom::AUTO_CREATE);
+		DomNode(QDomNode node, dom::MissBehavior missBehavior=dom::AUTO_CREATE);
+		DomNode(NodeCreator nodeCreator, dom::MissBehavior missBehavior=dom::AUTO_CREATE);
+		DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, dom::MissBehavior missBehavior=dom::AUTO_CREATE);
+	
+		QDomNode asQDomNode();
+		QDomDocument ownerDocument();
+		DomNode createTextNode(const QString& text);
+		DomNode createElement(const QString& tagName);
+		DomNode createXml(const QString& xml);
+	
+		DomNode operator[](const QString& name);
+		DomNode operator[](unsigned index);
+		DomNodeList all();
+		DomNodeList children();
+	
+		//DomNode select(const QString& selector, bool global=false);
+		DomNode byId(const QString& id, bool global=false);
+		
+		DomAttributes attributes();
+		DomAttribute attribute(const QString& name, const QString& defaultValue = QString());
+		void setAttribute(const QString& name, const QString& value = QString());
+		void removeAttribute(const QString& name);
+		bool hasAttribute(const QString& name);
+		
+		void addClass(const QString& name);
+		void removeClass(const QString& name);
+		bool hasClass(const QString& name);
+		void setId(const QString& value);
+		DomAttribute id();
+		QString getId();
+		bool hasId();
+		void removeId();
+		
+		QString tagName();
+		void setTagName(const QString& name);
+		
+		DomNode previous();
+		DomNode next();
+		DomNode previousElement();
+		DomNode nextElement();
+		
+		void removeChildren();
+		void replaceChildren(DomNodeList newChildren);
+		void importChildrenFrom(DomNode otherNode);
+		
+		DomNode clone(bool deep=true);
+		
+		DomNode prepend(DomNode otherNode);
+		DomNode append(DomNode otherNode);
+		DomNode prependChild(DomNode childNode);
+		DomNode appendChild(DomNode childNode);
+		DomNode operator=(DomNode otherNode);
+		DomNode replaceWith(DomNode otherNode);
+		void remove();
+		
+		RawXml raw();
+		void setRaw(const QString& rawXml);
+	
+		DomNode root();
+		DomNode parent();
+		
+		QString toString();
+	
+		void setMissBehavior(dom::MissBehavior missBehavior);
+		bool isNew();
+		bool isNull();
+	protected:
+		QSharedPointer<dom::AbstractNode> node;
+	
+		DomNode findById(const QString& id);
+};

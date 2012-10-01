@@ -42,6 +42,9 @@
 	TagModifier attributename(QString attributename) {\
 		return attribute(#attributename, attributename);\
 	}
+	
+
+class DomNode;
 
 typedef std::function<void(QDomElement)> TagModifier;
 
@@ -49,6 +52,7 @@ class NodeCreatorPlaceholder;
 
 class NodeCreator {
 	public:
+		NodeCreator();
 		NodeCreator(QString name);
 		NodeCreator(NodeCreatorPlaceholder placeholder);
 	
@@ -58,13 +62,14 @@ class NodeCreator {
 			add(args...);
 		}
 	
-		QDomElement operator()(QDomDocument document) const;
+		QDomElement operator()(QDomDocument doc) const;
 		void operator()(QDomNode node) const;
 	private:
 		void addModifier(TagModifier modifier);
 		void addModifier(NodeCreator creator);
 		void addModifier(NodeCreatorPlaceholder creatorPlaceholder);
 	
+		void addModifier(DomNode node);
 		void addModifier(QDomNode node);
 	
 		void addModifier(QString text);
@@ -75,6 +80,7 @@ class NodeCreator {
 		
 		QString name;
 		QList<TagModifier> modifiers;
+		bool null;
 };
 
 class NodeCreatorPlaceholder {
@@ -92,7 +98,14 @@ class NodeCreatorPlaceholder {
 };
 
 class DomHelper {
+	private:
+		QDomDocument __emptyDocument;
 	public:
+		virtual QDomDocument currentDocument();
+		//DomNode $(const QString& xmlOrSelector, DomNode node);
+		//DomNode $(const QString& xmlOrSelector);
+	
+	
 		NodeCreatorPlaceholder tag(QString name);
 		TagModifier attribute(QString name, QString value);
 	

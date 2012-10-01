@@ -38,6 +38,7 @@ set(Framework_sources
 	src/core/WebAppConfigReader.cpp
 	src/core/WebApplication.cpp
 	src/core/MimeDatabase.cpp
+	src/core/DomNode.cpp
 	
 	src/frontend/FrameworkEntryPoint.cpp
 	src/frontend/FrontController.cpp
@@ -90,6 +91,7 @@ set(Framework_headers
 	include/RedirectException
 	include/TemplateLayout
 	include/Response
+	include/DomNode
 )
 
 set(Framework_internal_headers

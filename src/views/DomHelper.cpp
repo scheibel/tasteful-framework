@@ -25,6 +25,28 @@
   **/
 
 #include <DomHelper>
+#include <DomNode>
+
+
+QDomDocument DomHelper::currentDocument() {
+	static bool initialized = false;
+	if (!initialized) {
+		__emptyDocument.setContent(QString("<empty>"));
+		initialized = true;
+	}
+	return __emptyDocument;
+}
+
+/*DomNode DomHelper::$(const QString& xmlOrSelector) {
+	return $(xmlOrSelector, currentDocument().documentElement());
+}
+
+DomNode DomHelper::$(const QString& xmlOrSelector, DomNode node) {
+	if (xmlOrSelector.trimmed().startsWith("<")) {
+		return node.createXml(xmlOrSelector);
+	}
+	return node.select(xmlOrSelector);
+}*/
 
 TagModifier DomHelper::attribute(QString name, QString value) {
 	return [name, value](QDomElement element) {
@@ -36,26 +58,33 @@ TagModifier DomHelper::cssClass(QString name) {
 	return attribute("class", name);
 }
 
-QDomElement NodeCreator::operator()(QDomDocument document) const {
-	QDomElement element = document.createElement(name);
-	for (TagModifier modifier: modifiers) modifier(element);
-	return element;
-}
-
-void NodeCreator::operator()(QDomNode node) const {
-	QDomElement element = (*this)(node.ownerDocument());
-	node.appendChild(element);
-}
-
 NodeCreatorPlaceholder DomHelper::tag(QString name) {
 	return NodeCreatorPlaceholder(name);
 }
 
-NodeCreator::NodeCreator(QString name) : name(name) {
+NodeCreator::NodeCreator() : null(true) {
+}
+
+NodeCreator::NodeCreator(QString name) : name(name), null(false) {
 }
 
 NodeCreator::NodeCreator(NodeCreatorPlaceholder placeholder) {
 	*this = placeholder();
+}
+
+QDomElement NodeCreator::operator()(QDomDocument document) const {
+	if (null) return QDomElement();
+	
+	QDomElement element = document.createElement(name);
+	for (TagModifier modify: modifiers) modify(element);
+	return element;
+}
+
+void NodeCreator::operator()(QDomNode node) const {
+	if (null) return;
+	
+	QDomElement element = (*this)(node.ownerDocument());
+	node.appendChild(element);
 }
 
 void NodeCreator::addModifier(TagModifier modifier) {
@@ -76,6 +105,10 @@ void NodeCreator::addModifier(QDomNode node) {
 	addModifier([node](QDomElement element) {
 		element.appendChild(node);
 	});
+}
+
+void NodeCreator::addModifier(DomNode node) {
+	addModifier(node.asQDomNode());
 }
 
 void NodeCreator::addModifier(QString text) {
