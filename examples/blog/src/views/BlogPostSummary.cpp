@@ -1,5 +1,7 @@
 #include <views/BlogPostSummary>
 
+#include <controllers/BlogPostController>
+
 BlogPostSummary::BlogPostSummary(BlogPost* blogPost) : BlogView(), blogPost(blogPost) {
 	setFilename("blogpostsummary.html");
 	
@@ -8,24 +10,14 @@ BlogPostSummary::BlogPostSummary(BlogPost* blogPost) : BlogView(), blogPost(blog
 	addTransform("shorttext", &BlogPostSummary::shorttext);
 }
 
-QDomNode BlogPostSummary::url(QDomNode node) {
-	node.toElement().setAttribute("href", "#testurl");
-	
-	return node;
+void BlogPostSummary::url(DomNode& node) {
+	node.attribute("href") = UrlHelper::url(&BlogPostController::show, { { "id", BlogPostMapper::instance().idOf(blogPost) } });
 }
 
-QDomNode BlogPostSummary::title(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(blogPost->getTitle()));
-	
-	return node;
+void BlogPostSummary::title(DomNode& node) {
+	node.replaceChildren(blogPost->getTitle());
 }
 
-QDomNode BlogPostSummary::shorttext(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(blogPost->getText()));
-	
-	return node;
+void BlogPostSummary::shorttext(DomNode& node) {
+	node.replaceChildren(blogPost->getText());
 }

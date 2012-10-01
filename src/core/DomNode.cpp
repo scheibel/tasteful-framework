@@ -159,9 +159,14 @@ AbstractNode* Node::replaceWith(AbstractNode* childNode) {
 	return new Node(newNode, missBehavior, childNode->isNew());
 }
 
-void Node::remove() {
+AbstractNode* Node::remove() {
 	qNode.parentNode().removeChild(qNode);
+	
+	AbstractNode* oldNode = new Node(qNode, missBehavior);
+	
 	qNode = QDomNode();
+	
+	return oldNode;
 }
 
 //----------------------
@@ -185,8 +190,9 @@ DomAttribute::DomAttribute(QDomNode node, const QString& name, const QString& de
 	if (!element.isNull()) {
 		attr = element.attributeNode(name);
 		if (attr.isNull()) {
-			element.setAttribute(name, defaultValue.isNull() ? name : defaultValue);
-			attr = element.attributeNode(name);
+			attr = node.ownerDocument().createAttribute(name);
+			attr.setValue(defaultValue.isNull() ? name : defaultValue);
+			element.setAttributeNode(attr);
 		}
 	}
 }
@@ -207,9 +213,9 @@ void DomAttribute::remove() {
 	attr.ownerElement().removeAttributeNode(attr);
 }
 
-const QString& DomAttribute::operator=(const QString& str) {
-	attr.setValue(str.isNull() ? attr.name() : str);
-	return str;
+const QVariant& DomAttribute::operator=(const QVariant& value) {
+	attr.setValue(value.isNull() ? attr.name() : value.toString());
+	return value;
 }
 
 QString DomAttribute::toString() {
@@ -297,6 +303,10 @@ DomNode::DomNode(NodeCreator nodeCreator, dom::MissBehavior missBehavior) : node
 }
 
 DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, dom::MissBehavior missBehavior) : node(new Node(nodeCreatorPlaceholder(), missBehavior)) {
+}
+
+DomNode::operator QDomNode() {
+	return asQDomNode();
 }
 
 QDomNode DomNode::asQDomNode() {
@@ -451,12 +461,28 @@ DomNode DomNode::replaceWith(DomNode otherNode) {
 }
 
 void DomNode::removeChildren() {
-	for (DomNode child: children()) child.remove();
+	for (DomNode child: children()) {
+		child.remove();
+	}
 }
 
 void DomNode::replaceChildren(DomNodeList newChildren) {
 	removeChildren();
-	for (DomNode newChild: newChildren) appendChild(newChild);
+	appendChildren(newChildren);
+}
+
+void DomNode::replaceChildren(DomNode newChild) {
+	DomNodeList newChildren;
+	
+	newChildren << newChild;
+	
+	replaceChildren(newChildren);
+}
+
+void DomNode::appendChildren(DomNodeList newChildren) {
+	for (DomNode newChild: newChildren) {
+		appendChild(newChild);
+	}
 }
 
 void DomNode::importChildrenFrom(DomNode otherNode) {
@@ -468,8 +494,8 @@ DomNode DomNode::clone(bool deep) {
 	return node->asQDomNode().cloneNode(deep);
 }
 
-void DomNode::remove() {
-	node->remove();
+DomNode DomNode::remove() {
+	return node->remove();
 }
 
 void DomNode::setRaw(const QString& rawXml) {
@@ -522,5 +548,3 @@ bool DomNode::isNew() {
 bool DomNode::isNull() {
 	return node->isNull();
 }
-
-

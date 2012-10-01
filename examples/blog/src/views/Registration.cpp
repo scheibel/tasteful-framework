@@ -7,37 +7,19 @@ Registration::Registration(QString email, QString error) : BlogView(), email(ema
 	addTransform("registrationform", &Registration::registrationForm);
 	addTransform("errormessage", &Registration::errorMessage);
 	addTransform("emailvalue", &Registration::emailValue);
-	//addTransform("passwordvalue", &Registration::passwordValue);
-	//addTransform("password2value", &Registration::password2Value);
 }
 
-QDomNode Registration::registrationForm(QDomNode node) {
-	node.toElement().setAttribute("method", "POST");
-	node.toElement().setAttribute("url", url(&RegisterController::signup));
-	
-	return node;
+void Registration::registrationForm(DomNode& node) {
+	node.attribute("method") = "POST";
+	node.attribute("url") = url(&RegisterController::signup);
 }
 
-QDomNode Registration::errorMessage(QDomNode node) {
+void Registration::errorMessage(DomNode& node) {
 	if (!error.isNull()) {
-		node.appendChild($(error));
+		node.appendChild(error);
 	}
-	
-	return node;
 }
 
-QDomNode Registration::emailValue(QDomNode node) {
-	node.toElement().setAttribute("value", email);
-	
-	return node;
+void Registration::emailValue(DomNode& node) {
+	node.attribute("value") = email;
 }
-
-/*
-QDomNode Registration::passwordValue(QDomNode node) {
-	return node;
-}
-
-QDomNode Registration::password2Value(QDomNode node) {
-	return node;
-}
-*/

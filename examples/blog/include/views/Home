@@ -8,8 +8,8 @@ class Home : public BlogView {
 	public:
 		Home(QList<BlogPost*> blogPosts);
 		
-		QDomNode recentPosts(QDomNode node);
-		QDomNode numberOfRecentPosts(QDomNode node);
+		void recentPosts(DomNode& node);
+		void numberOfRecentPosts(DomNode& node);
 	private:
 		QList<BlogPost*> blogPosts;
 };

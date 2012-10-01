@@ -7,11 +7,11 @@ class BlogPostEdit : public BlogView {
 	public:
 		BlogPostEdit(BlogPost* blogPost, unsigned id);
 		
-		QDomNode blogEditForm(QDomNode node);
-		QDomNode blogPostId(QDomNode node);
-		QDomNode blogPostTitle(QDomNode node);
-		QDomNode blogPostText(QDomNode node);
-		QDomNode saveButtonText(QDomNode node);
+		void blogEditForm(DomNode& node);
+		void blogPostId(DomNode& node);
+		void blogPostTitle(DomNode& node);
+		void blogPostText(DomNode& node);
+		void saveButtonText(DomNode& node);
 	private:
 		BlogPost* blogPost;
 		unsigned id;

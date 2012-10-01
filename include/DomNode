@@ -64,7 +64,7 @@ class AbstractNode {
 		virtual AbstractNode* prependChild(AbstractNode* childNode) = 0;
 		virtual AbstractNode* appendChild(AbstractNode* childNode) = 0;
 		virtual AbstractNode* replaceWith(AbstractNode* childNode) = 0;
-		virtual void remove() = 0;
+		virtual AbstractNode* remove() = 0;
 };
 
 class NullNode : public AbstractNode {
@@ -83,7 +83,7 @@ class NullNode : public AbstractNode {
 		AbstractNode* prependChild(AbstractNode* childNode) { return new NullNode(); }
 		AbstractNode* appendChild(AbstractNode* childNode) { return new NullNode(); }
 		AbstractNode* replaceWith(AbstractNode* childNode) { return new NullNode(); }
-		void remove() {}
+		AbstractNode* remove() { return new NullNode(); }
 };
 	
 class Node : public AbstractNode {
@@ -110,7 +110,7 @@ class Node : public AbstractNode {
 		AbstractNode* prependChild(AbstractNode* childNode);
 		AbstractNode* appendChild(AbstractNode* childNode);
 		AbstractNode* replaceWith(AbstractNode* childNode);
-		void remove();
+		AbstractNode* remove();
 	protected:
 		QDomDocument emptyDocument;
 		QDomNode qNode;
@@ -144,7 +144,7 @@ class DomAttribute {
 		void remove();
 	
 		QDomAttr asQDomAttr();
-		const QString& operator=(const QString& str);
+		const QVariant& operator=(const QVariant& value);
 	
 		QString toString();
 	private:
@@ -190,6 +190,7 @@ class DomNode {
 		DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, dom::MissBehavior missBehavior=dom::AUTO_CREATE);
 	
 		QDomNode asQDomNode();
+		operator QDomNode();
 		QDomDocument ownerDocument();
 		DomNode createTextNode(const QString& text);
 		DomNode createElement(const QString& tagName);
@@ -228,6 +229,8 @@ class DomNode {
 		
 		void removeChildren();
 		void replaceChildren(DomNodeList newChildren);
+		void replaceChildren(DomNode newChild);
+		void appendChildren(DomNodeList newChildren);
 		void importChildrenFrom(DomNode otherNode);
 		
 		DomNode clone(bool deep=true);
@@ -238,7 +241,7 @@ class DomNode {
 		DomNode appendChild(DomNode childNode);
 		DomNode operator=(DomNode otherNode);
 		DomNode replaceWith(DomNode otherNode);
-		void remove();
+		DomNode remove();
 		
 		RawXml raw();
 		void setRaw(const QString& rawXml);

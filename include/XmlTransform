@@ -33,10 +33,11 @@
 #include <QDir>
 #include <QHash>
 #include <DomHelper>
+#include <DomNode>
 
 class XmlTransform : protected DomHelper {
 	public:
-		typedef QDomNode (XmlTransform::*Transform)(QDomNode);
+		typedef void (XmlTransform::*Transform)(DomNode&);
 	
 		XmlTransform();
 		virtual ~XmlTransform();
@@ -64,7 +65,7 @@ class XmlTransform : protected DomHelper {
 		void addPartial(QString selector, XmlTransform* partial);
 	
 		template <class T>
-		void addTransform(QString selector, QDomNode (T::*transform)(QDomNode)) {
+		void addTransform(QString selector, void (T::*transform)(DomNode&)) {
 			transforms.insert(selector, (Transform)transform);
 		};
 		virtual void transformNode(QDomNode node);

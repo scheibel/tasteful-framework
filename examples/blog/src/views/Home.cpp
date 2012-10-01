@@ -9,20 +9,14 @@ Home::Home(QList<BlogPost*> blogPosts) : BlogView(), blogPosts(blogPosts) {
 	addTransform("numberofrecentposts", &Home::numberOfRecentPosts);
 }
 
-QDomNode Home::recentPosts(QDomNode node) {
-	removeChildren(node);
+void Home::recentPosts(DomNode& node) {
+	node.removeChildren();
 	
 	for (BlogPost* blogPost : blogPosts) {
-		appendChildren(node, BlogPostSummary(blogPost).contentNode());
+		node.importChildrenFrom(BlogPostSummary(blogPost).contentNode());
 	}
-	
-	return node;
 }
 
-QDomNode Home::numberOfRecentPosts(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(QString::number(blogPosts.size())));
-	
-	return node;
+void Home::numberOfRecentPosts(DomNode& node) {
+	node.replaceChildren(QString::number(blogPosts.size()));
 }

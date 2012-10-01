@@ -11,34 +11,22 @@ BlogPostEdit::BlogPostEdit(BlogPost* blogPost, unsigned id) : BlogView(), blogPo
 	addTransform("savebuttontext", &BlogPostEdit::saveButtonText);
 }
 
-QDomNode BlogPostEdit::blogEditForm(QDomNode node) {
-	node.toElement().setAttribute("action", url(&BlogPostController::save));
-	
-	return node;
+void BlogPostEdit::blogEditForm(DomNode& node) {
+	node.attribute("action") = url(&BlogPostController::save);
 }
 
-QDomNode BlogPostEdit::blogPostId(QDomNode node) {
-	node.toElement().setAttribute("value", id);
-	
-	return node;
+void BlogPostEdit::blogPostId(DomNode& node) {
+	node.attribute("value") = id;
 }
 
-QDomNode BlogPostEdit::blogPostTitle(QDomNode node) {
-	node.toElement().setAttribute("value", blogPost->getTitle());
-	
-	return node;
+void BlogPostEdit::blogPostTitle(DomNode& node) {
+	node.attribute("value") = blogPost->getTitle();
 }
 
-QDomNode BlogPostEdit::blogPostText(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(blogPost->getText()));
-	
-	return node;
+void BlogPostEdit::blogPostText(DomNode& node) {
+	node.replaceChildren(blogPost->getText());
 }
 
-QDomNode BlogPostEdit::saveButtonText(QDomNode node) {
-	node.toElement().setAttribute("value", id == 0 ? "Create" : "Save");
-	
-	return node;
+void BlogPostEdit::saveButtonText(DomNode& node) {
+	node.attribute("value") = id == 0 ? "Create" : "Save";
 }

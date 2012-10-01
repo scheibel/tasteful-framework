@@ -8,20 +8,20 @@ class BlogPostList : public BlogView {
 	public:
 		BlogPostList(QHash<unsigned, BlogPost*> blogPosts);
 		
-		QDomNode blogPostTable(QDomNode node);
+		void blogPostTable(DomNode& node);
 	private:
 		QHash<unsigned, BlogPost*> blogPosts;
 };
 
 class BlogPostLine : public BlogView {
 	public:
-		BlogPostLine(QDomNode node, BlogPost* blogPost, unsigned blogPostId);
+		BlogPostLine(DomNode node, BlogPost* blogPost, unsigned blogPostId);
 		
-		QDomNode id(QDomNode node);
-		QDomNode title(QDomNode node);
-		QDomNode showLink(QDomNode node);
-		QDomNode editLink(QDomNode node);
-		QDomNode deleteLink(QDomNode node);
+		void id(DomNode& node);
+		void title(DomNode& node);
+		void showLink(DomNode& node);
+		void editLink(DomNode& node);
+		void deleteLink(DomNode& node);
 	private:
 		BlogPost* blogPost;
 		unsigned blogPostId;

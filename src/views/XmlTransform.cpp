@@ -163,7 +163,11 @@ void XmlTransform::transformNode(QDomNode node) {
 }
 
 QDomNode XmlTransform::doTransform(QString selector, QDomNode node) {
-	return (this->*transforms[selector])(node);
+	DomNode domNode(node);
+	
+	(this->*transforms[selector])(domNode);
+	
+	return domNode.asQDomNode();
 }
 
 QDomNode XmlTransform::$(NodeCreator creator) {

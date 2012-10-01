@@ -7,9 +7,6 @@
 class AllBlogPostList : public BlogView {
 	public:
 		AllBlogPostList(QHash<unsigned, BlogPost*> blogPosts);
-		
-		QDomNode blogPostList(QDomNode node);
-		QDomNode title(QDomNode node, BlogPost* blogPost);
 	private:
 		QHash<unsigned, BlogPost*> blogPosts;
 };

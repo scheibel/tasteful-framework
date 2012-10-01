@@ -9,19 +9,15 @@ BlogPostList::BlogPostList(QHash<unsigned, BlogPost*> blogPosts) : BlogView(), b
 	addTransform("blogposttable", &BlogPostList::blogPostTable);
 }
 
-QDomNode BlogPostList::blogPostTable(QDomNode node) {
-	QDomNode trNode = node.childNodes().item(1);
-	
-	node.removeChild(trNode);
+void BlogPostList::blogPostTable(DomNode& node) {
+	DomNode trNode = node["tr"][1].remove();
 	
 	for (unsigned id : blogPosts.keys()) {
-		node.appendChild(BlogPostLine(trNode.cloneNode(), blogPosts.value(id), id).contentNode());
+		node.appendChild(BlogPostLine(trNode.clone(), blogPosts.value(id), id).contentNode());
 	}
-	
-	return node;
 }
 
-BlogPostLine::BlogPostLine(QDomNode node, BlogPost* blogPost, unsigned blogPostId) : BlogView(), blogPost(blogPost), blogPostId(blogPostId) {
+BlogPostLine::BlogPostLine(DomNode node, BlogPost* blogPost, unsigned blogPostId) : BlogView(), blogPost(blogPost), blogPostId(blogPostId) {
 	setNode(node);
 	
 	addTransform("id", &BlogPostLine::id);
@@ -31,36 +27,22 @@ BlogPostLine::BlogPostLine(QDomNode node, BlogPost* blogPost, unsigned blogPostI
 	addTransform("deletelink", &BlogPostLine::deleteLink);
 }
 
-QDomNode BlogPostLine::id(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(QString::number(blogPostId)));
-	
-	return node;
+void BlogPostLine::id(DomNode& node) {
+	node.replaceChildren(QString::number(blogPostId));
 }
 
-QDomNode BlogPostLine::title(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(blogPost->getTitle()));
-	
-	return node;
+void BlogPostLine::title(DomNode& node) {
+	node.replaceChildren(blogPost->getTitle());
 }
 
-QDomNode BlogPostLine::showLink(QDomNode node) {
-	node.toElement().setAttribute("href", url(&BlogPostController::show, { { "id", blogPostId } }));
-	
-	return node;
+void BlogPostLine::showLink(DomNode& node) {
+	node.attribute("href") = url(&BlogPostController::show, { { "id", blogPostId } });
 }
 
-QDomNode BlogPostLine::editLink(QDomNode node) {
-	node.toElement().setAttribute("href", url(&BlogPostController::edit, { { "id", blogPostId } }));
-	
-	return node;
+void BlogPostLine::editLink(DomNode& node) {
+	node.attribute("href") = url(&BlogPostController::edit, { { "id", blogPostId } });
 }
 
-QDomNode BlogPostLine::deleteLink(QDomNode node) {
-	node.toElement().setAttribute("href", url(&BlogPostController::remove, { { "id", blogPostId } }));
-	
-	return node;
+void BlogPostLine::deleteLink(DomNode& node) {
+	node.attribute("href") = url(&BlogPostController::remove, { { "id", blogPostId } });
 }

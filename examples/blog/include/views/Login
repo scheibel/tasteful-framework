@@ -5,12 +5,11 @@
 
 class Login : public BlogView {
 	public:
-		Login(QString email = QString(), bool loginAttempt = false);
+		Login(QString email = "", bool loginAttempt = false);
 		
-		QDomNode loginForm(QDomNode node);
-		QDomNode errorMessage(QDomNode node);
-		QDomNode emailValue(QDomNode node);
-		//QDomNode passwordValue(QDomNode node);
+		void loginForm(DomNode& node);
+		void errorMessage(DomNode& node);
+		void emailValue(DomNode& node);
 	private:
 		bool loginAttempt;
 		QString email;

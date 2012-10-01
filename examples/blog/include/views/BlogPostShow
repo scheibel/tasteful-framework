@@ -7,8 +7,8 @@ class BlogPostShow : public BlogView {
 	public:
 		BlogPostShow(BlogPost* blogPost, unsigned id);
 		
-		QDomNode blogPostTitle(QDomNode node);
-		QDomNode blogPostContent(QDomNode node);
+		void blogPostTitle(DomNode& node);
+		void blogPostContent(DomNode& node);
 	private:
 		BlogPost* blogPost;
 		unsigned id;

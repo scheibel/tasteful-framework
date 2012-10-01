@@ -5,13 +5,11 @@
 
 class Registration : public BlogView {
 	public:
-		Registration(QString email = QString(), QString error = QString());
+		Registration(QString email = "", QString error = "");
 		
-		QDomNode registrationForm(QDomNode node);
-		QDomNode errorMessage(QDomNode node);
-		QDomNode emailValue(QDomNode node);
-		//QDomNode passwordValue(QDomNode node);
-		//QDomNode password2Value(QDomNode node);
+		void registrationForm(DomNode& node);
+		void errorMessage(DomNode& node);
+		void emailValue(DomNode& node);
 	private:
 		QString email;
 		QString error;

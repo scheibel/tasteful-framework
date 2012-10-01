@@ -7,18 +7,10 @@ BlogPostShow::BlogPostShow(BlogPost* blogPost, unsigned id) : BlogView(), blogPo
 	addTransform("blogpostcontent", &BlogPostShow::blogPostContent);
 }
 
-QDomNode BlogPostShow::blogPostTitle(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(blogPost->getTitle()));
-	
-	return node;
+void BlogPostShow::blogPostTitle(DomNode& node) {
+	node.replaceChildren(blogPost->getTitle());
 }
 
-QDomNode BlogPostShow::blogPostContent(QDomNode node) {
-	removeChildren(node);
-	
-	node.appendChild($(blogPost->getText()));
-	
-	return node;
+void BlogPostShow::blogPostContent(DomNode& node) {
+	node.replaceChildren(blogPost->getText());
 }

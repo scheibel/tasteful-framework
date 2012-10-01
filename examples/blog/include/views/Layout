@@ -9,9 +9,9 @@ class Layout : public TemplateLayout {
 		
 		void setSession(Session* newSession);
 	protected:
-		QDomNode stylesheets(QDomNode node);
-		QDomNode login(QDomNode node);
-		QDomNode menu(QDomNode node);
+		void stylesheets(DomNode& node);
+		void login(DomNode& node);
+		void menu(DomNode& node);
 	private:
 		Session* session;
 };
