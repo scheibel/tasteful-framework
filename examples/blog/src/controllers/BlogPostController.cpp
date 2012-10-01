@@ -9,7 +9,7 @@ BlogPostController::BlogPostController() {
 	
 }
 
-QList<BlogPost*> BlogPostController::findAll() const {
+QList<BlogPost*> BlogPostController::findAll() {
 	return getDataMapper().find("author = " + QString::number(AuthorMapper::instance().idOf(getSession()->author)));
 }
 

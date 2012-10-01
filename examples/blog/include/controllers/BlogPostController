@@ -4,13 +4,14 @@
 #include <CrudController>
 #include <datamappers/BlogPostMapper>
 
-class BlogPostController : public LoggedInController {
-	DEFINE_CRUD_ACTIONS(BlogPostController, BlogPostMapper);
+class BlogPostController : public LoggedInController, public CrudController<BlogPostController, BlogPostMapper> {
+	DEFINE_CRUD_ACTIONS();
 	public:
 		BlogPostController();
 	protected:
-		//QList<BlogPost*> findAll() const;
 		void beforeSave(BlogPost* blogPost);
+		
+		QList<BlogPost*> findAll();
 		
 		View* listViewFor(QHash<unsigned, BlogPost*> blogEntries);
 		View* showViewFor(BlogPost* blogEntry, unsigned id);
