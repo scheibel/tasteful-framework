@@ -133,7 +133,11 @@ T* DataMapper<Subclass, T, I>::obtainFromIdentityMap(const QVariantMap& map) {
 
 template <class Subclass, class T, typename I>
 T* DataMapper<Subclass, T, I>::get(Identity id) {
-	return getBy(identityFieldName() + " = " + id);
+	if (identities.hasModel(id)) {
+		return identities.getModel(id);
+	}
+	
+	return getBy(identityFieldName() + " = " + QVariant(id).toString());
 }
 
 template <class Subclass, class T, typename I>
@@ -204,6 +208,10 @@ I DataMapper<Subclass, T, I>::saveReturningId(T* model) {
 
 template <class Subclass, class T, typename I>
 bool DataMapper<Subclass, T, I>::save(T* model) {
+	if (!model) {
+		return false;
+	}
+	
 	Identity id = idOf(model);
 	QVariantMap record;
 	buildRecordFrom(model, record);
@@ -220,8 +228,10 @@ bool DataMapper<Subclass, T, I>::save(T* model) {
 		variables += key + " = :" + key;
 	}
 	
+	record[identityFieldName()] = id;
+	
 	if (isValidId(id)) {
-		QSqlQuery query = getDatabase().build(UPDATE(table()).SET(variables).WHERE(identityFieldName() + " = " + idOf(model)), record);
+		QSqlQuery query = getDatabase().build(UPDATE(table()).SET(variables).WHERE(identityFieldName() + " = :" + identityFieldName()), record);
 		
 		query.exec();
 	} else {
@@ -237,11 +247,13 @@ bool DataMapper<Subclass, T, I>::save(T* model) {
 	}
 	
 	saveRelationsOf(model);
+	
+	return true;
 }
 
 template <class Subclass, class T, typename I>
 bool DataMapper<Subclass, T, I>::remove(T* model) {
-	QSqlQuery query = getDatabase().build(DELETE().FROM(table()).WHERE(identityFieldName() + " = " + idOf(model)));
+	QSqlQuery query = getDatabase().build(DELETE().FROM(table()).WHERE(identityFieldName() + " = " + QString::number(idOf(model))));
 	
 	return query.exec();
 }

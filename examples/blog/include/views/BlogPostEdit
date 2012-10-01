@@ -2,13 +2,16 @@
 
 #include <views/BlogView>
 #include <models/BlogPost>
-#include <QString>
 
 class BlogPostEdit : public BlogView {
 	public:
 		BlogPostEdit(BlogPost* blogPost, unsigned id);
 		
-		QDomNode blogPostForm(QDomNode node);
+		QDomNode blogEditForm(QDomNode node);
+		QDomNode blogPostId(QDomNode node);
+		QDomNode blogPostTitle(QDomNode node);
+		QDomNode blogPostText(QDomNode node);
+		QDomNode saveButtonText(QDomNode node);
 	private:
 		BlogPost* blogPost;
 		unsigned id;

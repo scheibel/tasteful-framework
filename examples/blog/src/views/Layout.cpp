@@ -17,7 +17,7 @@ void Layout::setSession(Session* newSession) {
 }
 
 QDomNode Layout::stylesheets(QDomNode node) {
-	node.appendChild($(link(type("text/css"), href("stylesheets/blog.css"), rel("stylesheet"))));
+	node.appendChild($(link(type("text/css"), href("/stylesheets/blog.css"), rel("stylesheet"))));
 	
 	return node;
 }

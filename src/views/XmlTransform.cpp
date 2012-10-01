@@ -142,7 +142,11 @@ void XmlTransform::transformNode(QDomNode node) {
 		if (!element.isNull()) {
 			if (element.hasAttribute("data-transform")) {
 				QDomNode transformedNode = transformElement(element);
-				if (!transformedNode.isNull()) node.replaceChild(transformedNode, element);
+				if (!transformedNode.isNull()) {
+					node.replaceChild(transformedNode, element);
+					
+					transformNode(transformedNode);
+				}
 			} else if (element.hasAttribute("data-import")) {
 				QString importSelector = element.attribute("data-import");
 				element.removeAttribute("data-import");

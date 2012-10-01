@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 	GET("myblogposts/new") = &BlogPostController::create;
 	GET("myblogposts/:id") = &BlogPostController::show;
 	GET("myblogposts/:id/edit") = &BlogPostController::edit;
-	POST("myblogposts/:id/save") = &BlogPostController::save;
+	POST("myblogposts/save") = &BlogPostController::save;
 	GET("myblogposts/:id/delete") = &BlogPostController::remove;
 	DELETE("myblogposts/:id/delete") = &BlogPostController::remove;
 	

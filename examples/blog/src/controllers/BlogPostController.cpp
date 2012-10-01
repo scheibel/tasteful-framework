@@ -13,6 +13,10 @@ QList<BlogPost*> BlogPostController::findAll() const {
 	return getDataMapper().find("author = " + QString::number(AuthorMapper::instance().idOf(getSession()->author)));
 }
 
+void BlogPostController::beforeSave(BlogPost* blogPost) {
+	blogPost->setAuthor(getSession()->author);
+}
+
 View* BlogPostController::listViewFor(QHash<unsigned, BlogPost*> blogPosts) {
 	return new BlogPostList(blogPosts);
 }

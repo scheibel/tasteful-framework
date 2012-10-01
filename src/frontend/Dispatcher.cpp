@@ -107,7 +107,7 @@ Response Dispatcher::performActionFor(Route* route, Request& request) const {
 	if (!action) return Response::notFound();
 	
 	if (route->isDynamic()) {
-		request.getUrlParameters() = ((DynamicRoute*)route)->getMatchedParts(request.getPath());
+		request.setUrlParameters(((DynamicRoute*)route)->getMatchedParts(request.getPath()));
 	}
 	
 	try {

@@ -36,8 +36,12 @@ Request::Request() {
 Request::Request(HttpRequest& request) : HttpRequest(request) {	
 }
 
-QHash<QString, QString>& Request::getUrlParameters() {
-	return urlParameters;
+void Request::setUrlParameters(QHash<QString, QString> urlParameters) {
+	for (QString key : urlParameters.keys()) {
+		if (!requestParams.contains(key)) {
+			requestParams.insert(key, urlParameters[key]);
+		}
+	}
 }
 
 void Request::obtainSessionFrom(SessionPool* sessionPool) {

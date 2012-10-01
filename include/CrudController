@@ -26,7 +26,7 @@
 
 #pragma once
 
-#define DEFINE_CRUD_ACTIONS(MapperClass) \
+#define DEFINE_CRUD_ACTIONS(ControllerClass, MapperClass) \
 	public:\
 		typedef typename MapperClass::Model Model;\
 		typedef typename MapperClass::Identity Identity;\
@@ -60,8 +60,8 @@
 		\
 		void save() {\
 			Identity id = parameters["id"].value<Identity>();\
-			\
 			Model* model = nullptr;\
+			QVariantMap record;\
 			\
 			if (getDataMapper().isValidId(id)) {\
 				model = getDataMapper().get(id);\
@@ -69,14 +69,19 @@
 				model = getDataMapper().newModel();\
 			}\
 			\
+			for (const QString& key : getDataMapper().selectVariables()) {\
+				if (parameters.contains(key)) {\
+					record[key] = parameters[key].asQVariant();\
+				}\
+			}\
+			\
 			if (model) {\
-				QVariantMap record;\
-				\
 				getDataMapper().buildFromRecord(model, record);\
+				beforeSave(model);\
 				getDataMapper().save(model);\
 			}\
 			\
-			redirect("");\
+			redirect(url(&ControllerClass::index));\
 		}\
 		\
 		void remove() {\
@@ -88,7 +93,7 @@
 				getDataMapper().remove(model);\
 			}\
 			\
-			redirect("");\
+			redirect(url(&ControllerClass::index));\
 		}\
 	protected:\
 		QHash<Identity, Model*> allModels() const {\

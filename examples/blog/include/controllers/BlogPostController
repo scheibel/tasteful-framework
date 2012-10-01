@@ -5,11 +5,12 @@
 #include <datamappers/BlogPostMapper>
 
 class BlogPostController : public LoggedInController {
-	DEFINE_CRUD_ACTIONS(BlogPostMapper);
+	DEFINE_CRUD_ACTIONS(BlogPostController, BlogPostMapper);
 	public:
 		BlogPostController();
 	protected:
 		//QList<BlogPost*> findAll() const;
+		void beforeSave(BlogPost* blogPost);
 		
 		View* listViewFor(QHash<unsigned, BlogPost*> blogEntries);
 		View* showViewFor(BlogPost* blogEntry, unsigned id);

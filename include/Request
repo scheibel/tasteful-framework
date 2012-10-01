@@ -42,9 +42,7 @@ class Request : public HttpRequest, public SessionContainer {
 		Request();
 		Request(HttpRequest& request);
 		
-		QHash<QString, QString>& getUrlParameters();
+		void setUrlParameters(QHash<QString, QString> urlParameters);
 		
 		void obtainSessionFrom(SessionPool* sessionPool);
-	protected:
-		QHash<QString, QString> urlParameters;
 };
