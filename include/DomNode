@@ -33,6 +33,7 @@
 #include <QHash>
 #include <DomHelper>
 #include <QSharedPointer>
+#include <initializer_list>
 
 class NodeCreator;
 
@@ -133,6 +134,21 @@ class RawXml {
 		DomNode& node;
 };
 
+class DomNodeList;
+
+class InnerXml {
+	public:
+		InnerXml(DomNode& node);
+	
+		DomNode operator=(DomNode otherNode);
+		DomNodeList operator=(DomNodeList nodeList);
+		DomNodeList operator=(std::initializer_list<DomNode> nodeList);
+	
+		QString toString();
+	private:
+		DomNode& node;
+};
+
 class DomAttribute {
 	public:
 		DomAttribute();
@@ -174,6 +190,9 @@ class DomNode;
 
 class DomNodeList : public QList<DomNode> {
 	public:
+		DomNodeList();
+		DomNodeList(std::initializer_list<DomNode> list);
+	
 		QString toString();
 	
 		static DomNodeList convert(QList<dom::AbstractNode*> nodes);
@@ -230,7 +249,18 @@ class DomNode {
 		void removeChildren();
 		void replaceChildren(DomNodeList newChildren);
 		void replaceChildren(DomNode newChild);
+		
+		template<typename... T> void replaceChildren(T... newChildren) {
+			removeChildren();
+			appendChildren(newChildren...);
+		}
+		
 		void appendChildren(DomNodeList newChildren);
+		void appendChildren() {}
+		template <typename T, typename... Rest> void appendChildren(T child, Rest... rest) {
+			appendChild(child);
+			appendChildren(rest...);
+		}
 		void importChildrenFrom(DomNode otherNode);
 		
 		DomNode clone(bool deep=true);
@@ -245,6 +275,9 @@ class DomNode {
 		
 		RawXml raw();
 		void setRaw(const QString& rawXml);
+		InnerXml inner();
+		void setInner(DomNode otherNode);
+		void setInner(DomNodeList nodeList);
 	
 		DomNode root();
 		DomNode parent();

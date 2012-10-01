@@ -182,6 +182,25 @@ QString RawXml::toString() {
 	return node.toString();
 }
 
+InnerXml::InnerXml(DomNode& node) : node(node) {
+}
+
+DomNode InnerXml::operator=(DomNode otherNode) {
+	*this = DomNodeList{otherNode};
+}
+
+DomNodeList InnerXml::operator=(DomNodeList nodeList) {
+	node.replaceChildren(nodeList);
+}
+
+DomNodeList InnerXml::operator=(std::initializer_list<DomNode> nodeList) {
+	*this = DomNodeList(nodeList);
+}
+
+QString InnerXml::toString() {
+	return node.children().toString();
+}
+
 DomAttribute::DomAttribute() {
 }
 
@@ -266,6 +285,15 @@ QString DomAttributes::toString() {
 	}
 	
 	return str;
+}
+
+DomNodeList::DomNodeList() {
+}
+
+DomNodeList::DomNodeList(std::initializer_list<DomNode> list) {
+	for (DomNode node: list) {
+		append(node);
+	}
 }
 
 QString DomNodeList::toString() {
@@ -472,11 +500,7 @@ void DomNode::replaceChildren(DomNodeList newChildren) {
 }
 
 void DomNode::replaceChildren(DomNode newChild) {
-	DomNodeList newChildren;
-	
-	newChildren << newChild;
-	
-	replaceChildren(newChildren);
+	replaceChildren(DomNodeList{newChild});
 }
 
 void DomNode::appendChildren(DomNodeList newChildren) {
@@ -504,6 +528,18 @@ void DomNode::setRaw(const QString& rawXml) {
 
 RawXml DomNode::raw() {
 	return RawXml(*this);
+}
+
+InnerXml DomNode::inner() {
+	return InnerXml(*this);
+}
+
+void DomNode::setInner(DomNode otherNode) {
+	replaceChildren(otherNode);
+}
+
+void DomNode::setInner(DomNodeList nodeList) {
+	replaceChildren(nodeList);
 }
 
 DomNode DomNode::root() {
