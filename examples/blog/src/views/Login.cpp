@@ -10,16 +10,16 @@ Login::Login(QString email, bool loginAttempt) : BlogView(), email(email), login
 }
 
 void Login::loginForm(DomNode& node) {
-	node.attribute("method") = "POST";
-	node.attribute("url") = url(&LoginController::login);
+	node("method") = "POST";
+	node("url") = url(&LoginController::login);
 }
 
 void Login::errorMessage(DomNode& node) {
 	if (loginAttempt) {
-		node.appendChild("Failed to log in.");
+		node << "Failed to log in.";
 	}
 }
 
 void Login::emailValue(DomNode& node) {
-	node.attribute("value") = email;
+	node("value") = email;
 }

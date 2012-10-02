@@ -12,21 +12,21 @@ BlogPostEdit::BlogPostEdit(BlogPost* blogPost, unsigned id) : BlogView(), blogPo
 }
 
 void BlogPostEdit::blogEditForm(DomNode& node) {
-	node.attribute("action") = url(&BlogPostController::save);
+	node("action") = url(&BlogPostController::save);
 }
 
 void BlogPostEdit::blogPostId(DomNode& node) {
-	node.attribute("value") = id;
+	node("value") = id;
 }
 
 void BlogPostEdit::blogPostTitle(DomNode& node) {
-	node.attribute("value") = blogPost->getTitle();
+	node("value") = blogPost->getTitle();
 }
 
 void BlogPostEdit::blogPostText(DomNode& node) {
-	node.replaceChildren(blogPost->getText());
+	node.inner() = blogPost->getText();
 }
 
 void BlogPostEdit::saveButtonText(DomNode& node) {
-	node.attribute("value") = id == 0 ? "Create" : "Save";
+	node("value") = (id == 0) ? "Create" : "Save";
 }

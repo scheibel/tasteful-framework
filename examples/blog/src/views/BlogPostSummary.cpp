@@ -11,13 +11,13 @@ BlogPostSummary::BlogPostSummary(BlogPost* blogPost) : BlogView(), blogPost(blog
 }
 
 void BlogPostSummary::url(DomNode& node) {
-	node.attribute("href") = UrlHelper::url(&BlogPostController::show, { { "id", BlogPostMapper::instance().idOf(blogPost) } });
+	node("href") = UrlHelper::url(&BlogPostController::show, { { "id", BlogPostMapper::instance().idOf(blogPost) } });
 }
 
 void BlogPostSummary::title(DomNode& node) {
-	node.replaceChildren(blogPost->getTitle());
+	node.inner() = blogPost->getTitle();
 }
 
 void BlogPostSummary::shorttext(DomNode& node) {
-	node.replaceChildren(blogPost->getText());
+	node.inner() = blogPost->getText();
 }

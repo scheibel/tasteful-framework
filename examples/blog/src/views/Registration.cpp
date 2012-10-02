@@ -10,16 +10,16 @@ Registration::Registration(QString email, QString error) : BlogView(), email(ema
 }
 
 void Registration::registrationForm(DomNode& node) {
-	node.attribute("method") = "POST";
-	node.attribute("url") = url(&RegisterController::signup);
+	node("method") = "POST";
+	node("url") = url(&RegisterController::signup);
 }
 
 void Registration::errorMessage(DomNode& node) {
 	if (!error.isNull()) {
-		node.appendChild(error);
+		node << error;
 	}
 }
 
 void Registration::emailValue(DomNode& node) {
-	node.attribute("value") = email;
+	node("value") = email;
 }

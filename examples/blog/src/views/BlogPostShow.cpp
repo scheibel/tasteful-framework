@@ -8,9 +8,9 @@ BlogPostShow::BlogPostShow(BlogPost* blogPost, unsigned id) : BlogView(), blogPo
 }
 
 void BlogPostShow::blogPostTitle(DomNode& node) {
-	node.replaceChildren(blogPost->getTitle());
+	node.inner() = blogPost->getTitle();
 }
 
 void BlogPostShow::blogPostContent(DomNode& node) {
-	node.replaceChildren(blogPost->getText());
+	node.inner() = blogPost->getText();
 }

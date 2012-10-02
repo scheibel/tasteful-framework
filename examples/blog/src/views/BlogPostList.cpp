@@ -13,7 +13,7 @@ void BlogPostList::blogPostTable(DomNode& node) {
 	DomNode trNode = node["tr"][1].remove();
 	
 	for (unsigned id : blogPosts.keys()) {
-		node.appendChild(BlogPostLine(trNode.clone(), blogPosts.value(id), id).contentNode());
+		node << BlogPostLine(trNode.clone(), blogPosts.value(id), id).contentNode();
 	}
 }
 
@@ -28,21 +28,21 @@ BlogPostLine::BlogPostLine(DomNode node, BlogPost* blogPost, unsigned blogPostId
 }
 
 void BlogPostLine::id(DomNode& node) {
-	node.replaceChildren(QString::number(blogPostId));
+	node.inner() = QString::number(blogPostId);
 }
 
 void BlogPostLine::title(DomNode& node) {
-	node.replaceChildren(blogPost->getTitle());
+	node.inner() = blogPost->getTitle();
 }
 
 void BlogPostLine::showLink(DomNode& node) {
-	node.attribute("href") = url(&BlogPostController::show, { { "id", blogPostId } });
+	node("href") = url(&BlogPostController::show, { { "id", blogPostId } });
 }
 
 void BlogPostLine::editLink(DomNode& node) {
-	node.attribute("href") = url(&BlogPostController::edit, { { "id", blogPostId } });
+	node("href") = url(&BlogPostController::edit, { { "id", blogPostId } });
 }
 
 void BlogPostLine::deleteLink(DomNode& node) {
-	node.attribute("href") = url(&BlogPostController::remove, { { "id", blogPostId } });
+	node("href") = url(&BlogPostController::remove, { { "id", blogPostId } });
 }
