@@ -30,146 +30,371 @@
 #include <QStringList>
 #include <QRegExp>
 
-using namespace dom;
+using namespace internal;
 
-Node::Node(QDomNode qNode, MissBehavior missBehavior, bool _isNew) : qNode(qNode), missBehavior(missBehavior), _isNew(_isNew) {
+DomNode::DomNode() {
 }
 
-Node::Node(const QString& text, MissBehavior missBehavior) : _isNew(true), missBehavior(missBehavior) {
-	emptyDocument.setContent(QString("<empty>"));
-	qNode = emptyDocument.createTextNode(text);
+DomNode::DomNode(const QDomNode& node, MissBehavior missBehavior) : node(node), missBehavior(missBehavior) {
 }
 
-Node::Node(NodeCreator nodeCreator, MissBehavior missBehavior) : _isNew(true), missBehavior(missBehavior) {
-	emptyDocument.setContent(QString("<empty>"));
-	qNode = nodeCreator(emptyDocument);
+DomNode::DomNode(const QString& text, MissBehavior missBehavior) : missBehavior(missBehavior) {
+	node = QDomNodeCreator::create(text);
 }
 
-bool Node::isNull() {
-	return false;
+DomNode::DomNode(const char* text, MissBehavior missBehavior) : missBehavior(missBehavior) {
+	node = QDomNodeCreator::create(text);
 }
 
-void Node::setMissBehavior(MissBehavior missBehavior) {
-	this->missBehavior = missBehavior;
+DomNode::DomNode(NodeCreator nodeCreator, MissBehavior missBehavior) : missBehavior(missBehavior) {
+	node = QDomNodeCreator::create(nodeCreator);
 }
 
-QDomNode Node::asQDomNode() {
-	return qNode;
+DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, MissBehavior missBehavior) : missBehavior(missBehavior) {
+	node = QDomNodeCreator::create(nodeCreatorPlaceholder());
 }
 
-bool Node::isNew() {
-	return _isNew;
+DomNode::operator QDomNode() const {
+	return asQDomNode();
 }
 
-QString Node::toString() {
+QDomNode DomNode::asQDomNode() const {
+	return node;
+}
+
+QDomDocument DomNode::document() const {
+	return node.ownerDocument();
+}
+
+QString DomNode::toString() const {
 	QString str;
 	QTextStream stream(&str);
-	stream << qNode;
+	stream << node;
 	return str;
 }
 
-
-AbstractNode* Node::parent() {
-	QDomNode parentNode = qNode.parentNode();
-	if (parentNode.isNull()) return new NullNode();
-	return new Node(qNode.parentNode(), missBehavior);
-}
-
-AbstractNode* Node::get(const QString& name) {
-	QDomNodeList childNodes = qNode.toElement().childNodes();
-	for (int i=0; i<childNodes.size(); ++i) {
-		QDomElement child = childNodes.at(i).toElement();
-		if (child.isNull()) continue;
-		if (child.tagName()==name) {
-			return new Node(child, missBehavior);
+DomNode DomNode::operator[](const QString& name) {
+	for (const DomNode& child: children()) {
+		if (/*child.isElement() && */child.tagName()==name) {
+			return child;
 		}
 	}
 	
 	return handleMiss(name);
 }
 
-QList<AbstractNode*> Node::all() {
-	QList<AbstractNode*> list;
+DomNode DomNode::operator[](const QString& name) const {
+	for (const DomNode& child: children()) {
+		if (/*child.isElement() && */child.tagName()==name) {
+			return child;
+		}
+	}
 	
-	QString name = qNode.toElement().tagName();
-	QDomNodeList childNodes = qNode.parentNode().toElement().childNodes();
+	return DomNode();
+}
+
+DomNode DomNode::wrap(const QDomNode& qNode) const {
+	return DomNode(qNode, missBehavior);
+}
+
+DomNode DomNode::handleMiss(const QString& name) {
+	switch (missBehavior) {
+		case CREATE: {
+			return appendChild(
+				wrap(document().createElement(name)) //createElement?
+			);
+		}
+		case RAISE_EXCEPTION:
+			throw "child node not found";
+		default:
+			return DomNode();
+	}
+}
+
+DomNode DomNode::operator[](unsigned index) const {
+	DomNodeList list = all();
+	if (index>=list.size()) return DomNode();
+	return list[index];
+}
+
+DomAttributes DomNode::attributes() {
+	return DomAttributes(node);
+}
+
+const DomAttributes DomNode::attributes() const {
+	return DomAttributes(node);
+}
+
+DomAttribute DomNode::attribute(const QString& name, const QString& defaultValue) {
+	return DomAttribute(node, name, defaultValue);
+}
+
+const DomAttribute DomNode::attribute(const QString& name, const QString& defaultValue) const {
+	return DomAttribute(node, name, defaultValue, false);
+}
+
+DomAttribute DomNode::operator()(const QString& name, const QString& defaultValue) {
+	return attribute(name, defaultValue);
+}
+
+DomAttribute DomNode::operator()(const QString& name, const QString& defaultValue) const {
+	return attribute(name, defaultValue);
+}
+
+void DomNode::setAttribute(const QString& name, const QString& value) {
+	attribute(name) = value;
+}
+
+void DomNode::removeAttribute(const QString& name) {
+	attribute(name).remove();
+}
+
+bool DomNode::hasAttribute(const QString& name) const {
+	return node.toElement().hasAttribute(name);
+}
+
+void DomNode::addClass(const QString& name) {
+	DomAttribute attr = attribute("class", "");
+	QStringList classes = attr.value().split(QRegExp("\\s+"), QString::SkipEmptyParts);
+	if (classes.contains(name)) return;
+	classes << name;
+	attr = classes.join(" ");
+}
+
+void DomNode::removeClass(const QString& name) {
+	DomAttribute attr = attribute("class", "");
+	QStringList classes = attr.value().split(QRegExp("\\s+"), QString::SkipEmptyParts);
+	if (!classes.contains(name)) return;
+	classes.removeAll(name);
+	attr = classes.join(" ");
+}
+
+bool DomNode::hasClass(const QString& name) const {
+	return hasAttribute("class") && attribute("class", "").value().split(QRegExp("\\s+"), QString::SkipEmptyParts).contains(name);
+}
+
+void DomNode::setId(const QString& value) {
+	id() = value;
+}
+
+DomAttribute DomNode::id() {
+	return attribute("id", "");
+}
+
+const DomAttribute DomNode::id() const {
+	return attribute("id", "");
+}
+
+QString DomNode::getId() const {
+	return hasId() ? id().value() : QString();
+}
+
+bool DomNode::hasId() const {
+	return hasAttribute("id");
+}
+
+void DomNode::removeId() {
+	removeAttribute("id");
+}
+
+QString DomNode::tagName() const {
+	return node.toElement().tagName();
+}
+
+void DomNode::setTagName(const QString& name) {
+	node.toElement().setTagName(name);
+}
+
+DomNode DomNode::previous() const {
+	return node.previousSibling();
+}
+
+DomNode DomNode::next() const {
+	return node.nextSibling();
+}
+
+DomNode DomNode::previousElement() const {
+	return node.previousSiblingElement();
+}
+
+DomNode DomNode::nextElement()  const {
+	return node.nextSiblingElement();
+}
+
+DomNode DomNode::prepend(const DomNode& otherNode) {
+	if (isNull()) return *this;
+	//importNode()?
+	QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
+	node.parentNode().insertBefore(newNode, node);
+	return wrap(newNode);
+}
+
+DomNode DomNode::append(const DomNode& otherNode) {
+	if (isNull()) return *this;
+	QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
+	node.parentNode().insertAfter(newNode, node);
+	return wrap(newNode);
+}
+
+DomNode DomNode::prependChild(const DomNode& childNode) {
+	if (isNull()) return *this;
+	QDomNode newNode = document().importNode(childNode.asQDomNode(), true);
+	node.insertBefore(newNode, node.firstChild());
+	return wrap(newNode);
+}
+
+DomNode DomNode::appendChild(const DomNode& childNode) {
+	if (isNull()) return *this;
+	QDomNode newNode = document().importNode(childNode.asQDomNode(), true);
+	node.appendChild(newNode);
+	return wrap(newNode);
+}
+
+DomNode DomNode::operator<<(const DomNode& childNode) {
+	return appendChild(childNode);
+}
+
+DomNode DomNode::operator=(const DomNode& otherNode) {
+	return replaceWith(otherNode);
+}
+
+DomNode DomNode::replaceWith(const DomNode& otherNode) {
+	if (isNull()) return *this;
+	QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
+	node.parentNode().replaceChild(newNode, node);
+	node = newNode;
+	return wrap(newNode);
+}
+
+void DomNode::removeChildren() {
+	for (DomNode& child: children()) {
+		child.remove();
+	}
+}
+
+void DomNode::replaceChildren(const DomNodeList& newChildren) {
+	removeChildren();
+	appendChildren(newChildren);
+}
+
+void DomNode::replaceChildren(const DomNode& newChild) {
+	replaceChildren(DomNodeList{newChild});
+}
+
+void DomNode::appendChildren(const DomNodeList& newChildren) {
+	for (const DomNode& newChild: newChildren) {
+		appendChild(newChild);
+	}
+}
+
+void DomNode::transferChildrenFrom(DomNode otherNode, bool removeOldChildren) {
+	if (removeOldChildren) removeChildren();
+	appendChildren(otherNode.children());
+	otherNode.removeChildren();
+}
+
+DomNode DomNode::clone(bool deep) const {
+	if (isNull()) return *this;
+	return wrap(node.cloneNode(deep));
+}
+
+DomNode DomNode::remove() {
+	node.parentNode().removeChild(node);
+	QDomNode oldNode = node;
+	node = QDomNode();
+	return wrap(oldNode);
+}
+
+void DomNode::setRaw(const QString& rawXml) {
+	if (isNull()) return;
+	QDomDocument doc;
+	doc.setContent(rawXml);
+	replaceWith(document().importNode(doc.documentElement(), true));
+}
+
+RawXml DomNode::raw() {
+	return RawXml(*this);
+}
+
+InnerXml DomNode::inner() {
+	return InnerXml(*this);
+}
+
+void DomNode::setInner(const DomNode& otherNode) {
+	replaceChildren(otherNode);
+}
+
+void DomNode::setInner(const DomNodeList& nodeList) {
+	replaceChildren(nodeList);
+}
+
+DomNode DomNode::root() const {
+	if (isNull()) return *this;
+	return document().documentElement();
+}
+
+DomNode DomNode::parent() const {
+	if (isNull()) return *this;
+	QDomNode parentNode = node.parentNode();
+	if (parentNode.isNull()) return DomNode();
+	return wrap(parentNode);
+}
+
+DomNodeList DomNode::all() const {
+	DomNodeList list;
+	//use children()?
+	//if (!isElement()) return list;
+	QString name = tagName();
+	QDomNodeList childNodes = node.toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
 		QDomElement child = childNodes.at(i).toElement();
 		if (child.isNull()) continue;
 		if (child.tagName()==name) {
-			list << new Node(child, missBehavior);
+			list << wrap(child);
 		}
 	}
 	
 	return list;
 }
 
-QList<AbstractNode*> Node::children() {
-	QList<AbstractNode*> list;
+DomNodeList DomNode::children() const {
+	DomNodeList list;
 	
-	QDomNodeList childNodes = qNode.toElement().childNodes();
+	//if (!isElement()) return list;
+	QDomNodeList childNodes = node.toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
-		list << new Node(childNodes.at(i), missBehavior);
+		list << wrap(childNodes.at(i));
 	}
 	
 	return list;
 }
 
-AbstractNode* Node::handleMiss(const QString& name) {
-	switch (missBehavior) {
-		case AUTO_CREATE: {
-			QDomNode newNode = qNode.appendChild(qNode.ownerDocument().createElement(name));
-			return new Node(newNode, missBehavior, true);
-		}
-		case RAISE_EXCEPTION:
-			throw "Node not found";
-		default:
-			return new NullNode();
+DomNode DomNode::byId(const QString& id, bool global) const {
+	return global ? root().findById(id) : findById(id);
+}
+
+DomNode DomNode::findById(const QString& id) const {
+	if (getId()==id) return *this;
+	
+	for (DomNode child: children()) {
+		DomNode n = child.findById(id);
+		if (!n.isNull()) return n;
 	}
-}
-
-AbstractNode* Node::prepend(AbstractNode* otherNode) {
-	QDomNode newNode = qNode.ownerDocument().importNode(otherNode->asQDomNode(), true);
-	qNode.parentNode().insertBefore(newNode, qNode);
-	return new Node(newNode, missBehavior, otherNode->isNew());
-}
-
-AbstractNode* Node::append(AbstractNode* otherNode) {
-	QDomNode newNode = qNode.ownerDocument().importNode(otherNode->asQDomNode(), true);
-	qNode.parentNode().insertAfter(newNode, qNode);
-	return new Node(newNode, missBehavior, otherNode->isNew());
-}
-
-AbstractNode* Node::prependChild(AbstractNode* childNode) {
-	QDomNode newNode = qNode.ownerDocument().importNode(childNode->asQDomNode(), true);
-	qNode.insertBefore(newNode, qNode.firstChild());
-	return new Node(newNode, missBehavior, childNode->isNew());
-}
-
-AbstractNode* Node::appendChild(AbstractNode* childNode) {
-	QDomNode newNode = qNode.ownerDocument().importNode(childNode->asQDomNode(), true);
-	qNode.appendChild(newNode);
-	return new Node(newNode, missBehavior, childNode->isNew());
-}
-
-AbstractNode* Node::replaceWith(AbstractNode* childNode) {
-	QDomNode newNode = qNode.ownerDocument().importNode(childNode->asQDomNode(), true);
-	qNode.parentNode().replaceChild(newNode, qNode);
-	qNode = newNode;
-	return new Node(newNode, missBehavior, childNode->isNew());
-}
-
-AbstractNode* Node::remove() {
-	qNode.parentNode().removeChild(qNode);
 	
-	AbstractNode* oldNode = new Node(qNode, missBehavior);
-	
-	qNode = QDomNode();
-	
-	return oldNode;
+	return DomNode();
 }
 
-//----------------------
+void DomNode::setMissBehavior(MissBehavior missBehavior) {
+	this->missBehavior = missBehavior;
+}
+
+bool DomNode::isNull() const {
+	return node.isNull();
+}
+
+//---------------------------------------
+
+QDomNodeCreator QDomNodeCreator::_instance;
 
 RawXml::RawXml(DomNode& node) : node(node) {
 }
@@ -207,14 +432,14 @@ QString InnerXml::toString() {
 DomAttribute::DomAttribute() {
 }
 
-DomAttribute::DomAttribute(const QDomNode& node, const QString& name, const QString& defaultValue) {
+DomAttribute::DomAttribute(const QDomNode& node, const QString& name, const QString& defaultValue, bool create) {
 	QDomElement element = node.toElement();
 	if (!element.isNull()) {
 		attr = element.attributeNode(name);
 		if (attr.isNull()) {
 			attr = node.ownerDocument().createAttribute(name);
 			attr.setValue(defaultValue.isNull() ? name : defaultValue);
-			element.setAttributeNode(attr);
+			if (create) element.setAttributeNode(attr);
 		}
 	}
 }
@@ -244,7 +469,7 @@ QString DomAttribute::toString() const {
 	return name()+"="+value();
 }
 
-DomAttributes::DomAttributes(QDomNode node) : node(node) {
+DomAttributes::DomAttributes(const QDomNode& node) : node(node) {
 	QDomNamedNodeMap map = node.attributes();
 	for (int i=0; i<map.count(); ++i) {
 		QDomAttr attr = map.item(i).toAttr();
@@ -298,8 +523,10 @@ DomAttribute DomAttributes::operator[](const QString& name) const {
 QString DomAttributes::toString() const {
 	QString str;
 	QTextStream stream(&str);
-	for (DomAttribute attribute: attributes) {
-		stream << attribute.toString() << " ";
+	QList<QString> attributeNames = attributes.keys();
+	for (int i=0; i<attributeNames.size(); ++i) {
+		if (i>0) stream << " ";
+		stream << attributes[attributeNames[i]].toString();
 	}
 	
 	return str;
@@ -324,294 +551,3 @@ QString DomNodeList::toString() const {
 	return str;
 }
 
-DomNodeList DomNodeList::convert(const QList<AbstractNode*>& nodes) {
-	DomNodeList list;
-	for (AbstractNode* n: nodes) list << DomNode(n);
-	return list;
-}
-
-DomNode::DomNode() : node(new NullNode()) {
-}
-
-DomNode::DomNode(AbstractNode* node) : node(node) {
-}
-
-DomNode::DomNode(const QString& text, dom::MissBehavior missBehavior) : node(new Node(text, missBehavior)) {
-}
-
-DomNode::DomNode(const char* text, dom::MissBehavior missBehavior) : node(new Node(text, missBehavior)) {
-}
-
-DomNode::DomNode(QDomNode qNode, dom::MissBehavior missBehavior) : node(new Node(qNode, missBehavior)) {
-}
-
-DomNode::DomNode(NodeCreator nodeCreator, dom::MissBehavior missBehavior) : node(new Node(nodeCreator, missBehavior)) {
-}
-
-DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, dom::MissBehavior missBehavior) : node(new Node(nodeCreatorPlaceholder(), missBehavior)) {
-}
-
-DomNode::operator QDomNode() const {
-	return asQDomNode();
-}
-
-QDomNode DomNode::asQDomNode() const {
-	return node->asQDomNode();
-}
-
-QDomDocument DomNode::ownerDocument() const {
-	return node->asQDomNode().ownerDocument();
-}
-
-DomNode DomNode::createTextNode(const QString& text) {
-	return ownerDocument().createTextNode(text);
-}
-
-DomNode  DomNode::createElement(const QString& tagName) {
-	return ownerDocument().createElement(tagName);
-}
-
-DomNode  DomNode::createXml(const QString& xml) {
-	QDomDocument doc;
-	doc.setContent(xml);
-	return ownerDocument().importNode(doc.documentElement(), true);
-}
-
-QString DomNode::toString() const {
-	return node->toString();
-}
-
-/*DomNode DomNode::select(const QString& selector) {
-	//if (selector.startsWith("#")) {
-	//	return ownerDocument().elementById(selector.mid(1));
-	//}
-	return DomNode();
-}*/
-
-DomNode DomNode::operator[](const QString& name) const {
-	return node->get(name);
-}
-
-DomNode DomNode::operator[](unsigned index) const {
-	DomNodeList list = all();
-	if (index>=list.size()) return DomNode();
-	return list[index];
-}
-
-DomAttributes DomNode::attributes() {
-	return DomAttributes(node->asQDomNode());
-}
-
-const DomAttributes DomNode::attributes() const {
-	return DomAttributes(node->asQDomNode());
-}
-
-DomAttribute DomNode::attribute(const QString& name, const QString& defaultValue) {
-	return DomAttribute(node->asQDomNode(), name, defaultValue);
-}
-
-const DomAttribute DomNode::attribute(const QString& name, const QString& defaultValue) const {
-	return DomAttribute(node->asQDomNode(), name, defaultValue);
-}
-
-void DomNode::setAttribute(const QString& name, const QString& value) {
-	attribute(name) = value;
-}
-
-void DomNode::removeAttribute(const QString& name) {
-	attribute(name).remove();
-}
-
-bool DomNode::hasAttribute(const QString& name) const {
-	return node->asQDomNode().toElement().hasAttribute(name);
-}
-
-void DomNode::addClass(const QString& name) {
-	DomAttribute attr = attribute("class", "");
-	QStringList classes = attr.value().split(QRegExp("\\s+"), QString::SkipEmptyParts);
-	if (classes.contains(name)) return;
-	classes << name;
-	attr = classes.join(" ");
-}
-
-void DomNode::removeClass(const QString& name) {
-	DomAttribute attr = attribute("class", "");
-	QStringList classes = attr.value().split(QRegExp("\\s+"), QString::SkipEmptyParts);
-	if (!classes.contains(name)) return;
-	classes.removeAll(name);
-	attr = classes.join(" ");
-}
-
-bool DomNode::hasClass(const QString& name) const {
-	return hasAttribute("class") && attribute("class", "").value().split(QRegExp("\\s+"), QString::SkipEmptyParts).contains(name);
-}
-
-void DomNode::setId(const QString& value) {
-	id() = value;
-}
-
-DomAttribute DomNode::id() {
-	return attribute("id", "");
-}
-
-const DomAttribute DomNode::id() const {
-	return attribute("id", "");
-}
-
-QString DomNode::getId() const {
-	return hasId() ? id().value() : QString();
-}
-
-bool DomNode::hasId() const {
-	return hasAttribute("id");
-}
-
-void DomNode::removeId() {
-	removeAttribute("id");
-}
-
-QString DomNode::tagName() const {
-	return node->asQDomNode().toElement().tagName();
-}
-
-void DomNode::setTagName(const QString& name) {
-	node->asQDomNode().toElement().setTagName(name);
-}
-
-DomNode DomNode::previous() const {
-	return node->asQDomNode().previousSibling();
-}
-
-DomNode DomNode::next() const {
-	return node->asQDomNode().nextSibling();
-}
-
-DomNode DomNode::previousElement() const {
-	return node->asQDomNode().previousSiblingElement();
-}
-
-DomNode DomNode::nextElement()  const {
-	return node->asQDomNode().nextSiblingElement();
-}
-
-DomNode DomNode::prepend(const DomNode& otherNode) {
-	return node->prepend(otherNode.node.data());
-}
-
-DomNode DomNode::append(const DomNode& otherNode) {
-	return node->append(otherNode.node.data());
-}
-
-DomNode DomNode::prependChild(const DomNode& childNode) {
-	return node->prependChild(childNode.node.data());
-}
-
-DomNode DomNode::appendChild(const DomNode& childNode) {
-	return node->appendChild(childNode.node.data());
-}
-
-DomNode DomNode::operator=(const DomNode& otherNode) {
-	return replaceWith(otherNode);
-}
-
-DomNode DomNode::replaceWith(const DomNode& otherNode) {
-	return node->replaceWith(otherNode.node.data());
-}
-
-void DomNode::removeChildren() {
-	for (DomNode& child: children()) {
-		child.remove();
-	}
-}
-
-void DomNode::replaceChildren(const DomNodeList& newChildren) {
-	removeChildren();
-	appendChildren(newChildren);
-}
-
-void DomNode::replaceChildren(const DomNode& newChild) {
-	replaceChildren(DomNodeList{newChild});
-}
-
-void DomNode::appendChildren(const DomNodeList& newChildren) {
-	for (const DomNode& newChild: newChildren) {
-		appendChild(newChild);
-	}
-}
-
-void DomNode::transferChildrenFrom(DomNode otherNode, bool removeOldChildren) {
-	if (removeOldChildren) removeChildren();
-	appendChildren(otherNode.children());
-	otherNode.removeChildren();
-}
-
-DomNode DomNode::clone(bool deep) const {
-	return node->asQDomNode().cloneNode(deep);
-}
-
-DomNode DomNode::remove() {
-	return node->remove();
-}
-
-void DomNode::setRaw(const QString& rawXml) {
-	replaceWith(createXml(rawXml));
-}
-
-RawXml DomNode::raw() {
-	return RawXml(*this);
-}
-
-InnerXml DomNode::inner() {
-	return InnerXml(*this);
-}
-
-void DomNode::setInner(const DomNode& otherNode) {
-	replaceChildren(otherNode);
-}
-
-void DomNode::setInner(const DomNodeList& nodeList) {
-	replaceChildren(nodeList);
-}
-
-DomNode DomNode::root() const {
-	return ownerDocument().documentElement();
-}
-
-DomNode DomNode::parent() const {
-	return node->parent();
-}
-
-DomNodeList DomNode::all() const {
-	return DomNodeList::convert(node->all());
-}
-
-DomNodeList DomNode::children() const {
-	return DomNodeList::convert(node->children());
-}
-
-DomNode DomNode::byId(const QString& id, bool global) const {
-	return global ? root().findById(id) : findById(id);
-}
-
-DomNode DomNode::findById(const QString& id) const {
-	if (getId()==id) return *this;
-	
-	for (DomNode child: children()) {
-		DomNode n = child.findById(id);
-		if (!n.isNull()) return n;
-	}
-	
-	return DomNode();
-}
-
-void DomNode::setMissBehavior(MissBehavior missBehavior) {
-	node->setMissBehavior(missBehavior);
-}
-
-bool DomNode::isNew() const {
-	return node->isNew();
-}
-
-bool DomNode::isNull() const {
-	return node->isNull();
-}
