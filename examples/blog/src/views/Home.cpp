@@ -10,6 +10,11 @@ Home::Home(QList<BlogPost*> blogPosts) : BlogView(), blogPosts(blogPosts) {
 }
 
 void Home::recentPosts(DomNode& node) {
+	if (blogPosts.empty()) {
+		node.remove();
+		return;
+	}
+	
 	node.removeChildren();
 	
 	for (BlogPost* blogPost : blogPosts) {
