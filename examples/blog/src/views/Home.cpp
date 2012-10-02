@@ -13,11 +13,10 @@ void Home::recentPosts(DomNode& node) {
 	node.removeChildren();
 	
 	for (BlogPost* blogPost : blogPosts) {
-		node.importChildrenFrom(BlogPostSummary(blogPost).contentNode());
+		node.transferChildrenFrom(DomNode(BlogPostSummary(blogPost).contentNode()));
 	}
 }
 
 void Home::numberOfRecentPosts(DomNode& node) {
-	//node.replaceChildren(QString::number(blogPosts.size()));
 	node.inner() = QString::number(blogPosts.size());
 }
