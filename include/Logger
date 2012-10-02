@@ -41,7 +41,7 @@ class LogDevice : public QObject {
 		LogDevice(QFile* file);
 		~LogDevice();
 	
-		LogDevice& operator=(QFile* file);
+		QFile* operator=(QFile* file);
 	
 		void queueWrite(const QByteArray& val);
 	private slots:

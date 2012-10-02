@@ -6,7 +6,7 @@ include(${QT_USE_FILE})
 
 include_directories("./include/" "../../include/" ${TastefulServer_INCLUDE_DIR})
 
-add_definitions(-std=c++0x)
+add_definitions(-std=c++0x -Wreturn-type -Werror=return-type)
 
 set(Blog_sources
 	main.cpp

@@ -18,5 +18,6 @@ void Home::recentPosts(DomNode& node) {
 }
 
 void Home::numberOfRecentPosts(DomNode& node) {
-	node.replaceChildren(QString::number(blogPosts.size()));
+	//node.replaceChildren(QString::number(blogPosts.size()));
+	node.inner() = QString::number(blogPosts.size());
 }

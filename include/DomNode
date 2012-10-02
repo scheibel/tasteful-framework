@@ -142,7 +142,7 @@ class InnerXml {
 	
 		DomNode operator=(DomNode otherNode);
 		DomNodeList operator=(DomNodeList nodeList);
-		DomNodeList operator=(std::initializer_list<DomNode> nodeList);
+		DomNodeList operator=(std::initializer_list<DomNode> initializerList);
 	
 		QString toString();
 	private:

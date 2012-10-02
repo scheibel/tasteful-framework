@@ -51,8 +51,10 @@ LogDevice::~LogDevice() {
 	}
 }
 
-LogDevice& LogDevice::operator=(QFile* file) {
+QFile* LogDevice::operator=(QFile* file) {
 	setLogDevice(file);
+	
+	return file;
 }
 
 void LogDevice::setLogDevice(QFile* file) {

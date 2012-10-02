@@ -176,6 +176,8 @@ RawXml::RawXml(DomNode& node) : node(node) {
 
 const QString& RawXml::operator=(const QString& rawXml) {
 	node.setRaw(rawXml);
+	
+	return rawXml;
 }
 
 QString RawXml::toString() {
@@ -187,14 +189,18 @@ InnerXml::InnerXml(DomNode& node) : node(node) {
 
 DomNode InnerXml::operator=(DomNode otherNode) {
 	*this = DomNodeList{otherNode};
+	
+	return otherNode;
 }
 
 DomNodeList InnerXml::operator=(DomNodeList nodeList) {
 	node.replaceChildren(nodeList);
+	
+	return nodeList;
 }
 
-DomNodeList InnerXml::operator=(std::initializer_list<DomNode> nodeList) {
-	*this = DomNodeList(nodeList);
+DomNodeList InnerXml::operator=(std::initializer_list<DomNode> initializerList) {
+	return *this = DomNodeList(initializerList);
 }
 
 QString InnerXml::toString() {
