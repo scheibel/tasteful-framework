@@ -12,17 +12,3 @@ class BlogPostList : public BlogView {
 	private:
 		QHash<unsigned, BlogPost*> blogPosts;
 };
-
-class BlogPostLine : public BlogView {
-	public:
-		BlogPostLine(DomNode node, BlogPost* blogPost, unsigned blogPostId);
-		
-		void id(DomNode& node);
-		void title(DomNode& node);
-		void showLink(DomNode& node);
-		void editLink(DomNode& node);
-		void deleteLink(DomNode& node);
-	private:
-		BlogPost* blogPost;
-		unsigned blogPostId;
-};

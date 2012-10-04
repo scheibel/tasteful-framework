@@ -31,7 +31,7 @@ void Layout::menu(DomNode& node) {
 void Layout::login(DomNode& node) {
 	if (session->isValid()) {
 		if (session->isLoggedIn()) {
-			node << a(href(url(&LoginController::logout)), "Log out") << " | Logged in as " + session->author->getEmail();
+			node << a(href(url(&LoginController::logout)), "Log out") << (" | Logged in as " + session->author->getEmail());
 		} else {
 			node << a(href(url(&LoginController::index)), "Log in") << " | " << a(href(url(&RegisterController::index)), "Sign up");
 		}

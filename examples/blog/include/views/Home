@@ -9,7 +9,6 @@ class Home : public BlogView {
 		Home(QList<BlogPost*> blogPosts);
 		
 		void recentPosts(DomNode& node);
-		void numberOfRecentPosts(DomNode& node);
 	private:
 		QList<BlogPost*> blogPosts;
 };

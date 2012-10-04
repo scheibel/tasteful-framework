@@ -82,6 +82,7 @@ class DomNode {
 		DomNode operator[](unsigned index) const;
 		DomNodeList all() const;
 		DomNodeList children() const;
+		DomNode child(unsigned index) const;
 	
 		DomNode byId(const QString& id, bool global=false) const;
 		
@@ -128,7 +129,7 @@ class DomNode {
 		DomNode append(const DomNode& otherNode);
 		DomNode prependChild(const DomNode& childNode);
 		DomNode appendChild(const DomNode& childNode);
-		DomNode operator<<(const DomNode& childNode);
+		DomNode& operator<<(const DomNode& childNode);
 		DomNode operator=(const DomNode& otherNode);
 		DomNode replaceWith(const DomNode& otherNode);
 		DomNode remove();

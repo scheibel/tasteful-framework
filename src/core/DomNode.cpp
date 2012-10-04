@@ -112,9 +112,7 @@ DomNode DomNode::handleMiss(const QString& name) {
 }
 
 DomNode DomNode::operator[](unsigned index) const {
-	DomNodeList list = all();
-	if (index>=list.size()) return DomNode();
-	return list[index];
+	return child(index);
 }
 
 DomAttributes DomNode::attributes() {
@@ -250,8 +248,10 @@ DomNode DomNode::appendChild(const DomNode& childNode) {
 	return wrap(newNode);
 }
 
-DomNode DomNode::operator<<(const DomNode& childNode) {
-	return appendChild(childNode);
+DomNode& DomNode::operator<<(const DomNode& childNode) {
+	appendChild(childNode);
+	
+	return *this;
 }
 
 DomNode DomNode::operator=(const DomNode& otherNode) {
@@ -367,6 +367,12 @@ DomNodeList DomNode::children() const {
 	}
 	
 	return list;
+}
+
+DomNode DomNode::child(unsigned index) const {
+	DomNodeList list = all();
+	if (index>=list.size()) return DomNode();
+	return list[index];
 }
 
 DomNode DomNode::byId(const QString& id, bool global) const {

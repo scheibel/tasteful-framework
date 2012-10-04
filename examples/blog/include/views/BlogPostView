@@ -1,0 +1,20 @@
+#pragma once
+
+#include <views/BlogView>
+#include <models/BlogPost>
+
+class BlogPostView : public BlogView {
+	public:
+		BlogPostView(DomNode node, BlogPost* blogPost, unsigned blogPostId);
+		
+		void id(DomNode& node);
+		void title(DomNode& node);
+		void text(DomNode& node);
+		void shortText(DomNode& node);
+		void showLink(DomNode& node);
+		void editLink(DomNode& node);
+		void deleteLink(DomNode& node);
+	private:
+		BlogPost* blogPost;
+		unsigned blogPostId;
+};

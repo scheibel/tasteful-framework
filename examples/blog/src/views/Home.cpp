@@ -1,12 +1,12 @@
 #include <views/Home>
 
-#include <views/BlogPostSummary>
+#include <views/BlogPostView>
+#include <datamappers/BlogPostMapper>
 
 Home::Home(QList<BlogPost*> blogPosts) : BlogView(), blogPosts(blogPosts) {
 	setFilename("home.html");
 	
 	addTransform("recentposts", &Home::recentPosts);
-	addTransform("numberofrecentposts", &Home::numberOfRecentPosts);
 }
 
 void Home::recentPosts(DomNode& node) {
@@ -15,13 +15,9 @@ void Home::recentPosts(DomNode& node) {
 		return;
 	}
 	
-	node.removeChildren();
+	DomNode blogPostNode = node.child(0).remove();
 	
 	for (BlogPost* blogPost : blogPosts) {
-		node.transferChildrenFrom(DomNode(BlogPostSummary(blogPost).contentNode()));
+		node.transferChildrenFrom(DomNode(BlogPostView(blogPostNode, blogPost, BlogPostMapper::instance().idOf(blogPost)).contentNode()));
 	}
-}
-
-void Home::numberOfRecentPosts(DomNode& node) {
-	node.inner() = QString::number(blogPosts.size());
 }

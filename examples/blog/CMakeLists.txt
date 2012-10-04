@@ -36,7 +36,7 @@ set(Blog_sources
 	src/views/BlogPostEdit.cpp
 	src/views/BlogPostList.cpp
 	src/views/BlogPostShow.cpp
-	src/views/BlogPostSummary.cpp
+	src/views/BlogPostView.cpp
 	src/views/Home.cpp
 	src/views/Layout.cpp
 	src/views/Login.cpp
