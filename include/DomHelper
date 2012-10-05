@@ -75,6 +75,7 @@ class NodeCreator {
 		void addModifier(QString text);
 		void addModifier(const char* text);
 		void addModifier(int i);
+		void addModifier(unsigned u);
 		void addModifier(long i);
 		void addModifier(double d);
 		

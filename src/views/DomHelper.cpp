@@ -125,6 +125,10 @@ void NodeCreator::addModifier(int i) {
 	addModifier(QString::number(i));
 }
 
+void NodeCreator::addModifier(unsigned u) {
+	addModifier(QString::number(u));
+}
+
 void NodeCreator::addModifier(long i) {
 	addModifier(QString::number(i));
 }

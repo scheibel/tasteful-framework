@@ -38,20 +38,16 @@ DomNode::DomNode() {
 DomNode::DomNode(const QDomNode& node, MissBehavior missBehavior) : node(node), missBehavior(missBehavior) {
 }
 
-DomNode::DomNode(const QString& text, MissBehavior missBehavior) : missBehavior(missBehavior) {
-	node = QDomNodeCreator::create(text);
+DomNode::DomNode(const QString& text, MissBehavior missBehavior) : node(QDomNodeCreator::create(text)), missBehavior(missBehavior) {
 }
 
-DomNode::DomNode(const char* text, MissBehavior missBehavior) : missBehavior(missBehavior) {
-	node = QDomNodeCreator::create(text);
+DomNode::DomNode(const char* text, MissBehavior missBehavior) : node(QDomNodeCreator::create(text)), missBehavior(missBehavior) {
 }
 
-DomNode::DomNode(NodeCreator nodeCreator, MissBehavior missBehavior) : missBehavior(missBehavior) {
-	node = QDomNodeCreator::create(nodeCreator);
+DomNode::DomNode(NodeCreator nodeCreator, MissBehavior missBehavior) : node(QDomNodeCreator::create(nodeCreator)), missBehavior(missBehavior) {
 }
 
-DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, MissBehavior missBehavior) : missBehavior(missBehavior) {
-	node = QDomNodeCreator::create(nodeCreatorPlaceholder());
+DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, MissBehavior missBehavior) : node(QDomNodeCreator::create(nodeCreatorPlaceholder())), missBehavior(missBehavior) {
 }
 
 DomNode::operator QDomNode() const {
@@ -75,7 +71,7 @@ QString DomNode::toString() const {
 
 DomNode DomNode::operator[](const QString& name) {
 	for (const DomNode& child: children()) {
-		if (/*child.isElement() && */child.tagName()==name) {
+		if (child.isElement() && child.tagName()==name) {
 			return child;
 		}
 	}
@@ -85,12 +81,24 @@ DomNode DomNode::operator[](const QString& name) {
 
 DomNode DomNode::operator[](const QString& name) const {
 	for (const DomNode& child: children()) {
-		if (/*child.isElement() && */child.tagName()==name) {
+		if (child.isElement() && child.tagName()==name) {
 			return child;
 		}
 	}
 	
 	return DomNode();
+}
+
+DomNode DomNode::operator[](const char* name) {
+	return operator[](QString(name));
+}
+
+DomNode DomNode::operator[](const char* name) const {	
+	return operator[](QString(name));
+}
+
+DomNode DomNode::operator[](unsigned index) const {
+	return child(index);
 }
 
 DomNode DomNode::wrap(const QDomNode& qNode) const {
@@ -109,10 +117,6 @@ DomNode DomNode::handleMiss(const QString& name) {
 		default:
 			return DomNode();
 	}
-}
-
-DomNode DomNode::operator[](unsigned index) const {
-	return child(index);
 }
 
 DomAttributes DomNode::attributes() {
@@ -204,19 +208,19 @@ void DomNode::setTagName(const QString& name) {
 }
 
 DomNode DomNode::previous() const {
-	return node.previousSibling();
+	return wrap(node.previousSibling());
 }
 
 DomNode DomNode::next() const {
-	return node.nextSibling();
+	return wrap(node.nextSibling());
 }
 
 DomNode DomNode::previousElement() const {
-	return node.previousSiblingElement();
+	return wrap(node.previousSiblingElement());
 }
 
 DomNode DomNode::nextElement()  const {
-	return node.nextSiblingElement();
+	return wrap(node.nextSiblingElement());
 }
 
 DomNode DomNode::prepend(const DomNode& otherNode) {
@@ -340,12 +344,16 @@ DomNode DomNode::parent() const {
 	return wrap(parentNode);
 }
 
+bool DomNode::operator==(const DomNode& otherNode) {
+	return node==otherNode.node;
+}
+
 DomNodeList DomNode::all() const {
 	DomNodeList list;
 	//use children()?
-	//if (!isElement()) return list;
+	if (!isElement()) return list;
 	QString name = tagName();
-	QDomNodeList childNodes = node.toElement().childNodes();
+	QDomNodeList childNodes = node.parentNode().toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
 		QDomElement child = childNodes.at(i).toElement();
 		if (child.isNull()) continue;
@@ -357,10 +365,16 @@ DomNodeList DomNode::all() const {
 	return list;
 }
 
+DomNode DomNode::number(unsigned index) const {
+	DomNodeList list = all();
+	if (index>=list.size()) return DomNode();
+	return list[index];
+}
+
 DomNodeList DomNode::children() const {
 	DomNodeList list;
 	
-	//if (!isElement()) return list;
+	if (!isElement()) return list;
 	QDomNodeList childNodes = node.toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
 		list << wrap(childNodes.at(i));
@@ -370,7 +384,7 @@ DomNodeList DomNode::children() const {
 }
 
 DomNode DomNode::child(unsigned index) const {
-	DomNodeList list = all();
+	DomNodeList list = children();
 	if (index>=list.size()) return DomNode();
 	return list[index];
 }
@@ -396,6 +410,14 @@ void DomNode::setMissBehavior(MissBehavior missBehavior) {
 
 bool DomNode::isNull() const {
 	return node.isNull();
+}
+
+bool DomNode::isElement() const {
+	return node.isElement();
+}
+
+bool DomNode::isText() const {
+	return node.isText();
 }
 
 //---------------------------------------

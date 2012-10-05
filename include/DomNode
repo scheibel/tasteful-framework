@@ -62,6 +62,8 @@ class DomNode {
 		operator QDomNode() const;
 		
 		bool isNull() const;
+		bool isElement() const;
+		bool isText() const;
 
 		void setMissBehavior(MissBehavior missBehavior);
 		
@@ -76,11 +78,16 @@ class DomNode {
 		
 		QString tagName() const;
 		void setTagName(const QString& name);
+		
+		bool operator==(const DomNode& otherNode);
 	
 		DomNode operator[](const QString& name);
+		DomNode operator[](const char* name);
+		DomNode operator[](const char* name) const;
 		DomNode operator[](const QString& name) const;
 		DomNode operator[](unsigned index) const;
 		DomNodeList all() const;
+		DomNode number(unsigned index) const;
 		DomNodeList children() const;
 		DomNode child(unsigned index) const;
 	

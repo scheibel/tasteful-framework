@@ -9,7 +9,7 @@ BlogPostList::BlogPostList(QHash<unsigned, BlogPost*> blogPosts) : BlogView(), b
 }
 
 void BlogPostList::blogPostTable(DomNode& node) {
-	DomNode trNode = node["tr"][1].remove();
+	DomNode trNode = node["tr"].number(1).remove();
 	
 	for (unsigned id : blogPosts.keys()) {
 		node << BlogPostView(trNode.clone(), blogPosts.value(id), id).contentNode();
