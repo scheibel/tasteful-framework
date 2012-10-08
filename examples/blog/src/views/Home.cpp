@@ -15,9 +15,10 @@ void Home::recentPosts(DomNode& node) const {
 		return;
 	}
 	
-	DomNode blogPostNode = node.child(0).remove();
+	BlogPostView blogPostView(node.firstChild().remove());
 	
 	for (BlogPost* blogPost : blogPosts) {
-		//node.transferChildrenFrom(DomNode(BlogPostView(blogPostNode, blogPost, BlogPostMapper::instance().idOf(blogPost)).contentNode()));
+		blogPostView.reset(blogPost, BlogPostMapper::instance().idOf(blogPost));
+		node << blogPostView.toNode();
 	}
 }

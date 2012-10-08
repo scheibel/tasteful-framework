@@ -2,9 +2,7 @@
 
 #include <controllers/BlogPostController>
 
-BlogPostView::BlogPostView(Session* session, DomNode node, BlogPost* blogPost, unsigned blogPostId) : BlogView(session), blogPost(blogPost), blogPostId(blogPostId) {
-	//setNode(node);
-	
+BlogPostView::BlogPostView(DomNode node) : node(node), blogPost(nullptr), blogPostId(0) {
 	addTransform("id", &BlogPostView::id);
 	addTransform("title", &BlogPostView::title);
 	addTransform("text", &BlogPostView::text);
@@ -12,6 +10,17 @@ BlogPostView::BlogPostView(Session* session, DomNode node, BlogPost* blogPost, u
 	addTransform("showlink", &BlogPostView::showLink);
 	addTransform("editlink", &BlogPostView::editLink);
 	addTransform("deletelink", &BlogPostView::deleteLink);
+}
+
+DomNode BlogPostView::toNode() const {
+	DomNode n = node.clone();
+	transform(n);
+	return n;
+}
+
+void BlogPostView::reset(BlogPost* blogPost, unsigned blogPostId) {
+	this->blogPost = blogPost;
+	this->blogPostId = blogPostId;
 }
 
 void BlogPostView::id(DomNode& node) const {

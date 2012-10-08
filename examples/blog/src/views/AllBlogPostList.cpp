@@ -14,9 +14,10 @@ void AllBlogPostList::blogPostList(DomNode& node) const {
 		return;
 	}
 	
-	DomNode blogPostNode = node.firstChild().remove();
+	BlogPostView blogPostView(node.firstChild().remove());
 	
 	for (unsigned index : blogPosts.keys()) {
-		//node.transferChildrenFrom(DomNode(BlogPostView(blogPostNode.clone(), blogPosts.value(index), index).contentNode()));
+		blogPostView.reset(blogPosts.value(index), index);
+		node << blogPostView.toNode();
 	}
 }

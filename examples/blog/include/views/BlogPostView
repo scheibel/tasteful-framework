@@ -1,11 +1,16 @@
 #pragma once
 
-#include <views/BlogView>
+#include <XmlTransform>
+#include <UrlHelper>
 #include <models/BlogPost>
 
-class BlogPostView : public BlogView {
+class BlogPostView : public XmlTransform, protected UrlHelper {
 	public:
-		BlogPostView(Session* session, DomNode node, BlogPost* blogPost, unsigned blogPostId);
+		BlogPostView(DomNode node);
+	
+		DomNode toNode() const;
+	
+		void reset(BlogPost* blogPost, unsigned blogPostId);
 		
 		void id(DomNode& node) const;
 		void title(DomNode& node) const;
@@ -15,6 +20,7 @@ class BlogPostView : public BlogView {
 		void editLink(DomNode& node) const;
 		void deleteLink(DomNode& node) const;
 	private:
+		DomNode node;
 		BlogPost* blogPost;
 		unsigned blogPostId;
 };
