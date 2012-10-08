@@ -8,5 +8,5 @@ HomeController::HomeController() : BlogController() {
 }
 
 void HomeController::index() {
-	render(Home(BlogPostMapper::instance().all()));
+	render(Home(getSession(), BlogPostMapper::instance().all()));
 }

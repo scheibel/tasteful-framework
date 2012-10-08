@@ -5,7 +5,7 @@
 
 class BlogPostEdit : public BlogView {
 	public:
-		BlogPostEdit(BlogPost* blogPost, unsigned id);
+		BlogPostEdit(Session* session, BlogPost* blogPost, unsigned id);
 		
 		void blogEditForm(DomNode& node) const;
 		void blogPostId(DomNode& node) const;

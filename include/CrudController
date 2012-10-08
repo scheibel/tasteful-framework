@@ -47,9 +47,9 @@ class CrudController : public virtual Controller {
 		virtual void beforeDelete(Model* model);
 		virtual void deleted(Model* model);
 		
-		virtual const View& listViewFor(QHash<Identity, Model*> models) = 0;
-		virtual const View& showViewFor(Model* model, Identity id) = 0;
-		virtual const View& editViewFor(Model* model, Identity id) = 0;
+		virtual void renderListViewFor(QHash<Identity, Model*> models) = 0;
+		virtual void renderShowViewFor(Model* model, Identity id) = 0;
+		virtual void renderEditViewFor(Model* model, Identity id) = 0;
 		
 		virtual QList<Model*> findAll();
 		
@@ -85,26 +85,26 @@ class CrudController : public virtual Controller {
 
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::index() {
-	render(listViewFor(allModels()));
+	renderListViewFor(allModels());
 }
 
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::show() {
 	Identity id = parameters["id"].value<Identity>();
 	
-	render(showViewFor(getDataMapper().get(id), id));
+	renderShowViewFor(getDataMapper().get(id), id);
 }
 
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::create() {
-	render(editViewFor(nullptr, Identity()));
+	renderEditViewFor(nullptr, Identity());
 }
 
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::edit() {
 	Identity id = parameters["id"].value<Identity>();
 	
-	render(editViewFor(getDataMapper().get(id), id));
+	renderEditViewFor(getDataMapper().get(id), id);
 }
 
 template <class ControllerClass, class MapperClass>

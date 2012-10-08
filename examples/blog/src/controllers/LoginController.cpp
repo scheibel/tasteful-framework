@@ -9,7 +9,7 @@ LoginController::LoginController() : BlogController() {
 }
 
 void LoginController::index() {
-	render(Login());
+	render(Login(getSession()));
 }
 
 void LoginController::login() {
@@ -26,7 +26,7 @@ void LoginController::login() {
 		}
 	}
 	
-	render(Login(email, true));
+	render(Login(getSession(), email, true));
 }
 
 void LoginController::logout() {

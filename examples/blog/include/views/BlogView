@@ -6,7 +6,6 @@
 
 class BlogView : public LayoutedTemplateView {
 	public:
-		BlogView() = default;
 		BlogView(Session* session);
 	protected:
 		const TemplatedLayout& getLayout() const;

@@ -13,7 +13,7 @@ class BlogPostController : public LoggedInController, public CrudController<Blog
 		
 		QList<BlogPost*> findAll();
 		
-		const View& listViewFor(QHash<unsigned, BlogPost*> blogEntries);
-		const View& showViewFor(BlogPost* blogEntry, unsigned id);
-		const View& editViewFor(BlogPost* blogEntry, unsigned id);
+		void renderListViewFor(QHash<unsigned, BlogPost*> blogEntries);
+		void renderShowViewFor(BlogPost* blogEntry, unsigned id);
+		void renderEditViewFor(BlogPost* blogEntry, unsigned id);
 };

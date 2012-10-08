@@ -1,7 +1,7 @@
 #include <views/Registration>
 #include <controllers/RegisterController>
 
-Registration::Registration(QString email, QString error) : BlogView(), email(email), error(error) {
+Registration::Registration(Session* session, QString email, QString error) : BlogView(session), email(email), error(error) {
 	setFilename("registration.html");
 	
 	addTransform("registrationform", &Registration::registrationForm);

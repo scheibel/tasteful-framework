@@ -6,7 +6,7 @@
 
 class BlogPostList : public BlogView {
 	public:
-		BlogPostList(QHash<unsigned, BlogPost*> blogPosts);
+		BlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts);
 		
 		void blogPostTable(DomNode& node) const;
 	private:

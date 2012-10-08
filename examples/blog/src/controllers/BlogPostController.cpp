@@ -17,14 +17,14 @@ void BlogPostController::beforeSave(BlogPost* blogPost) {
 	blogPost->setAuthor(getSession()->author);
 }
 
-const View& BlogPostController::listViewFor(QHash<unsigned, BlogPost*> blogPosts) {
-	return BlogPostList(blogPosts);
+void BlogPostController::renderListViewFor(QHash<unsigned, BlogPost*> blogPosts) {
+	render(BlogPostList(getSession(), blogPosts));
 }
 
-const View& BlogPostController::showViewFor(BlogPost* blogPost, unsigned id) {
-	return BlogPostShow(blogPost, id);
+void BlogPostController::renderShowViewFor(BlogPost* blogPost, unsigned id) {
+	render(BlogPostShow(getSession(), blogPost, id));
 }
 
-const View& BlogPostController::editViewFor(BlogPost* blogPost, unsigned id) {
-	return BlogPostEdit(blogPost, id);
+void BlogPostController::renderEditViewFor(BlogPost* blogPost, unsigned id) {
+	render(BlogPostEdit(getSession(), blogPost, id));
 }

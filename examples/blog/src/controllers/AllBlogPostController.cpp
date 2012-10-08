@@ -15,7 +15,7 @@ void AllBlogPostController::index() {
 		blogPostHash.insert(BlogPostMapper::instance().idOf(blogPost), blogPost);
 	}
 	
-	render(AllBlogPostList(blogPostHash));
+	render(AllBlogPostList(getSession(), blogPostHash));
 }
 
 void AllBlogPostController::show() {

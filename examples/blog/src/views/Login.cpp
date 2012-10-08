@@ -1,7 +1,7 @@
 #include <views/Login>
 #include <controllers/LoginController>
 
-Login::Login(QString email, bool loginAttempt) : BlogView(), email(email), loginAttempt(loginAttempt) {
+Login::Login(Session* session, QString email, bool loginAttempt) : BlogView(session), email(email), loginAttempt(loginAttempt) {
 	setFilename("login.html");
 	
 	addTransform("loginform", &Login::loginForm);

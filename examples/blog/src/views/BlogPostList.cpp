@@ -2,7 +2,7 @@
 
 #include <views/BlogPostView>
 
-BlogPostList::BlogPostList(QHash<unsigned, BlogPost*> blogPosts) : BlogView(), blogPosts(blogPosts) {
+BlogPostList::BlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
 	setFilename("blogposttable.html");
 	
 	addTransform("blogposttable", &BlogPostList::blogPostTable);

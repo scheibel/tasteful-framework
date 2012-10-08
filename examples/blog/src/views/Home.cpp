@@ -3,7 +3,7 @@
 #include <views/BlogPostView>
 #include <datamappers/BlogPostMapper>
 
-Home::Home(QList<BlogPost*> blogPosts) : BlogView(), blogPosts(blogPosts) {
+Home::Home(Session* session, QList<BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
 	setFilename("home.html");
 	
 	addTransform("recentposts", &Home::recentPosts);

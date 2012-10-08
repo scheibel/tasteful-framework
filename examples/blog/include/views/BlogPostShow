@@ -5,7 +5,7 @@
 
 class BlogPostShow : public BlogView {
 	public:
-		BlogPostShow(BlogPost* blogPost, unsigned id);
+		BlogPostShow(Session* session, BlogPost* blogPost, unsigned id);
 		
 		void blogPostTitle(DomNode& node) const;
 		void blogPostContent(DomNode& node) const;

@@ -2,7 +2,7 @@
 
 #include <controllers/BlogPostController>
 
-BlogPostView::BlogPostView(DomNode node, BlogPost* blogPost, unsigned blogPostId) : BlogView(), blogPost(blogPost), blogPostId(blogPostId) {
+BlogPostView::BlogPostView(Session* session, DomNode node, BlogPost* blogPost, unsigned blogPostId) : BlogView(session), blogPost(blogPost), blogPostId(blogPostId) {
 	//setNode(node);
 	
 	addTransform("id", &BlogPostView::id);

@@ -5,7 +5,7 @@
 
 class Registration : public BlogView {
 	public:
-		Registration(QString email = "", QString error = "");
+		Registration(Session* session, QString email = "", QString error = "");
 		
 		void registrationForm(DomNode& node) const;
 		void errorMessage(DomNode& node) const;

@@ -1,7 +1,7 @@
 #include <views/BlogPostEdit>
 #include <controllers/BlogPostController>
 
-BlogPostEdit::BlogPostEdit(BlogPost* blogPost, unsigned id) : BlogView(), blogPost(blogPost), id(id) {
+BlogPostEdit::BlogPostEdit(Session* session, BlogPost* blogPost, unsigned id) : BlogView(session), blogPost(blogPost), id(id) {
 	setFilename("blogpostedit.html");
 	
 	addTransform("blogeditform", &BlogPostEdit::blogEditForm);
