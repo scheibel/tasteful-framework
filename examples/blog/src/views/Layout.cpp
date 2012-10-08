@@ -21,7 +21,7 @@ void Layout::stylesheets(DomNode& node) const {
 }
 
 void Layout::menu(DomNode& node) const {
-	if (session->isValid() && session->isLoggedIn()) {
+	if (session && session->isValid() && session->isLoggedIn()) {
 		node << a(href(url(&BlogPostController::index)), "My blogposts") << " | ";
 	}
 	
@@ -29,7 +29,7 @@ void Layout::menu(DomNode& node) const {
 }
 
 void Layout::login(DomNode& node) const {
-	if (session->isValid()) {
+	if (session && session->isValid()) {
 		if (session->isLoggedIn()) {
 			node << a(href(url(&LoginController::logout)), "Log out") << (" | Logged in as " + session->author->getEmail());
 		} else {
