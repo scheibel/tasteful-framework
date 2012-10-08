@@ -50,7 +50,8 @@ class Controller : public SessionContainer, public UrlHelper {
 		RequestParameters& getParameters();
 		Cookies& getCookies();
 	protected:
-		void render(View* view);
+		void render(const View& view);
+		void renderWithLayout(const QString& templateFile, const QString& layoutFile);
 		void redirect(const QString& url);
 		
 		Response response;

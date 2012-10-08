@@ -26,41 +26,13 @@
 
 #include <TemplateView>
 
-TemplateView::TemplateView() : XmlTransform(), layout(nullptr) {
+TemplateView::TemplateView(const QString& filename) : filename(filename) {
 }
 
-TemplateView::TemplateView(QString filename) : layout(nullptr) {
-	setFilename(filename);
+void TemplateView::setFilename(const QString& filename) {
+	this->filename = filename;
 }
 
-TemplateView::~TemplateView() {
-	delete layout;
+QByteArray TemplateView::content() const {
+	return transformFile(filename).toString().toUtf8();
 }
-
-QList<QString> TemplateView::header() {
-	return {};
-}
-
-QByteArray TemplateView::content() {
-	transform();
-	if (layout) {
-		document = layout->layout(document);
-	}
-	
-	return document.toString().toUtf8();
-}
-
-QDomNode TemplateView::contentNode() {
-	transform();
-	if (layout) {
-		document = layout->layout(document);
-	}
-	
-	return findContentNode(document.documentElement());
-}
-
-void TemplateView::setLayout(TemplateLayout* layout)
-{
-	this->layout = layout;
-}
-

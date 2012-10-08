@@ -31,15 +31,15 @@
 #include <QList>
 #include <QDomDocument>
 
-#define CUSTOM_TAG(tagname) template <typename... Args> NodeCreator tagname (Args... args)
+#define CUSTOM_TAG(tagname) template <typename... Args> NodeCreator tagname (Args... args) const
 	
 #define SUPPORT_TAG(tagname) \
-	template <typename... Args> NodeCreator tagname (Args... args) {\
+	CUSTOM_TAG(tagname) {\
 		return tag(#tagname)(args...);\
 	}
 
 #define SUPPORT_ATTRIBUTE(attributename) \
-	TagModifier attributename(QString attributename) {\
+	TagModifier attributename(const QString& attributename) const {\
 		return attribute(#attributename, attributename);\
 	}
 	
@@ -53,7 +53,7 @@ class NodeCreatorPlaceholder;
 class NodeCreator {
 	public:
 		NodeCreator();
-		NodeCreator(QString name);
+		NodeCreator(const QString& name);
 		NodeCreator(NodeCreatorPlaceholder placeholder);
 	
 		void add() { /*ignore*/ }
@@ -72,7 +72,7 @@ class NodeCreator {
 		void addModifier(DomNode node);
 		void addModifier(QDomNode node);
 	
-		void addModifier(QString text);
+		void addModifier(const QString& text);
 		void addModifier(const char* text);
 		void addModifier(int i);
 		void addModifier(unsigned u);
@@ -86,7 +86,7 @@ class NodeCreator {
 
 class NodeCreatorPlaceholder {
 	public:
-		NodeCreatorPlaceholder(QString name) : name(name) {};
+		NodeCreatorPlaceholder(const QString& name) : name(name) {};
 	
 		template <typename... Args>
 		NodeCreator operator()(Args... args) {
@@ -99,19 +99,14 @@ class NodeCreatorPlaceholder {
 };
 
 class DomHelper {
-	private:
-		QDomDocument __emptyDocument;
 	public:
-		virtual QDomDocument currentDocument();
-		//DomNode $(const QString& xmlOrSelector, DomNode node);
-		//DomNode $(const QString& xmlOrSelector);
+		QDomDocument loadDocument(const QString& filename) const;
 	
-	
-		NodeCreatorPlaceholder tag(QString name);
-		TagModifier attribute(QString name, QString value);
+		NodeCreatorPlaceholder tag(const QString& name) const;
+		TagModifier attribute(const QString& name, const QString& value) const;
 	
 		// convenience attributes
-		TagModifier cssClass(QString name);
+		TagModifier cssClass(const QString& name) const;
 	
 		// convenience tags
 		CUSTOM_TAG(formbutton) { return input(type("button"), args...); }

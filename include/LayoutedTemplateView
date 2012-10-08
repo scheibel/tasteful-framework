@@ -26,18 +26,15 @@
 
 #pragma once
 
-#include <QDomNode>
-#include <View>
-#include <XmlTransform>
+#include <TemplateView>
+#include <TemplatedLayout>
 
-class TemplateView : public View, public XmlTransform {
+class LayoutedTemplateView : public TemplateView {
 	public:
-		TemplateView() = default;
-		TemplateView(const QString& filename);
-	
-		void setFilename(const QString& filename);
+		LayoutedTemplateView() = default;
+		LayoutedTemplateView(const QString& filename);
 	protected:
-		QString filename;
-		
-		virtual QByteArray content() const;
+		QByteArray content() const;
+	
+		virtual const TemplatedLayout& getLayout() const = 0;
 };

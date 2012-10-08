@@ -26,46 +26,41 @@
 
 #include <DomHelper>
 #include <DomNode>
+#include <iostream>
+#include <QFile>
 
-
-QDomDocument DomHelper::currentDocument() {
-	static bool initialized = false;
-	if (!initialized) {
-		__emptyDocument.setContent(QString("<empty>"));
-		initialized = true;
+QDomDocument DomHelper::loadDocument(const QString& filename) const {
+	QFile file("resources:"+filename);
+	if (!file.open(QIODevice::ReadOnly)) {
+		std::cerr << "Could not open file " << filename.toStdString() << std::endl;
+		return QDomDocument();
 	}
-	return __emptyDocument;
+	QDomDocument doc;
+	if (!doc.setContent(&file)) {
+		std::cerr << "File " << filename.toStdString() << " is not valid xml" << std::endl;
+	}
+	file.close();
+	return doc;
 }
 
-/*DomNode DomHelper::$(const QString& xmlOrSelector) {
-	return $(xmlOrSelector, currentDocument().documentElement());
-}
-
-DomNode DomHelper::$(const QString& xmlOrSelector, DomNode node) {
-	if (xmlOrSelector.trimmed().startsWith("<")) {
-		return node.createXml(xmlOrSelector);
-	}
-	return node.select(xmlOrSelector);
-}*/
-
-TagModifier DomHelper::attribute(QString name, QString value) {
+TagModifier DomHelper::attribute(const QString& name, const QString& value) const {
 	return [name, value](QDomElement element) {
 		element.setAttribute(name, value);
 	};
 }
 
-TagModifier DomHelper::cssClass(QString name) {
+TagModifier DomHelper::cssClass(const QString& name) const {
 	return attribute("class", name);
 }
 
-NodeCreatorPlaceholder DomHelper::tag(QString name) {
+NodeCreatorPlaceholder DomHelper::tag(const QString& name) const {
 	return NodeCreatorPlaceholder(name);
 }
 
 NodeCreator::NodeCreator() : null(true) {
 }
 
-NodeCreator::NodeCreator(QString name) : name(name), null(false) {
+NodeCreator::NodeCreator(const QString& name) : name(name), null(false) {
 }
 
 NodeCreator::NodeCreator(NodeCreatorPlaceholder placeholder) {
@@ -111,7 +106,7 @@ void NodeCreator::addModifier(DomNode node) {
 	addModifier(node.asQDomNode());
 }
 
-void NodeCreator::addModifier(QString text) {
+void NodeCreator::addModifier(const QString& text) {
 	addModifier([text](QDomElement element) {
 		element.appendChild(element.ownerDocument().createTextNode(text));
 	});
@@ -136,5 +131,3 @@ void NodeCreator::addModifier(long i) {
 void NodeCreator::addModifier(double d) {
 	addModifier(QString::number(d));
 }
-
-

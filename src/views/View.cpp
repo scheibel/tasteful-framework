@@ -26,12 +26,11 @@
 
 #include <View>
 
-View::View() {
+void View::renderOn(Response& response) const {
+	response.setContent(content());
+	response.addHeaders(headers());
 }
 
-View::~View() {	
-}
-
-QList<HttpHeader> View::headers() {
-	return QList<HttpHeader>();
+QList<HttpHeader> View::headers() const {
+	return {};
 }

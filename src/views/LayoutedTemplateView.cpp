@@ -24,22 +24,17 @@
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
 
-#pragma once
+#include <LayoutedTemplateView>
 
-#include <XmlTransform>
-#include <UrlHelper>
+LayoutedTemplateView::LayoutedTemplateView(const QString& filename) : TemplateView(filename) {
+}
 
-#include <QString>
-
-class TemplateLayout : protected XmlTransform, protected UrlHelper {
-	public:
-		TemplateLayout();
-		TemplateLayout(QString filename);
-		~TemplateLayout();
+QByteArray LayoutedTemplateView::content() const {
+	QDomDocument document = loadDocument(filename);
 	
-		QDomDocument layout(QDomDocument contentDocument);
-	protected:
-		void mergeHead(QDomNode contentHead);
-		bool sameHeadNodes(QDomNode node1, QDomNode node2);
-		bool sameAttributes(QDomNode node1, QDomNode node2);
-};
+	DomNode layoutedNode = document.documentElement();
+	getLayout().layout(layoutedNode);
+	transform(layoutedNode);
+	
+	return layoutedNode.toString().toUtf8();
+}

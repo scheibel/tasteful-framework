@@ -26,6 +26,8 @@
 
 #include <Controller>
 #include <RedirectException>
+#include <LayoutedTemplateView>
+#include <TemplatedLayout>
 
 Controller::Controller() {
 	
@@ -52,14 +54,12 @@ Response Controller::getResponse() {
 	return response;
 }
 
-void Controller::render(View* view) {
-	view->setSession(session);
-	view->initialize();
-	
-	response.addHeaders(view->headers());
-	response = Response::forContent(view->content());
+void Controller::render(const View& view) {
+	view.renderOn(response);
+}
 
-	delete view;
+void Controller::renderWithLayout(const QString& templateFile, const QString& layoutFile) {
+	//render(LayoutedTemplateView(templateFile, TemplatedLayout(layoutFile));
 }
 
 void Controller::redirect(const QString& url) {

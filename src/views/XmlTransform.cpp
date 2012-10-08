@@ -25,155 +25,75 @@
   **/
 
 #include <XmlTransform>
-#include <iostream>
 #include <QStringList>
+#include <QDomDocument>
 
-XmlTransform::XmlTransform() {
+void XmlTransform::transform(DomNode& node) const {
+	transformRecursion(node);
 }
 
-XmlTransform::~XmlTransform() {
-	for (XmlTransform* partial: partials) delete partial;
-}
-
-void XmlTransform::transform() {
-	if (!filename.isNull() && !filename.isEmpty()) {
-		document = getDocument(filename);
-		
-		contentNode = document.documentElement();
+DomNode XmlTransform::transformFile(const QString& filename) const {
+	QDomDocument document = loadDocument(filename);
+	
+	if (document.isNull()) {
+		return DomNode();
 	}
 	
-	transformNode(contentNode);
+	DomNode node = document.documentElement();
+	
+	transform(node);
+	
+	return node;
 }
 
-void XmlTransform::setFilename(QString filename) {
-	this->filename = filename;
-}
-
-void XmlTransform::setNode(QDomNode node) {
-	contentNode = node;
-}
-
-QDomDocument XmlTransform::getDocument(QString filename)
-{
-	QFile file("resources:"+filename);
-	if (!file.open(QIODevice::ReadOnly)) {
-		std::cerr << "Could not open file " << filename.toStdString() << std::endl;
-		return QDomDocument();
+void XmlTransform::transformRecursion(DomNode& node) const {
+	for (DomNode& child : node.children()) {
+		if (child.isElement() && child.hasAttribute("data-transform")) {
+			transformElement(child);
+		}
+		
+		transformRecursion(child);
 	}
-	QDomDocument doc;
-	if (!doc.setContent(&file)) {
-		std::cerr << "File " << filename.toStdString() << " is not valid xml" << std::endl;
-	}
-	file.close();
-	return doc;
 }
 
-QDomNode XmlTransform::findContentNode(QDomNode node) {
-	if (node.ownerDocument().isNull()) {
+void XmlTransform::transformElement(DomNode& element) const {
+	QStringList selectors = element.getAttribute("data-transform").split(QRegExp("\\s+"));
+	element.removeAttribute("data-transform");
+	
+	for (const QString& selector: selectors) {
+		if (transforms.contains(selector)) {
+			(this->*transforms[selector])(element);
+		}
+	}
+}
+
+DomNode XmlTransform::findContentNode(const DomNode& node) const {
+	DomNode contentNode = findFirstNodeWithAttribute(node, "data-content");
+	if (!contentNode.isNull()) {
 		return contentNode;
 	}
 	
-	QDomNode contentNode = findFirstNodeWithAttribute(node, "data-content");
-	if (contentNode.isNull()) contentNode = node.ownerDocument().elementsByTagName("body").at(0);
-	if (contentNode.isNull()) {
-		contentNode = node.ownerDocument().createElement("body");
-		
-		contentNode.appendChild(node);
+	DomNode bodyNode = node.root().first("body");
+	if (!bodyNode.isNull()) {
+		return bodyNode;
 	}
-	return contentNode;
+	
+	return node;
 }
 
-QDomNode XmlTransform::findFirstNodeWithAttribute(QDomNode node, QString attribute) {
-	QDomNodeList children =  node.childNodes();
-	for (int i=0; i<children.size();++i) {
-		QDomElement element = children.at(i).toElement();
-		if (!element.isNull()) {
-			if (element.hasAttribute(attribute)) return element;
-		}
-		QDomNode n = findFirstNodeWithAttribute(element, attribute);
-		if (!n.isNull()) return n;
-	}
-	return QDomNode();
-}
-
-void XmlTransform::addPartial(QString selector, XmlTransform* partial) {
-	partials.insert(selector, partial);
-}
-
-void XmlTransform::replaceChildren(QDomNode node, QDomNode contentNode)
-{
-	removeChildren(node);
-	appendChildren(node, contentNode);
-}
-
-void XmlTransform::removeChildren(QDomNode node)
-{
-	QDomNodeList oldChildren = node.childNodes();
-	for (int i = 0;i<oldChildren.size();++i) {
-		node.removeChild(oldChildren.at(i));
-	}
-}
-
-void XmlTransform::appendChildren(QDomNode node, QDomNode contentNode)
-{
-	QDomNodeList children = contentNode.childNodes();
-	for (int i = 0;i<children.size();++i) {
-		QDomNode child = node.ownerDocument().importNode(children.at(i), true);
-		node.appendChild(child);
-	}
-}
-
-QDomNode XmlTransform::transformElement(QDomElement element) {
-	QStringList selectors = element.attribute("data-transform").split(QRegExp("\\s+"));
-	element.removeAttribute("data-transform");
-	QDomNode transformedNode = element;
-	for (QString& selector: selectors) {
-		if (transforms.contains(selector)) {
-			transformedNode = doTransform(selector, transformedNode);
-		}
-	}
-	return transformedNode;
-}
-
-void XmlTransform::transformNode(QDomNode node) {
-	QDomNodeList children =  node.childNodes();
-	for (int i=0; i<children.size();++i) {
-		QDomElement element = children.at(i).toElement();
-		if (!element.isNull()) {
-			if (element.hasAttribute("data-transform")) {
-				QDomNode transformedNode = transformElement(element);
-				if (!transformedNode.isNull()) {
-					node.replaceChild(transformedNode, element);
-					
-					transformNode(transformedNode);
-				}
-			} else if (element.hasAttribute("data-import")) {
-				QString importSelector = element.attribute("data-import");
-				element.removeAttribute("data-import");
-				if (partials.contains(importSelector)) {
-					XmlTransform* t = partials[importSelector];
-					t->transform();
-					replaceChildren(element, findContentNode(t->document));
-				}
-			} else {
-				transformNode(element);
+DomNode XmlTransform::findFirstNodeWithAttribute(const DomNode& node, const QString& attribute) const {
+	for (DomNode& child : node.children()) {
+		if (!child.isNull()) {
+			if (child.hasAttribute(attribute)) {
+				return child;
 			}
 		}
-	}	
-}
-
-QDomNode XmlTransform::doTransform(QString selector, QDomNode node) {
-	DomNode domNode(node);
+		
+		DomNode n = findFirstNodeWithAttribute(child, attribute);
+		if (!n.isNull()) {
+			return n;
+		}
+	}
 	
-	(this->*transforms[selector])(domNode);
-	
-	return domNode.asQDomNode();
-}
-
-QDomNode XmlTransform::$(NodeCreator creator) {
-	return creator(document);
-}
-
-QDomNode XmlTransform::$(QString text) {
-	return document.createTextNode(text);
+	return DomNode();
 }

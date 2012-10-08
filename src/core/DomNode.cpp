@@ -120,6 +120,10 @@ const DomAttribute DomNode::attribute(const QString& name, const QString& defaul
 	return DomAttribute(node, name, defaultValue, false);
 }
 
+QString DomNode::getAttribute(const QString& name) const {
+	return attribute(name).value();
+}
+
 DomAttribute DomNode::operator()(const QString& name, const QString& defaultValue) {
 	return attribute(name, defaultValue);
 }
@@ -460,6 +464,10 @@ const QVariant& DomAttribute::operator=(const QVariant& value) {
 	return value;
 }
 
+bool DomAttribute::operator==(const DomAttribute& otherAttribute) const {
+	return name() == otherAttribute.name() && value() == otherAttribute.value();
+}
+
 QString DomAttribute::toString() const {
 	return name()+"="+value();
 }
@@ -513,6 +521,10 @@ DomAttribute DomAttributes::operator[](const QString& name) const {
 		return DomAttribute();
 	}
 	return attributes[name];
+}
+
+bool DomAttributes::operator==(const DomAttributes& otherAttributes) const {
+	return attributes == otherAttributes.attributes;
 }
 
 QString DomAttributes::toString() const {

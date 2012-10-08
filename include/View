@@ -26,22 +26,18 @@
 
 #pragma once
 
+#include <UrlHelper>
+#include <Response>
 #include <QList>
 #include <QString>
-#include <internal/SessionContainer>
-#include <Cookie>
-#include <HttpHeader>
-#include <UrlHelper>
+#include <QByteArray>
 
 using namespace internal;
 
-class View : public SessionContainer, protected UrlHelper {
+class View : protected UrlHelper {
 	public:
-		View();
-		virtual ~View();
-		
-		virtual QList<HttpHeader> headers();
-		virtual QByteArray content() = 0;
-	
-		virtual void initialize() = 0;
+		virtual void renderOn(Response& response) const;
+	protected:
+		virtual QList<HttpHeader> headers() const;
+		virtual QByteArray content() const = 0;
 };

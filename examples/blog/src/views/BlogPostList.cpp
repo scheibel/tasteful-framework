@@ -12,6 +12,6 @@ void BlogPostList::blogPostTable(DomNode& node) {
 	DomNode trNode = node["tr"][1].remove();
 	
 	for (unsigned id : blogPosts.keys()) {
-		node << BlogPostView(trNode.clone(), blogPosts.value(id), id).contentNode();
+		//node << BlogPostView(trNode.clone(), blogPosts.value(id), id).contentNode();
 	}
 }

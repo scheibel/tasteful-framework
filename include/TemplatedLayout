@@ -26,18 +26,21 @@
 
 #pragma once
 
-#include <QDomNode>
-#include <View>
 #include <XmlTransform>
+#include <UrlHelper>
 
-class TemplateView : public View, public XmlTransform {
+#include <QString>
+
+class TemplatedLayout : protected XmlTransform, protected UrlHelper {
 	public:
-		TemplateView() = default;
-		TemplateView(const QString& filename);
+		TemplatedLayout() = default;
+		TemplatedLayout(const QString& filename);
 	
+		void layout(DomNode& node) const;
 		void setFilename(const QString& filename);
 	protected:
 		QString filename;
-		
-		virtual QByteArray content() const;
+	
+		void mergeHead(DomNode targetHead, DomNode sourceHead) const;
+		bool sameNodes(DomNode& node1, DomNode& node2) const;
 };

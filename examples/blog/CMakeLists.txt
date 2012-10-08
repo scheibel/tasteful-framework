@@ -1,7 +1,6 @@
 project(Blog)
 
 find_package(TastefulFramework REQUIRED)
-find_package(TastefulFramework REQUIRED)
 include(${QT_USE_FILE})
 
 include_directories("./include/" "../../include/" ${TastefulServer_INCLUDE_DIR})

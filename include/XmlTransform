@@ -27,51 +27,25 @@
 #pragma once
 
 #include <QString>
-#include <QDomDocument>
-#include <QDomNode>
-#include <QFile>
-#include <QDir>
 #include <QHash>
 #include <DomHelper>
 #include <DomNode>
 
 class XmlTransform : protected DomHelper {
 	public:
-		typedef void (XmlTransform::*Transform)(DomNode&);
-	
-		XmlTransform();
-		virtual ~XmlTransform();
-	
-		void setFilename(QString filename);
-		void setNode(QDomNode node);
+		typedef void (XmlTransform::*Transform)(DomNode&) const;
 	private:
-		QDomNode doTransform(QString selector, QDomNode node);
-		QDomNode transformElement(QDomElement element);
+		void transformRecursion(DomNode& node) const;
+		void transformElement(DomNode& node) const;
+		DomNode findFirstNodeWithAttribute(const DomNode& node, const QString& attribute) const;
 	
 		QHash<QString, Transform> transforms;
-		QHash<QString, XmlTransform*> partials;
 	protected:
-		QDomNode $(NodeCreator creator);
-		QDomNode $(QString text);
-		
-		QDomDocument getDocument(QString filename);
-		QDomNode findContentNode(QDomNode node);
-		QDomNode findFirstNodeWithAttribute(QDomNode node, QString attribute);
-	
-		void replaceChildren(QDomNode node, QDomNode contentNode);
-		void removeChildren(QDomNode node);
-		void appendChildren(QDomNode node, QDomNode contentNode);
-	
-		void addPartial(QString selector, XmlTransform* partial);
-	
 		template <class T>
-		void addTransform(QString selector, void (T::*transform)(DomNode&)) {
+		void addTransform(const QString& selector, void (T::*transform)(DomNode&)) {
 			transforms.insert(selector, (Transform)transform);
 		};
-		virtual void transformNode(QDomNode node);
-		virtual void transform();
-	
-		QDomDocument document;
-		QDomNode contentNode;
-		QString filename;
+		void transform(DomNode& node) const;
+		DomNode transformFile(const QString& filename) const;
+		DomNode findContentNode(const DomNode& node) const;
 };

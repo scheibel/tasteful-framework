@@ -86,6 +86,7 @@ class DomNode {
 		DomAttributes attributes();
 		const DomAttributes attributes() const;
 		DomAttribute attribute(const QString& name, const QString& defaultValue = QString());
+		QString getAttribute(const QString& name) const;
 		const DomAttribute attribute(const QString& name, const QString& defaultValue = QString()) const;
 		DomAttribute operator()(const QString& name, const QString& defaultValue = QString());
 		DomAttribute operator()(const QString& name, const QString& defaultValue = QString()) const;
@@ -180,6 +181,7 @@ class DomAttribute {
 	
 		QDomAttr asQDomAttr() const;
 		const QVariant& operator=(const QVariant& value);
+		bool operator==(const DomAttribute& otherAttribute) const;
 	
 		QString toString() const;
 	private:
@@ -201,6 +203,7 @@ class DomAttributes {
 	
 		DomAttribute& operator[](const QString& name);
 		DomAttribute operator[](const QString& name) const;
+		bool operator==(const DomAttributes& otherAttributes) const;
 	
 		QString toString() const;
 	private:

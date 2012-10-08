@@ -63,8 +63,9 @@ set(Framework_sources
 	
 	src/views/View.cpp
 	src/views/XmlTransform.cpp
-	src/views/TemplateLayout.cpp
+	src/views/TemplatedLayout.cpp
 	src/views/TemplateView.cpp
+	src/views/LayoutedTemplateView.cpp
 	src/views/DomHelper.cpp
 )
 
