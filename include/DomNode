@@ -44,18 +44,13 @@ class InnerXml;
 
 class DomNode {
 	public:
-		typedef enum {
-			CREATE,
-			RETURN_NULL,
-			RAISE_EXCEPTION
-		} MissBehavior;
-	
 		DomNode();
-		DomNode(const QDomNode& node, MissBehavior missBehavior=CREATE);
-		DomNode(const QString& text, MissBehavior missBehavior=CREATE);
-		DomNode(const char* text, MissBehavior missBehavior=CREATE);
-		DomNode(NodeCreator nodeCreator, MissBehavior missBehavior=CREATE);
-		DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, MissBehavior missBehavior=CREATE);
+		DomNode(const DomNode& node) = default;
+		DomNode(const QDomNode& node);
+		DomNode(const QString& text);
+		DomNode(const char* text);
+		DomNode(NodeCreator nodeCreator);
+		DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder);
 
 		QString toString() const;
 		QDomNode asQDomNode() const;
@@ -65,11 +60,10 @@ class DomNode {
 		bool isElement() const;
 		bool isText() const;
 
-		void setMissBehavior(MissBehavior missBehavior);
-		
 		QDomDocument document() const;
 		DomNode root() const;
 		DomNode parent() const;
+		DomNode firstChild() const;
 		
 		DomNode previous() const;
 		DomNode next() const;
@@ -81,13 +75,9 @@ class DomNode {
 		
 		bool operator==(const DomNode& otherNode);
 	
-		DomNode operator[](const QString& name);
-		DomNode operator[](const char* name);
-		DomNode operator[](const char* name) const;
-		DomNode operator[](const QString& name) const;
-		DomNode operator[](unsigned index) const;
-		DomNodeList all() const;
-		DomNode number(unsigned index) const;
+		DomNodeList operator[](const QString& selector) const;
+		DomNodeList find(const QString& selector) const;
+		DomNode first(const QString& selector) const;
 		DomNodeList children() const;
 		DomNode child(unsigned index) const;
 	
@@ -132,13 +122,13 @@ class DomNode {
 		
 		DomNode clone(bool deep=true) const;
 		
-		DomNode prepend(const DomNode& otherNode);
-		DomNode append(const DomNode& otherNode);
-		DomNode prependChild(const DomNode& childNode);
-		DomNode appendChild(const DomNode& childNode);
+		DomNode& prepend(const DomNode& otherNode);
+		DomNode& append(const DomNode& otherNode);
+		DomNode& prependChild(const DomNode& childNode);
+		DomNode& appendChild(const DomNode& childNode);
 		DomNode& operator<<(const DomNode& childNode);
-		DomNode operator=(const DomNode& otherNode);
-		DomNode replaceWith(const DomNode& otherNode);
+		DomNode& operator=(const DomNode& otherNode);
+		DomNode& replaceWith(const DomNode& otherNode);
 		DomNode remove();
 		
 		RawXml raw();
@@ -148,10 +138,7 @@ class DomNode {
 		void setInner(const DomNodeList& nodeList);
 	protected:
 		QDomNode node;
-		MissBehavior missBehavior;
-	
-		DomNode handleMiss(const QString& name);
-		DomNode wrap(const QDomNode& qNode) const;
+		
 		DomNode findById(const QString& id) const;
 };
 

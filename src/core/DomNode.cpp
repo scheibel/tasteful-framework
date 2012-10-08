@@ -35,19 +35,19 @@ using namespace internal;
 DomNode::DomNode() {
 }
 
-DomNode::DomNode(const QDomNode& node, MissBehavior missBehavior) : node(node), missBehavior(missBehavior) {
+DomNode::DomNode(const QDomNode& node) : node(node) {
 }
 
-DomNode::DomNode(const QString& text, MissBehavior missBehavior) : node(QDomNodeCreator::create(text)), missBehavior(missBehavior) {
+DomNode::DomNode(const QString& text) : node(QDomNodeCreator::create(text)) {
 }
 
-DomNode::DomNode(const char* text, MissBehavior missBehavior) : node(QDomNodeCreator::create(text)), missBehavior(missBehavior) {
+DomNode::DomNode(const char* text) : node(QDomNodeCreator::create(text)) {
 }
 
-DomNode::DomNode(NodeCreator nodeCreator, MissBehavior missBehavior) : node(QDomNodeCreator::create(nodeCreator)), missBehavior(missBehavior) {
+DomNode::DomNode(NodeCreator nodeCreator) : node(QDomNodeCreator::create(nodeCreator)) {
 }
 
-DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder, MissBehavior missBehavior) : node(QDomNodeCreator::create(nodeCreatorPlaceholder())), missBehavior(missBehavior) {
+DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder) : node(QDomNodeCreator::create(nodeCreatorPlaceholder())) {
 }
 
 DomNode::operator QDomNode() const {
@@ -69,54 +69,39 @@ QString DomNode::toString() const {
 	return str;
 }
 
-DomNode DomNode::operator[](const QString& name) {
-	for (const DomNode& child: children()) {
-		if (child.isElement() && child.tagName()==name) {
-			return child;
+DomNodeList DomNode::operator[](const QString& selector) const {
+	return find(selector);
+}
+
+DomNodeList DomNode::find(const QString& selector) const {
+	DomNodeList list;
+	
+	if (!isElement()) return list;
+	QDomNodeList childNodes = node.toElement().childNodes();
+	for (int i=0; i<childNodes.size(); ++i) {
+		QDomElement child = childNodes.at(i).toElement();
+		if (child.isNull()) continue;
+		if (child.tagName()==selector) {
+			list << child;
 		}
 	}
 	
-	return handleMiss(name);
+	return list;
 }
 
-DomNode DomNode::operator[](const QString& name) const {
-	for (const DomNode& child: children()) {
-		if (child.isElement() && child.tagName()==name) {
+DomNode DomNode::first(const QString& selector) const {
+	if (!isElement()) return DomNode();
+	
+	QDomNodeList childNodes = node.toElement().childNodes();
+	for (int i=0; i<childNodes.size(); ++i) {
+		QDomElement child = childNodes.at(i).toElement();
+		if (child.isNull()) continue;
+		if (child.tagName()==selector) {
 			return child;
 		}
 	}
 	
 	return DomNode();
-}
-
-DomNode DomNode::operator[](const char* name) {
-	return operator[](QString(name));
-}
-
-DomNode DomNode::operator[](const char* name) const {	
-	return operator[](QString(name));
-}
-
-DomNode DomNode::operator[](unsigned index) const {
-	return child(index);
-}
-
-DomNode DomNode::wrap(const QDomNode& qNode) const {
-	return DomNode(qNode, missBehavior);
-}
-
-DomNode DomNode::handleMiss(const QString& name) {
-	switch (missBehavior) {
-		case CREATE: {
-			return appendChild(
-				wrap(document().createElement(name)) //createElement?
-			);
-		}
-		case RAISE_EXCEPTION:
-			throw "child node not found";
-		default:
-			return DomNode();
-	}
 }
 
 DomAttributes DomNode::attributes() {
@@ -208,48 +193,48 @@ void DomNode::setTagName(const QString& name) {
 }
 
 DomNode DomNode::previous() const {
-	return wrap(node.previousSibling());
+	return node.previousSibling();
 }
 
 DomNode DomNode::next() const {
-	return wrap(node.nextSibling());
+	return node.nextSibling();
 }
 
 DomNode DomNode::previousElement() const {
-	return wrap(node.previousSiblingElement());
+	return node.previousSiblingElement();
 }
 
 DomNode DomNode::nextElement()  const {
-	return wrap(node.nextSiblingElement());
+	return node.nextSiblingElement();
 }
 
-DomNode DomNode::prepend(const DomNode& otherNode) {
+DomNode& DomNode::prepend(const DomNode& otherNode) {
 	if (isNull()) return *this;
 	//importNode()?
 	QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
 	node.parentNode().insertBefore(newNode, node);
-	return wrap(newNode);
+	return *this;
 }
 
-DomNode DomNode::append(const DomNode& otherNode) {
+DomNode& DomNode::append(const DomNode& otherNode) {
 	if (isNull()) return *this;
 	QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
 	node.parentNode().insertAfter(newNode, node);
-	return wrap(newNode);
+	return *this;
 }
 
-DomNode DomNode::prependChild(const DomNode& childNode) {
+DomNode& DomNode::prependChild(const DomNode& childNode) {
 	if (isNull()) return *this;
 	QDomNode newNode = document().importNode(childNode.asQDomNode(), true);
 	node.insertBefore(newNode, node.firstChild());
-	return wrap(newNode);
+	return *this;
 }
 
-DomNode DomNode::appendChild(const DomNode& childNode) {
+DomNode& DomNode::appendChild(const DomNode& childNode) {
 	if (isNull()) return *this;
 	QDomNode newNode = document().importNode(childNode.asQDomNode(), true);
 	node.appendChild(newNode);
-	return wrap(newNode);
+	return *this;
 }
 
 DomNode& DomNode::operator<<(const DomNode& childNode) {
@@ -258,16 +243,18 @@ DomNode& DomNode::operator<<(const DomNode& childNode) {
 	return *this;
 }
 
-DomNode DomNode::operator=(const DomNode& otherNode) {
-	return replaceWith(otherNode);
+DomNode& DomNode::operator=(const DomNode& otherNode) {
+	replaceWith(otherNode);
+	
+	return *this;
 }
 
-DomNode DomNode::replaceWith(const DomNode& otherNode) {
+DomNode& DomNode::replaceWith(const DomNode& otherNode) {
 	if (isNull()) return *this;
 	QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
 	node.parentNode().replaceChild(newNode, node);
 	node = newNode;
-	return wrap(newNode);
+	return *this;
 }
 
 void DomNode::removeChildren() {
@@ -299,14 +286,14 @@ void DomNode::transferChildrenFrom(DomNode otherNode, bool removeOldChildren) {
 
 DomNode DomNode::clone(bool deep) const {
 	if (isNull()) return *this;
-	return wrap(node.cloneNode(deep));
+	return node.cloneNode(deep);
 }
 
 DomNode DomNode::remove() {
 	node.parentNode().removeChild(node);
 	QDomNode oldNode = node;
 	node = QDomNode();
-	return wrap(oldNode);
+	return oldNode;
 }
 
 void DomNode::setRaw(const QString& rawXml) {
@@ -341,34 +328,18 @@ DomNode DomNode::parent() const {
 	if (isNull()) return *this;
 	QDomNode parentNode = node.parentNode();
 	if (parentNode.isNull()) return DomNode();
-	return wrap(parentNode);
+	return parentNode;
+}
+
+DomNode DomNode::firstChild() const {
+	if (isNull()) return *this;
+	QDomNode childNode = node.firstChild();
+	if (childNode.isNull()) return DomNode();
+	return childNode;
 }
 
 bool DomNode::operator==(const DomNode& otherNode) {
 	return node==otherNode.node;
-}
-
-DomNodeList DomNode::all() const {
-	DomNodeList list;
-	//use children()?
-	if (!isElement()) return list;
-	QString name = tagName();
-	QDomNodeList childNodes = node.parentNode().toElement().childNodes();
-	for (int i=0; i<childNodes.size(); ++i) {
-		QDomElement child = childNodes.at(i).toElement();
-		if (child.isNull()) continue;
-		if (child.tagName()==name) {
-			list << wrap(child);
-		}
-	}
-	
-	return list;
-}
-
-DomNode DomNode::number(unsigned index) const {
-	DomNodeList list = all();
-	if (index>=list.size()) return DomNode();
-	return list[index];
 }
 
 DomNodeList DomNode::children() const {
@@ -377,7 +348,7 @@ DomNodeList DomNode::children() const {
 	if (!isElement()) return list;
 	QDomNodeList childNodes = node.toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
-		list << wrap(childNodes.at(i));
+		list << childNodes.at(i);
 	}
 	
 	return list;
@@ -402,10 +373,6 @@ DomNode DomNode::findById(const QString& id) const {
 	}
 	
 	return DomNode();
-}
-
-void DomNode::setMissBehavior(MissBehavior missBehavior) {
-	this->missBehavior = missBehavior;
 }
 
 bool DomNode::isNull() const {
