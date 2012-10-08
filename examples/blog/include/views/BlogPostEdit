@@ -7,11 +7,11 @@ class BlogPostEdit : public BlogView {
 	public:
 		BlogPostEdit(BlogPost* blogPost, unsigned id);
 		
-		void blogEditForm(DomNode& node);
-		void blogPostId(DomNode& node);
-		void blogPostTitle(DomNode& node);
-		void blogPostText(DomNode& node);
-		void saveButtonText(DomNode& node);
+		void blogEditForm(DomNode& node) const;
+		void blogPostId(DomNode& node) const;
+		void blogPostTitle(DomNode& node) const;
+		void blogPostText(DomNode& node) const;
+		void saveButtonText(DomNode& node) const;
 	private:
 		BlogPost* blogPost;
 		unsigned id;

@@ -9,7 +9,7 @@ Home::Home(QList<BlogPost*> blogPosts) : BlogView(), blogPosts(blogPosts) {
 	addTransform("recentposts", &Home::recentPosts);
 }
 
-void Home::recentPosts(DomNode& node) {
+void Home::recentPosts(DomNode& node) const {
 	if (blogPosts.empty()) {
 		node.remove();
 		return;
@@ -18,6 +18,6 @@ void Home::recentPosts(DomNode& node) {
 	DomNode blogPostNode = node.child(0).remove();
 	
 	for (BlogPost* blogPost : blogPosts) {
-		node.transferChildrenFrom(DomNode(BlogPostView(blogPostNode, blogPost, BlogPostMapper::instance().idOf(blogPost)).contentNode()));
+		//node.transferChildrenFrom(DomNode(BlogPostView(blogPostNode, blogPost, BlogPostMapper::instance().idOf(blogPost)).contentNode()));
 	}
 }

@@ -7,10 +7,10 @@ BlogPostShow::BlogPostShow(BlogPost* blogPost, unsigned id) : BlogView(), blogPo
 	addTransform("blogpostcontent", &BlogPostShow::blogPostContent);
 }
 
-void BlogPostShow::blogPostTitle(DomNode& node) {
+void BlogPostShow::blogPostTitle(DomNode& node) const {
 	node.inner() = blogPost->getTitle();
 }
 
-void BlogPostShow::blogPostContent(DomNode& node) {
+void BlogPostShow::blogPostContent(DomNode& node) const {
 	node.inner() = blogPost->getText();
 }

@@ -9,17 +9,17 @@ Registration::Registration(QString email, QString error) : BlogView(), email(ema
 	addTransform("emailvalue", &Registration::emailValue);
 }
 
-void Registration::registrationForm(DomNode& node) {
+void Registration::registrationForm(DomNode& node) const {
 	node("method") = "POST";
 	node("url") = url(&RegisterController::signup);
 }
 
-void Registration::errorMessage(DomNode& node) {
+void Registration::errorMessage(DomNode& node) const {
 	if (!error.isNull()) {
 		node << error;
 	}
 }
 
-void Registration::emailValue(DomNode& node) {
+void Registration::emailValue(DomNode& node) const {
 	node("value") = email;
 }

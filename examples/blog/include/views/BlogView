@@ -1,10 +1,14 @@
 #pragma once
 
 #include <TemplateView>
+#include <session/Session>
+#include <views/Layout>
 
 class BlogView : public TemplateView {
 	public:
-		BlogView();
-		
-		void initialize();
+		BlogView() = default;
+		BlogView(Session* session);
+	protected:
+		const TemplatedLayout& getLayout() const;
+		Layout layout;
 };

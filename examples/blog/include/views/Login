@@ -7,9 +7,9 @@ class Login : public BlogView {
 	public:
 		Login(QString email = "", bool loginAttempt = false);
 		
-		void loginForm(DomNode& node);
-		void errorMessage(DomNode& node);
-		void emailValue(DomNode& node);
+		void loginForm(DomNode& node) const;
+		void errorMessage(DomNode& node) const;
+		void emailValue(DomNode& node) const;
 	private:
 		bool loginAttempt;
 		QString email;

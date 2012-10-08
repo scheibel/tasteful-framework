@@ -11,22 +11,22 @@ BlogPostEdit::BlogPostEdit(BlogPost* blogPost, unsigned id) : BlogView(), blogPo
 	addTransform("savebuttontext", &BlogPostEdit::saveButtonText);
 }
 
-void BlogPostEdit::blogEditForm(DomNode& node) {
+void BlogPostEdit::blogEditForm(DomNode& node) const {
 	node("action") = url(&BlogPostController::save);
 }
 
-void BlogPostEdit::blogPostId(DomNode& node) {
+void BlogPostEdit::blogPostId(DomNode& node) const {
 	node("value") = id;
 }
 
-void BlogPostEdit::blogPostTitle(DomNode& node) {
+void BlogPostEdit::blogPostTitle(DomNode& node) const {
 	node("value") = blogPost->getTitle();
 }
 
-void BlogPostEdit::blogPostText(DomNode& node) {
+void BlogPostEdit::blogPostText(DomNode& node) const {
 	node.inner() = blogPost->getText();
 }
 
-void BlogPostEdit::saveButtonText(DomNode& node) {
+void BlogPostEdit::saveButtonText(DomNode& node) const {
 	node("value") = (id == 0) ? "Create" : "Save";
 }

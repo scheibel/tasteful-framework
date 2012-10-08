@@ -5,7 +5,7 @@
 #include <controllers/BlogPostController>
 #include <controllers/AllBlogPostController>
 
-Layout::Layout() : TemplateLayout(), session(nullptr) {
+Layout::Layout() : session(nullptr) {
 	setFilename("layout.html");
 	addTransform("stylesheets", &Layout::stylesheets);
 	addTransform("login", &Layout::login);
@@ -16,11 +16,11 @@ void Layout::setSession(Session* newSession) {
 	session = newSession;
 }
 
-void Layout::stylesheets(DomNode& node) {
+void Layout::stylesheets(DomNode& node) const {
 	node << link(type("text/css"), href("/stylesheets/blog.css"), rel("stylesheet"));
 }
 
-void Layout::menu(DomNode& node) {
+void Layout::menu(DomNode& node) const {
 	if (session->isValid() && session->isLoggedIn()) {
 		node << a(href(url(&BlogPostController::index)), "My blogposts") << " | ";
 	}
@@ -28,7 +28,7 @@ void Layout::menu(DomNode& node) {
 	node << a(href(url(&AllBlogPostController::index)), "List blogposts");
 }
 
-void Layout::login(DomNode& node) {
+void Layout::login(DomNode& node) const {
 	if (session->isValid()) {
 		if (session->isLoggedIn()) {
 			node << a(href(url(&LoginController::logout)), "Log out") << (" | Logged in as " + session->author->getEmail());

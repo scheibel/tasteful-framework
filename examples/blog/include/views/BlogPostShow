@@ -7,8 +7,8 @@ class BlogPostShow : public BlogView {
 	public:
 		BlogPostShow(BlogPost* blogPost, unsigned id);
 		
-		void blogPostTitle(DomNode& node);
-		void blogPostContent(DomNode& node);
+		void blogPostTitle(DomNode& node) const;
+		void blogPostContent(DomNode& node) const;
 	private:
 		BlogPost* blogPost;
 		unsigned id;

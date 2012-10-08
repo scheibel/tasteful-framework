@@ -9,7 +9,7 @@ RegisterController::RegisterController() : BlogController() {
 }
 
 void RegisterController::index() {
-	render(new Registration());
+	render(Registration());
 }
 
 void RegisterController::signup() {
@@ -18,10 +18,10 @@ void RegisterController::signup() {
 	QString password2 = parameters["password2"].value<QString>();
 	
 	if (AuthorMapper::instance().getBy("email = '" + email + "'")) {
-		render(new Registration(email, "An account with this email already exists"));
+		render(Registration(email, "An account with this email already exists"));
 	} else {
 		if (password != password2) {
-			render(new Registration(email, "The password confirmation doesn't match with the password"));
+			render(Registration(email, "The password confirmation doesn't match with the password"));
 		} else {
 			Author* author = new Author();
 			

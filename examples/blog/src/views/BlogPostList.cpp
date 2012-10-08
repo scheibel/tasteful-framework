@@ -8,7 +8,7 @@ BlogPostList::BlogPostList(QHash<unsigned, BlogPost*> blogPosts) : BlogView(), b
 	addTransform("blogposttable", &BlogPostList::blogPostTable);
 }
 
-void BlogPostList::blogPostTable(DomNode& node) {
+void BlogPostList::blogPostTable(DomNode& node) const {
 	DomNode trNode = node["tr"][1].remove();
 	
 	for (unsigned id : blogPosts.keys()) {

@@ -42,7 +42,7 @@ class XmlTransform : protected DomHelper {
 		QHash<QString, Transform> transforms;
 	protected:
 		template <class T>
-		void addTransform(const QString& selector, void (T::*transform)(DomNode&)) {
+		void addTransform(const QString& selector, void (T::*transform)(DomNode&) const) {
 			transforms.insert(selector, (Transform)transform);
 		};
 		void transform(DomNode& node) const;

@@ -47,9 +47,9 @@ class CrudController : public virtual Controller {
 		virtual void beforeDelete(Model* model);
 		virtual void deleted(Model* model);
 		
-		virtual View* listViewFor(QHash<Identity, Model*> models) = 0;
-		virtual View* showViewFor(Model* model, Identity id) = 0;
-		virtual View* editViewFor(Model* model, Identity id) = 0;
+		virtual const View& listViewFor(QHash<Identity, Model*> models) = 0;
+		virtual const View& showViewFor(Model* model, Identity id) = 0;
+		virtual const View& editViewFor(Model* model, Identity id) = 0;
 		
 		virtual QList<Model*> findAll();
 		

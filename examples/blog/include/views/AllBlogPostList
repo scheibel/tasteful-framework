@@ -8,7 +8,7 @@ class AllBlogPostList : public BlogView {
 	public:
 		AllBlogPostList(QHash<unsigned, BlogPost*> blogPosts);
 		
-		void blogPostList(DomNode& node);
+		void blogPostList(DomNode& node) const;
 	private:
 		QHash<unsigned, BlogPost*> blogPosts;
 };

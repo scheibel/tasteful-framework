@@ -1,13 +1,9 @@
 #include <views/BlogView>
 
-#include <views/Layout>
-#include <session/Session>
-
-BlogView::BlogView() : TemplateView() {
+BlogView::BlogView(Session* session) {
+	layout.setSession(session);
 }
- 
-void BlogView::initialize() {
-	Layout* layout = new Layout();
-	layout->setSession(getSession<Session>());
-	setLayout(layout);
+
+const TemplatedLayout& BlogView::getLayout() const {
+	return layout;
 }
