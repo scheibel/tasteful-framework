@@ -41,6 +41,7 @@ class DomAttribute;
 class DomAttributes;
 class RawXml;
 class InnerXml;
+class DomNodeProducer;
 
 class DomNode {
 	public:
@@ -51,6 +52,7 @@ class DomNode {
 		DomNode(const char* text);
 		DomNode(NodeCreator nodeCreator);
 		DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder);
+		DomNode(const DomNodeProducer& nodeProducer);
 
 		QString toString() const;
 		QDomNode asQDomNode() const;
@@ -219,6 +221,11 @@ class DomNodeList : public QList<DomNode> {
 		QString toString() const;
 };
 
+class DomNodeProducer {
+	public:
+		virtual DomNode toDomNode() const = 0;
+};
+
 namespace internal {
 
 class QDomNodeCreator {
@@ -250,5 +257,5 @@ class QDomNodeCreator {
 			return nodeCreator(emptyDocument);
 		}
 };
-	
+
 };

@@ -50,6 +50,9 @@ DomNode::DomNode(NodeCreator nodeCreator) : node(QDomNodeCreator::create(nodeCre
 DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder) : node(QDomNodeCreator::create(nodeCreatorPlaceholder())) {
 }
 
+DomNode::DomNode(const DomNodeProducer& nodeProducer) : node(nodeProducer.toDomNode().node) {
+}
+
 DomNode::operator QDomNode() const {
 	return asQDomNode();
 }
