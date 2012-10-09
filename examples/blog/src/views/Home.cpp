@@ -1,6 +1,6 @@
 #include <views/Home>
 
-#include <views/BlogPostView>
+#include <views/BlogPostPartial>
 #include <datamappers/BlogPostMapper>
 
 Home::Home(Session* session, QList<BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
@@ -15,10 +15,10 @@ void Home::recentPosts(DomNode& node) const {
 		return;
 	}
 	
-	BlogPostView blogPostView(node.firstChild().remove());
+	BlogPostPartial blogPostPartial(node.firstChild().remove());
 	
 	for (BlogPost* blogPost : blogPosts) {
-		blogPostView.reset(blogPost, BlogPostMapper::instance().idOf(blogPost));
-		node << blogPostView.toNode();
+		blogPostPartial.setData(blogPost, BlogPostMapper::instance().idOf(blogPost));
+		node << blogPostPartial;
 	}
 }

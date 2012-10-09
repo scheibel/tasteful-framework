@@ -67,6 +67,7 @@ set(Framework_sources
 	src/views/TemplateView.cpp
 	src/views/LayoutedTemplateView.cpp
 	src/views/DomHelper.cpp
+	src/views/Partial.cpp
 )
 
 set(Framework_headers
@@ -93,6 +94,7 @@ set(Framework_headers
 	include/TemplateLayout
 	include/Response
 	include/DomNode
+	include/Partial
 )
 
 set(Framework_internal_headers

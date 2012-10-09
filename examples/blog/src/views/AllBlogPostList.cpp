@@ -1,6 +1,6 @@
 #include <views/AllBlogPostList>
 
-#include <views/BlogPostView>
+#include <views/BlogPostPartial>
 
 AllBlogPostList::AllBlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
 	setFilename("blogpostlist.html");
@@ -14,10 +14,10 @@ void AllBlogPostList::blogPostList(DomNode& node) const {
 		return;
 	}
 	
-	BlogPostView blogPostView(node.firstChild().remove());
+	BlogPostPartial blogPostPartial(node.firstChild().remove());
 	
 	for (unsigned index : blogPosts.keys()) {
-		blogPostView.reset(blogPosts.value(index), index);
-		node << blogPostView.toNode();
+		blogPostPartial.setData(blogPosts.value(index), index);
+		node << blogPostPartial;
 	}
 }
