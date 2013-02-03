@@ -26,23 +26,4 @@
 
 #pragma once
 
-#include <internal/SessionContainer>
-#include <HttpRequest>
-#include <Cookie>
-#include <QHash>
-
-using namespace internal;
-
-namespace internal {
-	class SessionPool;
-}
-
-class Request : public HttpRequest, public SessionContainer {
-	public:
-		Request();
-		Request(HttpRequest& request);
-		
-		void setUrlParameters(QHash<QString, QString> urlParameters);
-		
-		void obtainSessionFrom(SessionPool* sessionPool);
-};
+#include "Request.h"

@@ -26,18 +26,4 @@
 
 #pragma once
 
-#include <QString>
-#include <Response>
-
-using namespace internal;
-
-class RedirectException {
-	public:
-		RedirectException(const QString& url, bool permanently = false) : url(url), permanently(permanently) {}
-		Response toResponse() const {
-			return permanently ? Response::redirectPermanently(url) : Response::redirect(url);
-		}
-	private:
-		QString url;
-		bool permanently;
-};
+#include "RedirectException.h"

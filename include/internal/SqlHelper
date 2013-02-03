@@ -26,15 +26,4 @@
 
 #pragma once
 
-#include <internal/SqlBuilder>
-
-namespace internal {
-	class SqlHelper {
-		protected:
-			SqlBuilder SELECT(const QString& variables) const;
-			SqlBuilder INSERT() const;
-			SqlBuilder UPDATE(const QString& tablename) const;
-			SqlBuilder REPLACE() const;
-			SqlBuilder DELETE() const;
-	};
-}
+#include "SqlHelper.h"

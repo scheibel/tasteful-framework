@@ -26,26 +26,4 @@
 
 #pragma once
 
-#include <QString>
-#include <QHash>
-#include <DomHelper>
-#include <DomNode>
-
-class XmlTransform : protected DomHelper {
-	public:
-		typedef void (XmlTransform::*Transform)(DomNode&) const;
-	private:
-		void transformRecursion(DomNode& node) const;
-		void transformElement(DomNode& node) const;
-		DomNode findFirstNodeWithAttribute(const DomNode& node, const QString& attribute) const;
-	
-		QHash<QString, Transform> transforms;
-	protected:
-		template <class T>
-		void addTransform(const QString& selector, void (T::*transform)(DomNode&) const) {
-			transforms.insert(selector, (Transform)transform);
-		};
-		void transform(DomNode& node) const;
-		DomNode transformFile(const QString& filename) const;
-		DomNode findContentNode(const DomNode& node) const;
-};
+#include "XmlTransform.h"

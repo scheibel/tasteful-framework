@@ -26,34 +26,4 @@
 
 #pragma once
 
-#include <WebAppConfig>
-#include <internal/SignalXmlContentHandler>
-
-namespace internal {
-
-class WebAppConfigReader : public QObject {
-	Q_OBJECT;
-	public:
-		WebAppConfigReader(const QString& filename);
-	
-		WebAppConfig parse();
-	
-		QString getFilename() const;
-	private slots:
-		void startElement(const QString& namespaceURI, const QString& localName, const QString& qName, const QXmlAttributes& atts);
-		void endElement(const QString& namespaceURI, const QString& localName, const QString& qName);
-		void characters(const QString& ch);
-	private:
-		QString filename;
-		QStringList pathElements;
-		QString path;
-		QString element;
-		WebAppConfig config;
-	
-		void handleApplication(const QString& ch);
-		void handleDirectories(const QString& ch);
-		void handleServer(const QString& ch);
-		void handleDatabase(const QString& ch);
-};
-
-}
+#include "WebAppConfigReader.h"

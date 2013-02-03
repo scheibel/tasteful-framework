@@ -24,5 +24,6 @@
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
 
-#include <WebApplication>
-#include <routing>
+#pragma once
+
+#include "startup.h"

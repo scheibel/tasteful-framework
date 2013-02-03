@@ -26,15 +26,4 @@
 
 #pragma once
 
-#include <internal/FrontController>
-
-namespace internal {
-	class FrameworkEntryPoint {
-		public:
-			FrameworkEntryPoint(FrontController* frontController);
-		
-			HttpResponse operator()(HttpRequest& request);
-		private:
-			FrontController* frontController;
-	};
-}
+#include "FrameworkEntryPoint.h"

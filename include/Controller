@@ -26,36 +26,4 @@
 
 #pragma once
 
-#include <QString>
-#include <View>
-#include <Request>
-#include <Response>
-#include <internal/SessionContainer>
-#include <Cookie>
-#include <UrlHelper>
-#include <QHash>
-
-using namespace internal;
-
-class Controller : public SessionContainer, public UrlHelper {
-	public:
-		Controller();
-		virtual ~Controller();
-		
-		virtual void initialize(Request& request);
-		virtual bool beforeAction();
-		virtual void afterAction();
-		virtual Response getResponse();
-		
-		RequestParameters& getParameters();
-		Cookies& getCookies();
-	protected:
-		void render(const View& view);
-		void renderWithLayout(const QString& templateFile, const QString& layoutFile);
-		void redirect(const QString& url);
-		
-		Response response;
-		
-		RequestParameters parameters;
-		Cookies cookies;
-};
+#include "Controller.h"

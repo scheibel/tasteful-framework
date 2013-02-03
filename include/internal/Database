@@ -26,34 +26,4 @@
 
 #pragma once
 
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QString>
-#include <QVariantMap>
-#include <internal/SqlBuilder>
-#include <WebAppConfig>
-#include <QReadWriteLock>
-
-namespace internal {
-	class Database {
-		public:
-			static Database& get();
-			static Database& get(const QString& id);
-			
-			static void add(const DatabaseConfig& config);
-			
-			QSqlQuery build(const QString& sql) const;
-			QSqlQuery build(const QString& sql, const QVariantMap& bindings) const;
-			QSqlQuery build(const SqlBuilder& sqlBuilder) const;
-			QSqlQuery build(const SqlBuilder& sqlBuilder, const QVariantMap& bindings) const;
-		private:
-			Database(const QSqlDatabase& database);
-			
-			static Database& getByIdAndThreadId(const QString& id, const QString& threadId);
-			
-			QSqlDatabase database;
-			
-			static QHash<QString, Database*> databases;
-			static QReadWriteLock lock;
-	};
-}
+#include "Database.h"

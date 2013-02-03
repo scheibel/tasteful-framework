@@ -26,18 +26,4 @@
 
 #pragma once
 
-#include <UrlHelper>
-#include <Response>
-#include <QList>
-#include <QString>
-#include <QByteArray>
-
-using namespace internal;
-
-class View : protected UrlHelper {
-	public:
-		virtual void renderOn(Response& response) const;
-	protected:
-		virtual QList<HttpHeader> headers() const;
-		virtual QByteArray content() const = 0;
-};
+#include "View.h"

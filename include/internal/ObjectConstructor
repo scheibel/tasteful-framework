@@ -26,21 +26,4 @@
 
 #pragma once
 
-namespace internal {
-	template <class Superclass>
-	class AbstractObjectConstructor {
-		public:
-			virtual Superclass* createInstance() const = 0;
-			Superclass* operator()() const {
-				return createInstance();
-			};
-	};
-			
-	template <class Superclass, class ConcreteClass>
-	class ObjectConstructor : public AbstractObjectConstructor<Superclass> {
-		public:
-			Superclass* createInstance() const {
-				return new ConcreteClass();
-			};
-	};
-}
+#include "ObjectConstructor.h"

@@ -26,16 +26,4 @@
 
 #pragma once
 
-#include <Controller>
-
-using namespace internal;
-
-class RestrictedController : public virtual Controller {
-	public:
-		RestrictedController();
-		
-		bool beforeAction();
-	protected:
-		virtual bool isAuthorized() const = 0;
-		virtual void unauthorized();
-};
+#include "RestrictedController.h"

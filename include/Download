@@ -26,19 +26,4 @@
 
 #pragma once
 
-#include <Response>
-#include <QFile>
-#include <QByteArray>
-
-class Download {
-	public:
-		Download(const Download& download);
-		Download(const QFile& file, const QString& name=QString());
-		Download(const QByteArray& content, const QString& name);
-	
-		Response getResponse() const;
-	private:
-		QFile file;
-		QString name;
-		QByteArray content;
-};
+#include "Download.h"

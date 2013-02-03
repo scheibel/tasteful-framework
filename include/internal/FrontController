@@ -26,29 +26,4 @@
 
 #pragma once
 
-#include <internal/Dispatcher>
-#include <internal/SessionPool>
-#include <QDir>
-#include <http>
-
-namespace internal {
-	class FrontController {
-		public:
-			FrontController();
-		
-			HttpResponse handleRequest(HttpRequest& request);
-		
-			template<class SessionClass> void setSessionClass();
-		private:
-			Response dispatch(Request& request);
-			bool canDeliver(const QFile& file) const;
-		
-			SessionPool sessionPool;
-			Dispatcher dispatcher;
-	};
-	
-	template<class SessionClass>
-	void FrontController::setSessionClass() {
-		sessionPool.setSessionClass<SessionClass>();
-	}
-}
+#include "FrontController.h"

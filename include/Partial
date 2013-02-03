@@ -26,17 +26,4 @@
 
 #pragma once
 
-#include <DomNode>
-#include <XmlTransform>
-#include <UrlHelper>
-#include <QString>
-
-class Partial : public DomNodeProducer, protected XmlTransform, protected UrlHelper {
-	public:
-		Partial(const DomNode& node);
-		Partial(const QString& filename);
-		
-		virtual DomNode toDomNode() const;
-	protected:
-		DomNode node;
-};
+#include "Partial.h"

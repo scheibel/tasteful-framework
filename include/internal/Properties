@@ -26,35 +26,4 @@
 
 #pragma once
 
-#include <QString>
-#include <QSettings>
-#include <internal/util.h>
-
-namespace internal {
-	class Properties {
-	public:
-		Properties(const QString& filename);
-		~Properties();
-		
-		QString getFilename() const;
-		
-		template <typename T>
-		T property(const QString& key, const T& defaultValue) const {
-			QVariant value = settings->value(key);
-			
-			return value.isValid() ? value.value<T>() : defaultValue;
-		}
-		
-		QVariant basicProperty(const QString& key) const {
-			return settings->value(key);
-		}
-		
-		template <typename T>
-		T property(const QString& section, const QString& field, const T& defaultValue) const {
-			return property<T>(section + "/" + field, defaultValue);
-		}
-	private:
-		QString filename;
-		QSettings* settings;
-	};
-}
+#include "Properties.h"

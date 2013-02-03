@@ -26,15 +26,4 @@
 
 #pragma once
 
-#include <TemplateView>
-#include <TemplatedLayout>
-
-class LayoutedTemplateView : public TemplateView {
-	public:
-		LayoutedTemplateView() = default;
-		LayoutedTemplateView(const QString& filename);
-	protected:
-		QByteArray content() const;
-	
-		virtual const TemplatedLayout& getLayout() const = 0;
-};
+#include "LayoutedTemplateView.h"

@@ -26,23 +26,4 @@
 
 #pragma once
 
-#include <AbstractSession>
-
-namespace internal {
-	class SessionContainer {
-		public:
-			SessionContainer();
-			SessionContainer(AbstractSession* session);
-			
-			template <typename T = AbstractSession>
-			T* getSession() const;
-			void setSession(AbstractSession* newSession);
-		protected:
-			AbstractSession* session;
-	};
-	
-	template <typename T>
-	T* SessionContainer::getSession() const {
-		return (T*)session;
-	}
-}
+#include "SessionContainer.h"

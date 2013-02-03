@@ -26,39 +26,4 @@
 
 #pragma once
 
-#include <internal/Route>
-#include <internal/RouteRegistry>
-#include <internal/Action>
-#include <Response>
-#include <Request>
-#include <internal/util.h>
-#include <QString>
-#include <QHash>
-#include <QObject>
-
-namespace internal {
-	class Dispatcher : public QObject {
-		Q_OBJECT;
-		public:
-			Dispatcher();
-			
-			Response dispatch(Request& request) const;
-		private slots:
-			void addRoute(Route* route);
-		private:
-			void initializeRoutes();
-			
-			Response defaultDispatch(Request& request) const;
-			
-			Route* findMatch(const RequestedAction& requestedAction) const;
-			Route* findStaticMatch(const RequestedAction& requestedAction) const;
-			Route* findDynamicMatch(const RequestedAction& requestedAction) const;
-			Route* findWildcardMatch(const RequestedAction& requestedAction) const;
-			
-			Response performActionFor(Route* route, Request& request) const;
-			
-			QHash<RouteRegistry::Key, Route*> staticRoutes;
-			QList<Route*> dynamicRoutes;
-			QList<Route*> wildcardRoutes;
-	};
-}
+#include "Dispatcher.h"

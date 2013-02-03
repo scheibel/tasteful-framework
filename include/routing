@@ -26,12 +26,4 @@
 
 #pragma once
 
-#include <internal/RouteRegistry>
-
-using namespace internal;
-
-extern RouteActionAssigner ROOT;
-RouteActionAssigner GET(const QString& urlPattern);
-RouteActionAssigner PUT(const QString& urlPattern);
-RouteActionAssigner POST(const QString& urlPattern);
-RouteActionAssigner DELETE(const QString& urlPattern);
+#include "routing.h"

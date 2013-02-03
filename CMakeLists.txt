@@ -21,13 +21,13 @@ include_directories("./include/" ${TastefulServer_INCLUDE_DIR})
 add_definitions(-std=c++0x -Wreturn-type -Werror=return-type)
 
 QT4_WRAP_CPP(Framework_moc_sources
-	include/AbstractSession
-	include/internal/SessionPool
-	include/Logger
-	include/internal/RouteRegistry
-	include/internal/Dispatcher
-	include/internal/SignalXmlContentHandler
-	include/internal/WebAppConfigReader
+	include/AbstractSession.h
+	include/internal/SessionPool.h
+	include/Logger.h
+	include/internal/RouteRegistry.h
+	include/internal/Dispatcher.h
+	include/internal/SignalXmlContentHandler.h
+	include/internal/WebAppConfigReader.h
 )
 
 set(Framework_sources
@@ -71,50 +71,91 @@ set(Framework_sources
 )
 
 set(Framework_headers
+	include/WebApplication.h
 	include/WebApplication
+	include/Request.h
 	include/Request
+	include/routing.h
 	include/routing
+	include/Download.h
 	include/Download
+	include/RestrictedController.h
 	include/RestrictedController
+	include/Concurrent.h
 	include/Concurrent
+	include/UrlHelper.h
 	include/UrlHelper
+	include/Controller.h
 	include/Controller
+	include/DataMapper.h
 	include/DataMapper
+	include/XmlTransform.h
 	include/XmlTransform
+	include/Logger.h
 	include/Logger
+	include/TemplateView.h
 	include/TemplateView
+	include/WebAppConfig.h
 	include/WebAppConfig
+	include/GenericSession.h
 	include/GenericSession
+	include/startup.h
 	include/startup
+	include/AbstractSession.h
 	include/AbstractSession
+	include/View.h
 	include/View
+	include/DomHelper.h
 	include/DomHelper
+	include/CrudController.h
 	include/CrudController
+	include/RedirectException.h
 	include/RedirectException
+	include/TemplateLayout.h
 	include/TemplateLayout
+	include/Response.h
 	include/Response
+	include/DomNode.h
 	include/DomNode
+	include/Partial.h
 	include/Partial
 )
 
 set(Framework_internal_headers
+	include/internal/Action.h
 	include/internal/Action
+	include/internal/FrontController.h
 	include/internal/FrontController
+	include/internal/Database.h
 	include/internal/Database
+	include/internal/SignalXmlContentHandler.h
 	include/internal/SignalXmlContentHandler
+	include/internal/SessionContainer.h
 	include/internal/SessionContainer
+	include/internal/SqlBuilder.h
 	include/internal/SqlBuilder
+	include/internal/MimeDatabase.h
 	include/internal/MimeDatabase
 	include/internal/util.h
+	include/internal/WebAppConfigReader.h
 	include/internal/WebAppConfigReader
+	include/internal/Dispatcher.h
 	include/internal/Dispatcher
+	include/internal/SessionPool.h
 	include/internal/SessionPool
+	include/internal/SqlHelper.h
 	include/internal/SqlHelper
+	include/internal/Route.h
 	include/internal/Route
+	include/internal/FrameworkEntryPoint.h
 	include/internal/FrameworkEntryPoint
+	include/internal/RouteRegistry.h
 	include/internal/RouteRegistry
+	include/internal/Properties.h
 	include/internal/Properties
+	include/internal/ObjectConstructor.h
 	include/internal/ObjectConstructor
+	include/internal/IdentityMap.h
 	include/internal/IdentityMap
 )
 

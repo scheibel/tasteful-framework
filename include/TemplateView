@@ -26,18 +26,4 @@
 
 #pragma once
 
-#include <QDomNode>
-#include <View>
-#include <XmlTransform>
-
-class TemplateView : public View, public XmlTransform {
-	public:
-		TemplateView() = default;
-		TemplateView(const QString& filename);
-	
-		void setFilename(const QString& filename);
-	protected:
-		QString filename;
-		
-		virtual QByteArray content() const;
-};
+#include "TemplateView.h"
