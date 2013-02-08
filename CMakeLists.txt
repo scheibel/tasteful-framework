@@ -111,8 +111,8 @@ set(Framework_headers
 	include/CrudController
 	include/RedirectException.h
 	include/RedirectException
-	include/TemplateLayout.h
-	include/TemplateLayout
+	include/TemplatedLayout.h
+	include/TemplatedLayout
 	include/Response.h
 	include/Response
 	include/DomNode.h
@@ -159,7 +159,7 @@ set(Framework_internal_headers
 	include/internal/IdentityMap
 )
 
-add_library(TastefulFramework SHARED ${Framework_sources} ${Framework_moc_sources})
+add_library(TastefulFramework SHARED ${Framework_sources} ${Framework_moc_sources} ${Framework_headers} ${Framework_internal_headers})
 
 target_link_libraries(TastefulFramework ${QT_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${TastefulServer_LIBRARY})
 
