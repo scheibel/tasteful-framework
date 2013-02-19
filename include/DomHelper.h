@@ -7,19 +7,19 @@
   * Authors:
   *     Roland Lux <rollux2000@googlemail.com>
   *     Willy Scheibel <willyscheibel@gmx.de>
-  * 
+  *
   * This file is part of Tasteful Framework.
   *
   * Tasteful Framework is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Lesser General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
-  * 
+  *
   * Tasteful Framework is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU Lesser General Public License for more details.
-  * 
+  *
   * You should have received a copy of the GNU Lesser General Public License
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
@@ -32,7 +32,7 @@
 #include <QDomDocument>
 
 #define CUSTOM_TAG(tagname) template <typename... Args> NodeCreator tagname (Args... args) const
-	
+
 #define SUPPORT_TAG(tagname) \
 	CUSTOM_TAG(tagname) {\
 		return tag(#tagname)(args...);\
@@ -42,11 +42,11 @@
 	TagModifier attributename(const QString& attributename) const {\
 		return attribute(#attributename, attributename);\
 	}
-	
+
 
 class DomNode;
 
-typedef std::function<void(QDomElement)> TagModifier;
+typedef std::function<void(QDomElement&)> TagModifier;
 
 class NodeCreatorPlaceholder;
 
@@ -54,31 +54,31 @@ class NodeCreator {
 	public:
 		NodeCreator();
 		NodeCreator(const QString& name);
-		NodeCreator(NodeCreatorPlaceholder placeholder);
-	
+		NodeCreator(const NodeCreatorPlaceholder& placeholder);
+
 		void add() { /*ignore*/ }
 		template <typename T, typename... Args> void add(T t, Args... args) {
 			addModifier(t);
 			add(args...);
 		}
-	
+
 		QDomElement operator()(QDomDocument doc) const;
 		void operator()(QDomNode node) const;
 	private:
 		void addModifier(TagModifier modifier);
-		void addModifier(NodeCreator creator);
-		void addModifier(NodeCreatorPlaceholder creatorPlaceholder);
-	
-		void addModifier(DomNode node);
-		void addModifier(QDomNode node);
-	
+		void addModifier(const NodeCreator& creator);
+		void addModifier(const NodeCreatorPlaceholder& creatorPlaceholder);
+
+		void addModifier(const DomNode& node);
+		void addModifier(const QDomNode& node);
+
 		void addModifier(const QString& text);
 		void addModifier(const char* text);
 		void addModifier(int i);
 		void addModifier(unsigned u);
 		void addModifier(long i);
 		void addModifier(double d);
-		
+
 		QString name;
 		QList<TagModifier> modifiers;
 		bool null;
@@ -87,9 +87,9 @@ class NodeCreator {
 class NodeCreatorPlaceholder {
 	public:
 		NodeCreatorPlaceholder(const QString& name) : name(name) {};
-	
+
 		template <typename... Args>
-		NodeCreator operator()(Args... args) {
+		NodeCreator operator()(Args... args) const {
 			NodeCreator NodeCreator(name);
 			NodeCreator.add(args...);
 			return NodeCreator;
@@ -101,13 +101,13 @@ class NodeCreatorPlaceholder {
 class DomHelper {
 	public:
 		QDomDocument loadDocument(const QString& filename) const;
-	
+
 		NodeCreatorPlaceholder tag(const QString& name) const;
 		TagModifier attribute(const QString& name, const QString& value) const;
-	
+
 		// convenience attributes
 		TagModifier cssClass(const QString& name) const;
-	
+
 		// convenience tags
 		CUSTOM_TAG(formbutton) { return input(type("button"), args...); }
 		CUSTOM_TAG(checkbox) { return input(type("checkbox"), args...); }
@@ -139,7 +139,7 @@ class DomHelper {
 		SUPPORT_ATTRIBUTE(type)
 		SUPPORT_ATTRIBUTE(rel)
 		SUPPORT_ATTRIBUTE(value)
-	
+
 		SUPPORT_TAG(a)
 		SUPPORT_TAG(abbr)
 		SUPPORT_TAG(acronym)

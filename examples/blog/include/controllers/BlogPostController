@@ -10,10 +10,10 @@ class BlogPostController : public LoggedInController, public CrudController<Blog
 		BlogPostController();
 	protected:
 		void beforeSave(BlogPost* blogPost);
-		
+
 		QList<BlogPost*> findAll();
-		
-		void renderListViewFor(QHash<unsigned, BlogPost*> blogEntries);
+
+		void renderListViewFor(const QHash<unsigned, BlogPost*>& blogEntries);
 		void renderShowViewFor(BlogPost* blogEntry, unsigned id);
 		void renderEditViewFor(BlogPost* blogEntry, unsigned id);
 };

@@ -6,7 +6,7 @@
 #include <datamappers/AuthorMapper>
 
 BlogPostController::BlogPostController() {
-	
+
 }
 
 QList<BlogPost*> BlogPostController::findAll() {
@@ -17,7 +17,7 @@ void BlogPostController::beforeSave(BlogPost* blogPost) {
 	blogPost->setAuthor(getSession()->author);
 }
 
-void BlogPostController::renderListViewFor(QHash<unsigned, BlogPost*> blogPosts) {
+void BlogPostController::renderListViewFor(const QHash<unsigned, BlogPost*>& blogPosts) {
 	render(BlogPostList(getSession(), blogPosts));
 }
 

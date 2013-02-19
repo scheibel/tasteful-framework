@@ -7,19 +7,19 @@
   * Authors:
   *     Roland Lux <rollux2000@googlemail.com>
   *     Willy Scheibel <willyscheibel@gmx.de>
-  * 
+  *
   * This file is part of Tasteful Framework.
   *
   * Tasteful Framework is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Lesser General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
-  * 
+  *
   * Tasteful Framework is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU Lesser General Public License for more details.
-  * 
+  *
   * You should have received a copy of the GNU Lesser General Public License
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
@@ -44,7 +44,7 @@ QDomDocument DomHelper::loadDocument(const QString& filename) const {
 }
 
 TagModifier DomHelper::attribute(const QString& name, const QString& value) const {
-	return [name, value](QDomElement element) {
+	return [name, value](QDomElement& element) {
 		element.setAttribute(name, value);
 	};
 }
@@ -63,13 +63,13 @@ NodeCreator::NodeCreator() : null(true) {
 NodeCreator::NodeCreator(const QString& name) : name(name), null(false) {
 }
 
-NodeCreator::NodeCreator(NodeCreatorPlaceholder placeholder) {
+NodeCreator::NodeCreator(const NodeCreatorPlaceholder& placeholder) {
 	*this = placeholder();
 }
 
 QDomElement NodeCreator::operator()(QDomDocument document) const {
 	if (null) return QDomElement();
-	
+
 	QDomElement element = document.createElement(name);
 	for (TagModifier modify: modifiers) modify(element);
 	return element;
@@ -77,7 +77,7 @@ QDomElement NodeCreator::operator()(QDomDocument document) const {
 
 void NodeCreator::operator()(QDomNode node) const {
 	if (null) return;
-	
+
 	QDomElement element = (*this)(node.ownerDocument());
 	node.appendChild(element);
 }
@@ -86,28 +86,28 @@ void NodeCreator::addModifier(TagModifier modifier) {
 	modifiers << modifier;
 }
 
-void NodeCreator::addModifier(NodeCreator creator) {
-	addModifier([creator](QDomElement element) {
+void NodeCreator::addModifier(const NodeCreator& creator) {
+	addModifier([creator](QDomElement& element) {
 		element.appendChild(creator(element.ownerDocument()));
 	});
 }
 
-void NodeCreator::addModifier(NodeCreatorPlaceholder creatorPlaceholder) {
+void NodeCreator::addModifier(const NodeCreatorPlaceholder& creatorPlaceholder) {
 	addModifier(creatorPlaceholder());
 }
 
-void NodeCreator::addModifier(QDomNode node) {
-	addModifier([node](QDomElement element) {
+void NodeCreator::addModifier(const QDomNode& node) {
+	addModifier([node](QDomElement& element) {
 		element.appendChild(node);
 	});
 }
 
-void NodeCreator::addModifier(DomNode node) {
+void NodeCreator::addModifier(const DomNode& node) {
 	addModifier(node.asQDomNode());
 }
 
 void NodeCreator::addModifier(const QString& text) {
-	addModifier([text](QDomElement element) {
+	addModifier([text](QDomElement& element) {
 		element.appendChild(element.ownerDocument().createTextNode(text));
 	});
 }

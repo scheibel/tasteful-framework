@@ -7,19 +7,19 @@
   * Authors:
   *     Roland Lux <rollux2000@googlemail.com>
   *     Willy Scheibel <willyscheibel@gmx.de>
-  * 
+  *
   * This file is part of Tasteful Framework.
   *
   * Tasteful Framework is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Lesser General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
-  * 
+  *
   * Tasteful Framework is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU Lesser General Public License for more details.
-  * 
+  *
   * You should have received a copy of the GNU Lesser General Public License
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
@@ -32,8 +32,10 @@
 #include <QList>
 #include <QHash>
 #include <DomHelper>
+#include <QTextStream>
 #include <QSharedPointer>
 #include <initializer_list>
+#include <internal/StringConvertible>
 
 class NodeCreator;
 class DomNodeList;
@@ -43,21 +45,22 @@ class RawXml;
 class InnerXml;
 class DomNodeProducer;
 
-class DomNode {
+class DomNode : public internal::StringConvertible {
 	public:
 		DomNode();
 		DomNode(const DomNode& node) = default;
 		DomNode(const QDomNode& node);
 		DomNode(const QString& text);
 		DomNode(const char* text);
-		DomNode(NodeCreator nodeCreator);
-		DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder);
+		DomNode(const NodeCreator& nodeCreator);
+		DomNode(const NodeCreatorPlaceholder& nodeCreatorPlaceholder);
 		DomNode(const DomNodeProducer& nodeProducer);
 
-		QString toString() const;
+		virtual void writeOnStream(QTextStream& stream) const;
+
 		QDomNode asQDomNode() const;
 		operator QDomNode() const;
-		
+
 		bool isNull() const;
 		bool isElement() const;
 		bool isText() const;
@@ -66,25 +69,25 @@ class DomNode {
 		DomNode root() const;
 		DomNode parent() const;
 		DomNode firstChild() const;
-		
+
 		DomNode previous() const;
 		DomNode next() const;
 		DomNode previousElement() const;
 		DomNode nextElement() const;
-		
+
 		QString tagName() const;
 		void setTagName(const QString& name);
-		
+
 		bool operator==(const DomNode& otherNode);
-	
+
 		DomNodeList operator[](const QString& selector) const;
 		DomNodeList find(const QString& selector) const;
 		DomNode first(const QString& selector) const;
 		DomNodeList children() const;
 		DomNode child(unsigned index) const;
-	
+
 		DomNode byId(const QString& id, bool global=false) const;
-		
+
 		DomAttributes attributes();
 		const DomAttributes attributes() const;
 		DomAttribute attribute(const QString& name, const QString& defaultValue = QString());
@@ -95,11 +98,11 @@ class DomNode {
 		void setAttribute(const QString& name, const QString& value = QString());
 		void removeAttribute(const QString& name);
 		bool hasAttribute(const QString& name) const;
-		
+
 		void addClass(const QString& name);
 		void removeClass(const QString& name);
 		bool hasClass(const QString& name) const;
-		
+
 		void setId(const QString& value);
 		DomAttribute id();
 		const DomAttribute id() const;
@@ -112,7 +115,7 @@ class DomNode {
 		void replaceChildren(const DomNode& newChild);
 		void appendChildren(const DomNodeList& newChildren);
 		void transferChildrenFrom(DomNode otherNode, bool removeOldChildren=false);
-		
+
 		template<typename... T> void replaceChildren(T... newChildren) {
 			removeChildren();
 			appendChildren(newChildren...);
@@ -122,9 +125,9 @@ class DomNode {
 			appendChild(child);
 			appendChildren(rest...);
 		}
-		
+
 		DomNode clone(bool deep=true) const;
-		
+
 		DomNode& prepend(const DomNode& otherNode);
 		DomNode& append(const DomNode& otherNode);
 		DomNode& prependChild(const DomNode& childNode);
@@ -133,7 +136,7 @@ class DomNode {
 		DomNode& operator=(const DomNode& otherNode);
 		DomNode& replaceWith(const DomNode& otherNode);
 		DomNode remove();
-		
+
 		RawXml raw();
 		void setRaw(const QString& rawXml);
 		InnerXml inner();
@@ -141,84 +144,84 @@ class DomNode {
 		void setInner(const DomNodeList& nodeList);
 	protected:
 		QDomNode node;
-		
+
 		DomNode findById(const QString& id) const;
 };
 
-class RawXml {
+class RawXml : public internal::StringConvertible {
 	public:
 		RawXml(DomNode& node);
-	
+
 		const QString& operator=(const QString& rawXml);
-	
-		QString toString();
+
+		virtual void writeOnStream(QTextStream& stream) const;
 	private:
 		DomNode& node;
 };
 
 class DomNodeList;
 
-class InnerXml {
+class InnerXml : public internal::StringConvertible {
 	public:
 		InnerXml(DomNode& node);
-	
+
 		const DomNode& operator=(const DomNode& otherNode);
 		const DomNodeList& operator=(const DomNodeList& nodeList);
 		const DomNodeList& operator=(const std::initializer_list<DomNode>& initializerList);
-	
-		QString toString();
+
+		virtual void writeOnStream(QTextStream& stream) const;
 	private:
 		DomNode& node;
 };
 
-class DomAttribute {
+class DomAttribute : public internal::StringConvertible {
 	public:
 		DomAttribute();
 		DomAttribute(const QDomNode& node, const QString& name, const QString& defaultValue = QString(), bool create=true);
-	
+
 		QString name() const;
 		QString value() const;
-	
+
 		void remove();
-	
+
 		QDomAttr asQDomAttr() const;
 		const QVariant& operator=(const QVariant& value);
 		bool operator==(const DomAttribute& otherAttribute) const;
-	
-		QString toString() const;
+
+		virtual void writeOnStream(QTextStream& stream) const;
 	private:
 		QDomAttr attr;
 };
 
-class DomAttributes {
+class DomAttributes : public internal::StringConvertible {
 	public:
 		DomAttributes(const QDomNode& node);
-	
+
 		int size() const;
-	
+
 		QHash<QString, DomAttribute>::iterator begin();
 		QHash<QString, DomAttribute>::iterator end();
 		QHash<QString, DomAttribute>::const_iterator begin() const;
 		QHash<QString, DomAttribute>::const_iterator end() const;
-	
+
 		void remove(const QString& name);
-	
+
 		DomAttribute& operator[](const QString& name);
 		DomAttribute operator[](const QString& name) const;
 		bool operator==(const DomAttributes& otherAttributes) const;
-	
-		QString toString() const;
+
+		virtual void writeOnStream(QTextStream& stream) const;
 	private:
 		QDomNode node;
 		QHash<QString, DomAttribute> attributes;
 };
 
-class DomNodeList : public QList<DomNode> {
+class DomNodeList : public QList<DomNode>, public internal::StringConvertible {
 	public:
 		DomNodeList();
 		DomNodeList(const std::initializer_list<DomNode>& list);
-	
-		QString toString() const;
+
+		virtual void writeOnStream(QTextStream& stream) const;
 };
 
 class DomNodeProducer {
@@ -233,27 +236,27 @@ class QDomNodeCreator {
 		static QDomNode create(const QString& text) {
 			return instance()._create(text);
 		}
-		
-		static QDomNode create(NodeCreator nodeCreator) {
+
+		static QDomNode create(const NodeCreator& nodeCreator) {
 			return instance()._create(nodeCreator);
 		}
-		
+
 		static QDomNodeCreator& instance() {
 			return _instance;
 		}
 	private:
 		static QDomNodeCreator _instance;
-	
+
 		QDomNodeCreator() {
 			emptyDocument.setContent(QString("<empty>"));
 		}
 		QDomDocument emptyDocument;
-		
+
 		QDomNode _create(const QString& text) {
 			return emptyDocument.createTextNode(text);
 		}
-		
-		QDomNode _create(NodeCreator nodeCreator) {
+
+		QDomNode _create(const NodeCreator& nodeCreator) {
 			return nodeCreator(emptyDocument);
 		}
 };

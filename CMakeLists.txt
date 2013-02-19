@@ -39,6 +39,7 @@ set(Framework_sources
 	src/core/WebApplication.cpp
 	src/core/MimeDatabase.cpp
 	src/core/DomNode.cpp
+	src/core/StringConvertible.cpp
 	
 	src/frontend/FrameworkEntryPoint.cpp
 	src/frontend/FrontController.cpp
@@ -157,6 +158,8 @@ set(Framework_internal_headers
 	include/internal/ObjectConstructor
 	include/internal/IdentityMap.h
 	include/internal/IdentityMap
+	include/internal/StringConvertible.h
+	include/internal/StringConvertible
 )
 
 add_library(TastefulFramework SHARED ${Framework_sources} ${Framework_moc_sources} ${Framework_headers} ${Framework_internal_headers})

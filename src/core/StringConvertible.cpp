@@ -24,34 +24,16 @@
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
 
-#pragma once
+#include <internal/StringConvertible>
 
-#include <QTimer>
+using namespace internal;
 
-class AbstractSession : public QObject {
-	Q_OBJECT;
+QString StringConvertible::toString() const
+{
+	QString string;
+	QTextStream stream(&string);
 
-	public:
-		AbstractSession();
-		virtual ~AbstractSession();
+	writeOnStream(stream);
 
-		bool isValid() const;
-		bool isInvalid() const;
-		void setInvalid(bool newState);
-
-		const QString& getIdentifier() const;
-		void setIdentifier(const QString& newIdentifier);
-
-		void touch();
-		void setTimeout(unsigned seconds);
-	protected slots:
-		void timeout();
-	signals:
-		void expired(const QString& sessionKey);
-	private:
-		QString identifier;
-		bool invalidState;
-		unsigned milliseconds;
-		QTimer timer;
-};
-
+	return string;
+}

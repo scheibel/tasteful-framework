@@ -7,26 +7,25 @@
   * Authors:
   *     Roland Lux <rollux2000@googlemail.com>
   *     Willy Scheibel <willyscheibel@gmx.de>
-  * 
+  *
   * This file is part of Tasteful Framework.
   *
   * Tasteful Framework is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Lesser General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
-  * 
+  *
   * Tasteful Framework is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU Lesser General Public License for more details.
-  * 
+  *
   * You should have received a copy of the GNU Lesser General Public License
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
 
 #include <DomNode>
 #include <DomHelper>
-#include <QTextStream>
 #include <QStringList>
 #include <QRegExp>
 
@@ -44,10 +43,10 @@ DomNode::DomNode(const QString& text) : node(QDomNodeCreator::create(text)) {
 DomNode::DomNode(const char* text) : node(QDomNodeCreator::create(text)) {
 }
 
-DomNode::DomNode(NodeCreator nodeCreator) : node(QDomNodeCreator::create(nodeCreator)) {
+DomNode::DomNode(const NodeCreator& nodeCreator) : node(QDomNodeCreator::create(nodeCreator)) {
 }
 
-DomNode::DomNode(NodeCreatorPlaceholder nodeCreatorPlaceholder) : node(QDomNodeCreator::create(nodeCreatorPlaceholder())) {
+DomNode::DomNode(const NodeCreatorPlaceholder& nodeCreatorPlaceholder) : node(QDomNodeCreator::create(nodeCreatorPlaceholder())) {
 }
 
 DomNode::DomNode(const DomNodeProducer& nodeProducer) : node(nodeProducer.toDomNode().node) {
@@ -65,11 +64,8 @@ QDomDocument DomNode::document() const {
 	return node.ownerDocument();
 }
 
-QString DomNode::toString() const {
-	QString str;
-	QTextStream stream(&str);
+void DomNode::writeOnStream(QTextStream& stream) const {
 	stream << node;
-	return str;
 }
 
 DomNodeList DomNode::operator[](const QString& selector) const {
@@ -78,7 +74,7 @@ DomNodeList DomNode::operator[](const QString& selector) const {
 
 DomNodeList DomNode::find(const QString& selector) const {
 	DomNodeList list;
-	
+
 	if (!isElement()) return list;
 	QDomNodeList childNodes = node.toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
@@ -88,13 +84,13 @@ DomNodeList DomNode::find(const QString& selector) const {
 			list << child;
 		}
 	}
-	
+
 	return list;
 }
 
 DomNode DomNode::first(const QString& selector) const {
 	if (!isElement()) return DomNode();
-	
+
 	QDomNodeList childNodes = node.toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
 		QDomElement child = childNodes.at(i).toElement();
@@ -103,7 +99,7 @@ DomNode DomNode::first(const QString& selector) const {
 			return child;
 		}
 	}
-	
+
 	return DomNode();
 }
 
@@ -246,13 +242,13 @@ DomNode& DomNode::appendChild(const DomNode& childNode) {
 
 DomNode& DomNode::operator<<(const DomNode& childNode) {
 	appendChild(childNode);
-	
+
 	return *this;
 }
 
 DomNode& DomNode::operator=(const DomNode& otherNode) {
 	replaceWith(otherNode);
-	
+
 	return *this;
 }
 
@@ -351,13 +347,13 @@ bool DomNode::operator==(const DomNode& otherNode) {
 
 DomNodeList DomNode::children() const {
 	DomNodeList list;
-	
+
 	if (!isElement()) return list;
 	QDomNodeList childNodes = node.toElement().childNodes();
 	for (int i=0; i<childNodes.size(); ++i) {
 		list << childNodes.at(i);
 	}
-	
+
 	return list;
 }
 
@@ -373,12 +369,12 @@ DomNode DomNode::byId(const QString& id, bool global) const {
 
 DomNode DomNode::findById(const QString& id) const {
 	if (getId()==id) return *this;
-	
+
 	for (DomNode child: children()) {
 		DomNode n = child.findById(id);
 		if (!n.isNull()) return n;
 	}
-	
+
 	return DomNode();
 }
 
@@ -406,8 +402,8 @@ const QString& RawXml::operator=(const QString& rawXml) {
 	return rawXml;
 }
 
-QString RawXml::toString() {
-	return node.toString();
+void RawXml::writeOnStream(QTextStream& stream) const {
+	node.writeOnStream(stream);
 }
 
 InnerXml::InnerXml(DomNode& node) : node(node) {
@@ -427,8 +423,8 @@ const DomNodeList& InnerXml::operator=(const std::initializer_list<DomNode>& ini
 	return *this = DomNodeList(initializerList);
 }
 
-QString InnerXml::toString() {
-	return node.children().toString();
+void InnerXml::writeOnStream(QTextStream& stream) const {
+	node.children().writeOnStream(stream);
 }
 
 DomAttribute::DomAttribute() {
@@ -471,8 +467,8 @@ bool DomAttribute::operator==(const DomAttribute& otherAttribute) const {
 	return name() == otherAttribute.name() && value() == otherAttribute.value();
 }
 
-QString DomAttribute::toString() const {
-	return name()+"="+value();
+void DomAttribute::writeOnStream(QTextStream& stream) const {
+	stream << (name()+"="+value());
 }
 
 DomAttributes::DomAttributes(const QDomNode& node) : node(node) {
@@ -530,16 +526,12 @@ bool DomAttributes::operator==(const DomAttributes& otherAttributes) const {
 	return attributes == otherAttributes.attributes;
 }
 
-QString DomAttributes::toString() const {
-	QString str;
-	QTextStream stream(&str);
+void DomAttributes::writeOnStream(QTextStream& stream) const {
 	QList<QString> attributeNames = attributes.keys();
 	for (int i=0; i<attributeNames.size(); ++i) {
 		if (i>0) stream << " ";
 		stream << attributes[attributeNames[i]].toString();
 	}
-	
-	return str;
 }
 
 DomNodeList::DomNodeList() {
@@ -551,13 +543,8 @@ DomNodeList::DomNodeList(const std::initializer_list<DomNode>& list) {
 	}
 }
 
-QString DomNodeList::toString() const {
-	QString str;
-	QTextStream stream(&str);
+void DomNodeList::writeOnStream(QTextStream& stream) const {
 	for (const DomNode& node: *this) {
 		stream << node.toString() << endl;
 	}
-		
-	return str;
 }
-

@@ -26,32 +26,13 @@
 
 #pragma once
 
-#include <QTimer>
+#include <QString>
+#include <QTextStream>
 
-class AbstractSession : public QObject {
-	Q_OBJECT;
-
-	public:
-		AbstractSession();
-		virtual ~AbstractSession();
-
-		bool isValid() const;
-		bool isInvalid() const;
-		void setInvalid(bool newState);
-
-		const QString& getIdentifier() const;
-		void setIdentifier(const QString& newIdentifier);
-
-		void touch();
-		void setTimeout(unsigned seconds);
-	protected slots:
-		void timeout();
-	signals:
-		void expired(const QString& sessionKey);
-	private:
-		QString identifier;
-		bool invalidState;
-		unsigned milliseconds;
-		QTimer timer;
-};
-
+namespace internal {
+	class StringConvertible {
+		public:
+			virtual QString toString() const;
+			virtual void writeOnStream(QTextStream& stream) const = 0;
+	};
+}
