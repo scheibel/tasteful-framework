@@ -6,5 +6,6 @@ class LoggedInController : public BlogController {
 	public:
 		LoggedInController();
 	protected:
-		bool isAuthorized();
+		virtual bool isAuthorized() const;
+		virtual void unauthorized();
 };
