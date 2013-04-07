@@ -9,6 +9,7 @@ class BlogPostList : public BlogView {
 		BlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts);
 		
 		void blogPostTable(DomNode& node) const;
+		void newLink(DomNode& node) const;
 	private:
 		QHash<unsigned, BlogPost*> blogPosts;
 };

@@ -20,11 +20,19 @@ void BlogPostEdit::blogPostId(DomNode& node) const {
 }
 
 void BlogPostEdit::blogPostTitle(DomNode& node) const {
-	node("value") = blogPost->getTitle();
+	if (blogPost) {
+		node("value") = blogPost->getTitle();
+	} else {
+		node("value") = "Insert title here";
+	}
 }
 
 void BlogPostEdit::blogPostText(DomNode& node) const {
-	node.inner() = blogPost->getText();
+	if (blogPost) {
+		node.inner() = blogPost->getText();
+	} else {
+		node.inner() = " ";
+	}
 }
 
 void BlogPostEdit::saveButtonText(DomNode& node) const {
