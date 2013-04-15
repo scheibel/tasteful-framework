@@ -7,19 +7,19 @@
   * Authors:
   *     Roland Lux <rollux2000@googlemail.com>
   *     Willy Scheibel <willyscheibel@gmx.de>
-  * 
+  *
   * This file is part of Tasteful Framework.
   *
   * Tasteful Framework is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Lesser General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
-  * 
+  *
   * Tasteful Framework is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU Lesser General Public License for more details.
-  * 
+  *
   * You should have received a copy of the GNU Lesser General Public License
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
@@ -38,9 +38,9 @@ using namespace internal;
 WebApplication::WebApplication(int& argc, char** argv) : app(argc, argv) {
 	rootDir = app.applicationDirPath();
 	frontController = new FrontController();
-	QFile* logFile = new QFile("log.txt");
-	logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
-	Logger::setLogDevice(logFile);
+//	QFile* logFile = new QFile("log.txt");
+//	logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
+//	Logger::setLogDevice(logFile);
 }
 
 WebApplication::~WebApplication() {
@@ -112,13 +112,17 @@ void WebApplication::addServer(const QHostAddress& address, unsigned port) {
 void WebApplication::addSecureServer(const QHostAddress& address, unsigned port, const QString& certificateFile, const QString& privateKeyFile) {
 	QFile certFile(certificateFile);
 	if (!certFile.open(QIODevice::ReadOnly)) {
-		throw QString("Cannot open file: "+certificateFile);
+		logger().error() << "Cannot open file: " << certificateFile;
+		logger().error() << "No SSL server added";
+		return;
 	}
 	QSslCertificate certificate(certFile.readAll(), QSsl::Pem);
 	certFile.close();
 	QFile keyFile(privateKeyFile);
 	if (!keyFile.open(QIODevice::ReadOnly)) {
-		throw QString("Cannot open file: "+privateKeyFile);
+		logger().error() << "Cannot open file: " << privateKeyFile;
+		logger().error() << "No SSL server added";
+		return;
 	}
 	QSslKey privateKey(keyFile.readAll(), QSsl::Rsa);
 	keyFile.close();
@@ -148,20 +152,25 @@ void WebApplication::addDatabase(const DatabaseConfig& dbConfig) {
 }
 
 void WebApplication::setUpFromConfig(const QString& configFile) {
+	if (!QFileInfo(configFile).isReadable()) {
+		logger().warning() << "Config File \"" << configFile << "\" is not readable";
+		logger().warning() << "WebApplication not set up";
+		return;
+	}
 	setUpFromConfig(WebAppConfig::fromFile(configFile));
 }
 
 void WebApplication::setUpFromConfig(const WebAppConfig& config) {
 	rootDir = config.rootDir;
 	TcpServer::setNumThreads(config.threadCount);
-	
+
 	addResourceDirectories(config.resourceDirs);
 	addPublicDirectories(config.publicDirs);
-	
+
 	for (const ServerConfig& serverConfig: config.servers) {
 		addServer(serverConfig);
 	}
-	
+
 	for (const DatabaseConfig& dbConfig: config.databases) {
 		addDatabase(dbConfig);
 	}

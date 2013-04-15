@@ -7,19 +7,19 @@
   * Authors:
   *     Roland Lux <rollux2000@googlemail.com>
   *     Willy Scheibel <willyscheibel@gmx.de>
-  * 
+  *
   * This file is part of Tasteful Framework.
   *
   * Tasteful Framework is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Lesser General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
-  * 
+  *
   * Tasteful Framework is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU Lesser General Public License for more details.
-  * 
+  *
   * You should have received a copy of the GNU Lesser General Public License
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
@@ -40,16 +40,16 @@ class LogDevice : public QObject {
 		LogDevice();
 		LogDevice(QFile* file);
 		~LogDevice();
-	
+
 		QFile* operator=(QFile* file);
-	
+
 		void queueWrite(const QByteArray& val);
 	private slots:
 		void directWrite(const QByteArray& val);
 	private:
 		QFile* logDevice;
 		static QFile* getStdOut();
-	
+
 		void setLogDevice(QFile* file);
 };
 
@@ -61,9 +61,12 @@ class Logger : public QObject {
 		Logger();
 		Logger(const Logger& logger);
 		~Logger();
-	
+
+		Logger& warning();
+		Logger& error();
+
 		static void setLogDevice(QFile* file);
-	
+
 		Logger& operator<<(const QString& val);
 		Logger& operator<<(const QByteArray& val);
 		Logger& operator<<(const char* val);
@@ -85,7 +88,7 @@ class Logger : public QObject {
 	private:
 		static internal::LogDevice logDevice;
 		QByteArray bytes;
-	
+
 		void write(const char* val);
 		void write(const QString& val);
 		void write(const QByteArray& val);
