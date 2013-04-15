@@ -8,14 +8,7 @@ AllBlogPostController::AllBlogPostController() : BlogController() {
 }
 
 void AllBlogPostController::index() {
-	QList<BlogPost*> blogPosts = BlogPostMapper::instance().find("1");
-	QHash<BlogPostMapper::Identity, BlogPost*> blogPostHash;
-	
-	for (BlogPost* blogPost : blogPosts) {
-		blogPostHash.insert(BlogPostMapper::instance().idOf(blogPost), blogPost);
-	}
-	
-	render(AllBlogPostList(getSession(), blogPostHash));
+	render(AllBlogPostList(getSession(), BlogPostMapper::instance().find("1 ORDER BY id DESC")));
 }
 
 void AllBlogPostController::show() {

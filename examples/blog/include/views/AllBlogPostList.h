@@ -6,9 +6,9 @@
 
 class AllBlogPostList : public BlogView {
 	public:
-		AllBlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts);
+		AllBlogPostList(Session* session, QList<BlogPost*> blogPosts);
 		
 		void blogPostList(DomNode& node) const;
 	private:
-		QHash<unsigned, BlogPost*> blogPosts;
+		QList<BlogPost*> blogPosts;
 };

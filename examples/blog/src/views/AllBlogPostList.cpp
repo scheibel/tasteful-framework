@@ -1,8 +1,9 @@
 #include <views/AllBlogPostList>
 
 #include <views/BlogPostPartial>
+#include <datamappers/BlogPostMapper>
 
-AllBlogPostList::AllBlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
+AllBlogPostList::AllBlogPostList(Session* session, QList<BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
 	setFilename("blogpostlist.html");
 	
 	addTransform("blogpostlist", &AllBlogPostList::blogPostList);
@@ -16,8 +17,8 @@ void AllBlogPostList::blogPostList(DomNode& node) const {
 	
 	BlogPostPartial blogPostPartial(node.firstChild().remove());
 	
-	for (unsigned index : blogPosts.keys()) {
-		blogPostPartial.setData(blogPosts.value(index), index);
+	for (BlogPost* blogPost : blogPosts) {
+		blogPostPartial.setData(blogPost, BlogPostMapper::instance().idOf(blogPost));
 		node << blogPostPartial;
 	}
 }
