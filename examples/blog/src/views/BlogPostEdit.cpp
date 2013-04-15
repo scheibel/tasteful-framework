@@ -9,6 +9,11 @@ BlogPostEdit::BlogPostEdit(Session* session, BlogPost* blogPost, unsigned id) : 
 	addTransform("blogposttitle", &BlogPostEdit::blogPostTitle);
 	addTransform("blogposttext", &BlogPostEdit::blogPostText);
 	addTransform("savebuttontext", &BlogPostEdit::saveButtonText);
+	addTransform("backurl", &BlogPostEdit::backUrl);
+}
+
+void BlogPostEdit::backUrl(DomNode& node) const {
+	node("href") = url(&BlogPostController::index);
 }
 
 void BlogPostEdit::blogEditForm(DomNode& node) const {

@@ -15,7 +15,7 @@ void Home::recentPosts(DomNode& node) const {
 		return;
 	}
 	
-	BlogPostPartial blogPostPartial(node.firstChild().remove());
+	BlogPostPartial blogPostPartial(node.firstChild().remove(), session);
 	
 	for (BlogPost* blogPost : blogPosts) {
 		blogPostPartial.setData(blogPost, BlogPostMapper::instance().idOf(blogPost));

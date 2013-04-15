@@ -12,6 +12,7 @@ class BlogPostEdit : public BlogView {
 		void blogPostTitle(DomNode& node) const;
 		void blogPostText(DomNode& node) const;
 		void saveButtonText(DomNode& node) const;
+		void backUrl(DomNode& node) const;
 	private:
 		BlogPost* blogPost;
 		unsigned id;

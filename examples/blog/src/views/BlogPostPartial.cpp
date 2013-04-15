@@ -1,8 +1,9 @@
 #include <views/BlogPostPartial>
 
 #include <controllers/BlogPostController>
+#include <controllers/AllBlogPostController>
 
-BlogPostPartial::BlogPostPartial(DomNode node) : Partial(node), blogPost(nullptr), blogPostId(0) {
+BlogPostPartial::BlogPostPartial(DomNode node, Session* session) : Partial(node), session(session), blogPost(nullptr), blogPostId(0) {
 	addTransform("id", &BlogPostPartial::id);
 	addTransform("title", &BlogPostPartial::title);
 	addTransform("text", &BlogPostPartial::text);
@@ -34,7 +35,11 @@ void BlogPostPartial::shortText(DomNode& node) const {
 }
 
 void BlogPostPartial::showLink(DomNode& node) const {
-	node("href") = url(&BlogPostController::show, { { "id", blogPostId } });
+	if (session->isLoggedIn() && blogPost->getAuthor() == session->author) {
+		node("href") = url(&BlogPostController::show, { { "id", blogPostId } });
+	} else {
+		node("href") = url(&AllBlogPostController::show, { { "id", blogPostId } });
+	}
 }
 
 void BlogPostPartial::editLink(DomNode& node) const {
