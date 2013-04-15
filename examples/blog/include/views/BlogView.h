@@ -8,6 +8,8 @@ class BlogView : public LayoutedTemplateView {
 	public:
 		BlogView(Session* session);
 	protected:
-		const TemplatedLayout& getLayout() const;
+		Session* session;
 		Layout layout;
+		
+		const TemplatedLayout& getLayout() const;
 };

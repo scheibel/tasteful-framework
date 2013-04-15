@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
 	POST("register") = &RegisterController::signup;
 	
 	GET("myblogposts") = &BlogPostController::index;
+	GET("myblogposts/:id") = &BlogPostController::show;
 	GET("myblogposts/new") = &BlogPostController::create;
 	GET("myblogposts/:id/edit") = &BlogPostController::edit;
 	POST("myblogposts/save") = &BlogPostController::save;
@@ -29,7 +30,7 @@ int main(int argc, char* argv[]) {
 	DELETE("myblogposts/:id/delete") = &BlogPostController::remove;
 	
 	GET("blogposts") = &AllBlogPostController::index;
-	GET("blogposts/:id") = &BlogPostController::show;
+	GET("blogposts/:id") = &AllBlogPostController::show;
 	
 	return blog.run();
 }

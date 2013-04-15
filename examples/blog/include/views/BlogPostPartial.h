@@ -2,10 +2,11 @@
 
 #include <Partial>
 #include <models/BlogPost>
+#include <session/Session>
 
 class BlogPostPartial : public Partial {
 	public:
-		BlogPostPartial(DomNode node);
+		BlogPostPartial(DomNode node, Session* session);
 	
 		void setData(BlogPost* blogPost, unsigned blogPostId);
 		
@@ -17,6 +18,7 @@ class BlogPostPartial : public Partial {
 		void editLink(DomNode& node) const;
 		void deleteLink(DomNode& node) const;
 	private:
+		Session* session;
 		BlogPost* blogPost;
 		unsigned blogPostId;
 };

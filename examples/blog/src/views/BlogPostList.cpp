@@ -11,7 +11,7 @@ BlogPostList::BlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPost
 }
 
 void BlogPostList::blogPostTable(DomNode& node) const {
-	BlogPostPartial blogPostPartial(node["tr"][1].remove());
+	BlogPostPartial blogPostPartial(node["tr"][1].remove(), session);
 	
 	for (unsigned id : blogPosts.keys()) {
 		blogPostPartial.setData(blogPosts.value(id), id);

@@ -1,6 +1,7 @@
 #include <controllers/AllBlogPostController>
 
 #include <views/AllBlogPostList>
+#include <views/BlogPostShow>
 #include <datamappers/BlogPostMapper>
 
 AllBlogPostController::AllBlogPostController() : BlogController() {
@@ -12,5 +13,7 @@ void AllBlogPostController::index() {
 }
 
 void AllBlogPostController::show() {
+	BlogPostMapper::Identity id = parameters["id"].value<BlogPostMapper::Identity>();
 	
+	render(BlogPostShow(getSession(), BlogPostMapper::instance().get(id), id));
 }
