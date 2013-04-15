@@ -8,5 +8,5 @@ HomeController::HomeController() : BlogController() {
 }
 
 void HomeController::index() {
-	render(Home(getSession(), BlogPostMapper::instance().all()));
+	render(Home(getSession(), BlogPostMapper::instance().find("1 LIMIT 5")));
 }
