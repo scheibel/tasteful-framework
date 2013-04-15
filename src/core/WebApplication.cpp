@@ -44,14 +44,25 @@ WebApplication::WebApplication(int& argc, char** argv) : app(argc, argv) {
 }
 
 WebApplication::~WebApplication() {
-	for (HttpServer* server: servers) {
-		delete server;
-	}
+	stopServers();
 	delete frontController;
 }
 
 int WebApplication::run() const {
 	return app.exec();
+}
+
+void WebApplication::shutdown(int exitCode)
+{
+	stopServers();
+	logger() << "shutting down...";
+	QTimer::singleShot(0, &app, SLOT(quit()));
+}
+
+void WebApplication::stopServers()
+{
+	qDeleteAll(servers);
+	servers.clear();
 }
 
 QStringList WebApplication::arguments() const {
@@ -113,7 +124,8 @@ void WebApplication::addSecureServer(const QHostAddress& address, unsigned port,
 	QFile certFile(certificateFile);
 	if (!certFile.open(QIODevice::ReadOnly)) {
 		logger().error() << "Cannot open file: " << certificateFile;
-		logger().error() << "No SSL server added";
+		logger() << "No SSL server added";
+		shutdown(1);
 		return;
 	}
 	QSslCertificate certificate(certFile.readAll(), QSsl::Pem);
@@ -121,7 +133,8 @@ void WebApplication::addSecureServer(const QHostAddress& address, unsigned port,
 	QFile keyFile(privateKeyFile);
 	if (!keyFile.open(QIODevice::ReadOnly)) {
 		logger().error() << "Cannot open file: " << privateKeyFile;
-		logger().error() << "No SSL server added";
+		logger() << "No SSL server added";
+		shutdown(1);
 		return;
 	}
 	QSslKey privateKey(keyFile.readAll(), QSsl::Rsa);
