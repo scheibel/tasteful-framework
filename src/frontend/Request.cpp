@@ -33,10 +33,10 @@ using namespace internal;
 Request::Request() {	
 }
 
-Request::Request(HttpRequest& request) : HttpRequest(request) {	
+Request::Request(const HttpRequest& request) : HttpRequest(request) {	
 }
 
-void Request::setUrlParameters(QHash<QString, QString> urlParameters) {
+void Request::setUrlParameters(const QHash<QString, QString>& urlParameters) {
 	for (QString key : urlParameters.keys()) {
 		if (!requestParams.contains(key)) {
 			requestParams.insert(key, urlParameters[key]);

@@ -40,9 +40,9 @@ namespace internal {
 class Request : public HttpRequest, public SessionContainer {
 	public:
 		Request();
-		Request(HttpRequest& request);
+		Request(const HttpRequest& request);
 		
-		void setUrlParameters(QHash<QString, QString> urlParameters);
+		void setUrlParameters(const QHash<QString, QString>& urlParameters);
 		
 		void obtainSessionFrom(SessionPool* sessionPool);
 };

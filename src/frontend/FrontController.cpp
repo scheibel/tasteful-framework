@@ -32,7 +32,7 @@ using namespace internal;
 FrontController::FrontController() {
 }
 
-HttpResponse FrontController::handleRequest(HttpRequest& httpRequest) {
+HttpResponse FrontController::handleRequest(const HttpRequest& httpRequest) {
 	Request request(httpRequest);
 	
 	request.obtainSessionFrom(&sessionPool);

@@ -36,7 +36,7 @@ namespace internal {
 		public:
 			FrontController();
 		
-			HttpResponse handleRequest(HttpRequest& request);
+			HttpResponse handleRequest(const HttpRequest& request);
 		
 			template<class SessionClass> void setSessionClass();
 		private:

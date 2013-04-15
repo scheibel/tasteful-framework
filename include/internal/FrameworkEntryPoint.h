@@ -33,7 +33,7 @@ namespace internal {
 		public:
 			FrameworkEntryPoint(FrontController* frontController);
 		
-			HttpResponse operator()(HttpRequest& request);
+			HttpResponse operator()(const HttpRequest& request);
 		private:
 			FrontController* frontController;
 	};

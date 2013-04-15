@@ -31,6 +31,6 @@ using namespace internal;
 FrameworkEntryPoint::FrameworkEntryPoint(FrontController* frontController) : frontController(frontController) {
 }
 
-HttpResponse FrameworkEntryPoint::operator()(HttpRequest& httpRequest) {	
+HttpResponse FrameworkEntryPoint::operator()(const HttpRequest& httpRequest) {	
 	return frontController->handleRequest(httpRequest);
 }
