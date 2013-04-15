@@ -7,19 +7,19 @@
   * Authors:
   *     Roland Lux <rollux2000@googlemail.com>
   *     Willy Scheibel <willyscheibel@gmx.de>
-  * 
+  *
   * This file is part of Tasteful Framework.
   *
   * Tasteful Framework is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Lesser General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
   * (at your option) any later version.
-  * 
+  *
   * Tasteful Framework is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   * GNU Lesser General Public License for more details.
-  * 
+  *
   * You should have received a copy of the GNU Lesser General Public License
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
@@ -50,12 +50,21 @@ void Response::setSession(AbstractSession* session) {
 	setCookie("sessionId", session->getIdentifier()).setPath("/");
 }
 
+void Response::setContentFromFile(const QString& filename) {
+	QFile file(filename);
+
+	if (file.open(QIODevice::ReadOnly)) {
+		setContent(file.readAll());
+		file.close();
+	}
+}
+
 Response& Response::asDownload(const QString& name) {
 	setMimeTypeForFileName(name);
 	setHeader(http::ContentDisposition,"attachment;filename=\""+name+"\"");
 	return *this;
 }
- 
+
  Response Response::notFound() {
 	return Response(http::NotFound);
 }
@@ -86,13 +95,13 @@ Response Response::forContent(const QByteArray& content, unsigned statusCode) {
 
 Response Response::forFile(const QFile& constFile) {
 	QFile file(constFile.fileName());
-	
+
 	if (!file.open(QIODevice::ReadOnly)) {
 		return Response::notFound();
 	}
 	QByteArray content = file.readAll().data();
 	file.close();
-	
+
 	Response response = Response::forContent(content);
 	response.setMimeTypeForFileName(file.fileName());
 	return response;
