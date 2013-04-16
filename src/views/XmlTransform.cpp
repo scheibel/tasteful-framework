@@ -47,11 +47,11 @@ DomNode XmlTransform::transformFile(const QString& filename) const {
 }
 
 void XmlTransform::transformRecursion(DomNode& node) const {
+	if (node.isElement() && node.hasAttribute("data-transform")) {
+		transformElement(node);
+	}
+	
 	for (DomNode& child : node.children()) {
-		if (child.isElement() && child.hasAttribute("data-transform")) {
-			transformElement(child);
-		}
-		
 		transformRecursion(child);
 	}
 }

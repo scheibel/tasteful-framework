@@ -68,6 +68,8 @@ public:
 	T* get(const Identity& id);
 	T* getBy(const QString& whereClause);
 	QList<T*> find(const QString& whereClause);
+	QList<T*> basicFind(const SqlBuilder& sqlBuilder);
+	QList<T*> basicFind(const QString& sql);
 	QList<T*> all();
 
 	Identity saveReturningId(T* model);
@@ -168,10 +170,15 @@ T* DataMapper<Subclass, T, I>::getBy(const QString& whereClause) {
 
 template <class Subclass, class T, typename I>
 QList<T*> DataMapper<Subclass, T, I>::find(const QString& whereClause) {
+	return basicFind(SELECT("*").FROM(table()).WHERE(whereClause));
+}
+
+template <class Subclass, class T, typename I>
+QList<T*> DataMapper<Subclass, T, I>::basicFind(const SqlBuilder& sqlBuilder) {
 	QList<T*> results;
-
-	QSqlQuery query = getDatabase().build(SELECT("*").FROM(table()).WHERE(whereClause));
-
+	
+	QSqlQuery query = getDatabase().build(sqlBuilder);
+	
 	if (query.exec()) {
 		QSqlRecord record = query.record();
 		QMap<QString, int> indices;
@@ -190,7 +197,35 @@ QList<T*> DataMapper<Subclass, T, I>::find(const QString& whereClause) {
 			results << obtainFromIdentityMap(map);
 		}
 	}
+	
+	return results;
+}
 
+template <class Subclass, class T, typename I>
+QList<T*> DataMapper<Subclass, T, I>::basicFind(const QString& sql) {
+	QList<T*> results;
+	
+	QSqlQuery query = getDatabase().build(sql);
+	
+	if (query.exec()) {
+		QSqlRecord record = query.record();
+		QMap<QString, int> indices;
+
+		for (unsigned i = 0; i < record.count(); ++i) {
+			indices[record.fieldName(i)] = i;
+		}
+
+		while (query.next()) {
+			QVariantMap map;
+
+			for (QString fieldName : indices.keys()) {
+				map[fieldName] = query.value(indices[fieldName]);
+			}
+
+			results << obtainFromIdentityMap(map);
+		}
+	}
+	
 	return results;
 }
 

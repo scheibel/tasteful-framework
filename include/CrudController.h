@@ -130,7 +130,7 @@ void CrudController<ControllerClass, MapperClass>::save() {
 		beforeSave(model);
 		getDataMapper().save(model);
 	}
-
+	
 	redirect(url(&ControllerClass::index));
 }
 
