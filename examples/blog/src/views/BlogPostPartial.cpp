@@ -1,5 +1,7 @@
 #include <views/BlogPostPartial>
 
+#include <views/TagPartial>
+
 #include <controllers/BlogPostController>
 #include <controllers/AllBlogPostController>
 
@@ -11,6 +13,7 @@ BlogPostPartial::BlogPostPartial(DomNode node, Session* session) : Partial(node)
 	addTransform("showlink", &BlogPostPartial::showLink);
 	addTransform("editlink", &BlogPostPartial::editLink);
 	addTransform("deletelink", &BlogPostPartial::deleteLink);
+	addTransform("tags", &BlogPostPartial::tags);
 }
 
 void BlogPostPartial::setData(BlogPost* blogPost, unsigned blogPostId) {
@@ -48,4 +51,18 @@ void BlogPostPartial::editLink(DomNode& node) const {
 
 void BlogPostPartial::deleteLink(DomNode& node) const {
 	node("href") = url(&BlogPostController::remove, { { "id", blogPostId } });
+}
+
+void BlogPostPartial::tags(DomNode& node) const {
+	TagPartial tagPartial(node.children()[0].remove());
+	
+	if (blogPost->getTags().size()) {
+		for (Tag* tag : blogPost->getTags()) {
+			tagPartial.setData(tag);
+			node << tagPartial;
+			node << " ";
+		}
+	} else {
+		node.inner() = " ";
+	}
 }

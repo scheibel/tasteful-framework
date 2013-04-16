@@ -13,6 +13,7 @@ class BlogPostEdit : public BlogView {
 		void blogPostText(DomNode& node) const;
 		void saveButtonText(DomNode& node) const;
 		void backUrl(DomNode& node) const;
+		void tagList(DomNode& node) const;
 	private:
 		BlogPost* blogPost;
 		unsigned id;

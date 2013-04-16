@@ -41,6 +41,7 @@ set(Blog_sources
 	src/views/Layout.cpp
 	src/views/Login.cpp
 	src/views/Registration.cpp
+	src/views/TagPartial.cpp
 )
 
 add_executable(Blog ${Blog_sources})

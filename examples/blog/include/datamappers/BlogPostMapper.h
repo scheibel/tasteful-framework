@@ -14,6 +14,6 @@ class BlogPostMapper : public DataMapper<BlogPostMapper, BlogPost, unsigned> {
 		QList<QString> selectVariables() const;
 		QString identityFieldName() const;
 		QString table() const;
-		void saveRelationsOf(BlogPost* model) const;
+		void saveRelationsOf(BlogPost* model);
 		QString databaseId() const;
 };

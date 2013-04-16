@@ -35,3 +35,15 @@ QString TagMapper::table() const {
 QString TagMapper::databaseId() const {
 	return "blog";
 }
+
+Tag* TagMapper::obtainByName(const QString& name) {
+	Tag* tag = getBy("name = '" + name + "'");
+	
+	if (!tag) {
+		tag = newModel();
+		tag->setName(name);
+		save(tag);
+	}
+	
+	return tag;
+}

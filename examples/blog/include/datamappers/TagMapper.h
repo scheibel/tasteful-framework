@@ -15,4 +15,6 @@ class TagMapper : public DataMapper<TagMapper, Tag, unsigned> {
 		QString identityFieldName() const;
 		QString table() const;
 		QString databaseId() const;
+		
+		Tag* obtainByName(const QString& name);
 };

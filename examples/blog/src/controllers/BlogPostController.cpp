@@ -4,6 +4,7 @@
 #include <views/BlogPostShow>
 #include <views/BlogPostEdit>
 #include <datamappers/AuthorMapper>
+#include <datamappers/TagMapper>
 
 BlogPostController::BlogPostController() {
 
@@ -14,6 +15,16 @@ QList<BlogPost*> BlogPostController::findAll() {
 }
 
 void BlogPostController::beforeSave(BlogPost* blogPost) {
+	QString tags = parameters["tags"].value<QString>();
+	
+	QList<Tag*> newTags;
+	if (!tags.isNull() && !tags.isEmpty()) {
+		for (const QString& tagName : tags.split(" ")) {
+			newTags << TagMapper::instance().obtainByName(tagName);
+		}
+	}
+	blogPost->setTags(newTags);
+	
 	blogPost->setAuthor(getSession()->author);
 }
 
