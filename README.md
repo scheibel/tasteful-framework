@@ -4,7 +4,7 @@ Tasteful Framework
 Tasteful Framework is web framework library written in C++ based on Tasteful Server.
 It provides an MVC-architecture with routes, controllers, models and views as well as a datamapper as an object-relational mapper.
 
-An example application is in current progress and will be published here as soon as it is finished.
+An example application is a simple blog in [/examples/blog/](https://github.com/scheibel/tasteful-framework/tree/master/examples/blog).
 
 As it is now, only Linux is tested as development and deployment environment, so no build information for Windows, MacOS or any other OS is provided.
 Since all platform-dependent features of the Tasteful Framework are provided through Qt, it should also run on any other OS to which Qt was ported.
