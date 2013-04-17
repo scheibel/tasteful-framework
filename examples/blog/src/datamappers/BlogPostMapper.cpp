@@ -1,7 +1,6 @@
 #include <datamappers/BlogPostMapper>
 #include <datamappers/AuthorMapper>
 #include <datamappers/TagMapper>
-#include <datamappers/CommentMapper>
 
 #include <internal/Database>
 
@@ -19,7 +18,6 @@ void BlogPostMapper::buildFromRecord(BlogPost* model, const QVariantMap& record)
 	model->setAuthor(AuthorMapper::instance().get(record["author"].toUInt()));
 	model->setTitle(record["title"].toString());
 	model->setText(record["text"].toString());
-	model->setComments(CommentMapper::instance().find("blogPost = " + QString::number(record["id"].toUInt())));
 	model->setTags(findTagsFor(record["id"].toUInt()));
 }
 

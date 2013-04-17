@@ -32,14 +32,6 @@ void BlogPost::setText(QString newText) {
 	text = newText;
 }
 
-QList<Comment*> BlogPost::getComments() {
-	return comments;
-}
-
-void BlogPost::setComments(QList<Comment*> newComments) {
-	comments = newComments;
-}
-
 QList<Tag*> BlogPost::getTags() {
 	return tags;
 }
