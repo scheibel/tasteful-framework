@@ -52,7 +52,7 @@ public:
 
 	static Subclass& instance();
 
-	virtual T* newModel() const = 0;
+	virtual T* newModel() const;
 	virtual void buildFromRecord(T* model, const QVariantMap& record) const = 0;
 	virtual void buildRecordFrom(T* model, QVariantMap& record) const = 0;
 	virtual QString table() const = 0;
@@ -101,6 +101,11 @@ Subclass* DataMapper<Subclass, T, I>::_instance = new Subclass();
 template <class Subclass, class T, typename I>
 Subclass& DataMapper<Subclass, T, I>::instance() {
 	return *_instance;
+}
+
+template <class Subclass, class T, typename I>
+T* DataMapper<Subclass, T, I>::newModel() const {
+	return new T();
 }
 
 template <class Subclass, class T, typename I>

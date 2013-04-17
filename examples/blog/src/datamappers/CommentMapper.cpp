@@ -8,10 +8,6 @@ CommentMapper::~CommentMapper() {
 	
 }
 
-Comment* CommentMapper::newModel() const {
-	return new Comment();
-}
-
 void CommentMapper::buildFromRecord(Comment* model, const QVariantMap& record) const {
 	model->setEmail(record["email"].toString());
 	model->setText(record["text"].toString());

@@ -8,7 +8,6 @@ class TagMapper : public DataMapper<TagMapper, Tag, unsigned> {
 		TagMapper();
 		~TagMapper();
 		
-		Tag* newModel() const;
 		void buildFromRecord(Tag* model, const QVariantMap& record) const;
 		void buildRecordFrom(Tag* model, QVariantMap& record) const;
 		QList<QString> selectVariables() const;

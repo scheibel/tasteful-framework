@@ -8,7 +8,6 @@ class CommentMapper : public DataMapper<CommentMapper, Comment, unsigned> {
 		CommentMapper();
 		~CommentMapper();
 		
-		Comment* newModel() const;
 		void buildFromRecord(Comment* model, const QVariantMap& record) const;
 		void buildRecordFrom(Comment* model, QVariantMap& record) const;
 		QList<QString> selectVariables() const;

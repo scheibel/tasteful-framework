@@ -8,10 +8,6 @@ TagMapper::~TagMapper() {
 	
 }
 
-Tag* TagMapper::newModel() const {
-	return new Tag();
-}
-
 void TagMapper::buildFromRecord(Tag* model, const QVariantMap& record) const {
 	model->setName(record["name"].toString());
 }

@@ -8,7 +8,6 @@ class AuthorMapper : public DataMapper<AuthorMapper, Author, unsigned> {
 		AuthorMapper();
 		~AuthorMapper();
 		
-		Author* newModel() const;
 		void buildFromRecord(Author* model, const QVariantMap& record) const;
 		void buildRecordFrom(Author* model, QVariantMap& record) const;
 		QList<QString> selectVariables() const;

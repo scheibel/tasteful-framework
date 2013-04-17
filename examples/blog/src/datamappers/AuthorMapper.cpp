@@ -8,10 +8,6 @@ AuthorMapper::~AuthorMapper() {
 	
 }
 
-Author* AuthorMapper::newModel() const {
-	return new Author();
-}
-
 void AuthorMapper::buildFromRecord(Author* model, const QVariantMap& record) const {
 	model->setEmail(record["email"].toString());
 	model->setPassword(record["password"].toString());

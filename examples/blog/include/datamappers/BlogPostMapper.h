@@ -8,7 +8,6 @@ class BlogPostMapper : public DataMapper<BlogPostMapper, BlogPost, unsigned> {
 		BlogPostMapper();
 		~BlogPostMapper();
 		
-		BlogPost* newModel() const;
 		void buildFromRecord(BlogPost* model, const QVariantMap& record) const;
 		void buildRecordFrom(BlogPost* model, QVariantMap& record) const;
 		QList<QString> selectVariables() const;
