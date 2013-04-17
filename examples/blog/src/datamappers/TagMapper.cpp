@@ -1,11 +1,6 @@
 #include <datamappers/TagMapper.h>
 
 TagMapper::TagMapper() {
-	
-}
-
-TagMapper::~TagMapper() {
-	
 }
 
 void TagMapper::buildFromRecord(Tag* model, const QVariantMap& record) const {

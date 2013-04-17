@@ -4,7 +4,11 @@
 #include <controllers/AllBlogPostController.h>
 #include <views/TagPartial.h>
 
-BlogPostPartial::BlogPostPartial(DomNode node, Session* session) : Partial(node), session(session), blogPost(nullptr), blogPostId(0) {
+BlogPostPartial::BlogPostPartial(DomNode node, Session* session)
+: Partial(node)
+, session(session)
+, blogPost(nullptr)
+, blogPostId(0) {
 	addTransform("id", &BlogPostPartial::id);
 	addTransform("title", &BlogPostPartial::title);
 	addTransform("text", &BlogPostPartial::text);

@@ -7,7 +7,6 @@
 #include <datamappers/TagMapper.h>
 
 BlogPostController::BlogPostController() {
-
 }
 
 QList<BlogPost*> BlogPostController::findAll() {

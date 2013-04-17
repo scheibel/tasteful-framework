@@ -8,11 +8,6 @@
 #include <QSet>
 
 BlogPostMapper::BlogPostMapper() {
-	
-}
-
-BlogPostMapper::~BlogPostMapper() {
-	
 }
 
 void BlogPostMapper::buildFromRecord(BlogPost* model, const QVariantMap& record) const {

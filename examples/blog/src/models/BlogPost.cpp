@@ -1,14 +1,9 @@
 #include <models/BlogPost.h>
 
 BlogPost::BlogPost() {
-	
 }
 
-BlogPost::~BlogPost() {
-	
-}
-
-Author* BlogPost::getAuthor() {
+Author* BlogPost::getAuthor() const {
 	return author;
 }
 
@@ -16,27 +11,26 @@ void BlogPost::setAuthor(Author* newAuthor) {
 	author = newAuthor;
 }
 
-QString BlogPost::getTitle() {
+const QString& BlogPost::getTitle() const {
 	return title;
 }
 
-void BlogPost::setTitle(QString newTitle) {
+void BlogPost::setTitle(const QString& newTitle) {
 	title = newTitle;
 }
 
-QString BlogPost::getText() {
+const QString& BlogPost::getText() const {
 	return text;
 }
 
-void BlogPost::setText(QString newText) {
+void BlogPost::setText(const QString& newText) {
 	text = newText;
 }
 
-QList<Tag*> BlogPost::getTags() {
+const QList<Tag*>& BlogPost::getTags() const {
 	return tags;
 }
 
-void BlogPost::setTags(QList<Tag*> newTags) {
+void BlogPost::setTags(const QList<Tag*>& newTags) {
 	tags = newTags;
 }
-

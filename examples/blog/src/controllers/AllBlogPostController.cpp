@@ -5,7 +5,6 @@
 #include <datamappers/BlogPostMapper.h>
 
 AllBlogPostController::AllBlogPostController() : BlogController() {
-	
 }
 
 void AllBlogPostController::index() {

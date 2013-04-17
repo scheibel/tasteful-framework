@@ -3,10 +3,10 @@
 #include <controllers/BlogController.h>
 
 class LoginController : public BlogController {
-	public:
-		LoginController();
-		
-		void index();
-		void login();
-		void logout();
+public:
+	LoginController();
+	
+	void index();
+	void login();
+	void logout();
 };

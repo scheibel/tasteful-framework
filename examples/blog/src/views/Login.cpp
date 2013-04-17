@@ -2,7 +2,10 @@
 
 #include <controllers/LoginController.h>
 
-Login::Login(Session* session, QString email, bool loginAttempt) : BlogView(session), email(email), loginAttempt(loginAttempt) {
+Login::Login(Session* session, const QString& email, bool loginAttempt)
+: BlogView(session)
+, email(email)
+, loginAttempt(loginAttempt) {
 	setFilename("login.html");
 	
 	addTransform("loginform", &Login::loginForm);

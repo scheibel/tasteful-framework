@@ -3,24 +3,25 @@
 #include <QString>
 
 class Author {
-	public:
-		Author();
-		~Author();
-		
-		QString getEmail();
-		void setEmail(QString newEmail);
-		QString getPassword();
-		void setPassword(QString newPassword);
-		QString getSalt();
-		void setSalt(QString newSalt);
-		
-		bool validatePassword(QString pass);
-		void setNewSalt(QString newSalt);
-		void setNewPassword(QString newPassword);
-	protected:
-		QString calculateHash(QString value, QString salt);
-	private:
-		QString email;
-		QString password;
-		QString salt;
+public:
+	Author();
+	
+	const QString& getEmail() const;
+	void setEmail(const QString& newEmail);
+	
+	const QString& getPassword() const;
+	void setPassword(const QString& newPassword);
+	
+	const QString& getSalt() const;
+	void setSalt(const QString& newSalt);
+	
+	bool validatePassword(const QString& pass);
+	void setNewSalt(const QString& newSalt);
+	void setNewPassword(const QString& newPassword);
+protected:
+	QString calculateHash(const QString& value, const QString& salt);
+private:
+	QString email;
+	QString password;
+	QString salt;
 };

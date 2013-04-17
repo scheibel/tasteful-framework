@@ -2,7 +2,10 @@
 
 #include <views/TagPartial.h>
 
-BlogPostShow::BlogPostShow(Session* session, BlogPost* blogPost, unsigned id) : BlogView(session), blogPost(blogPost), id(id) {
+BlogPostShow::BlogPostShow(Session* session, BlogPost* blogPost, unsigned id)
+: BlogView(session)
+, blogPost(blogPost)
+, id(id) {
 	setFilename("blogpostshow.html");
 	
 	addTransform("blogposttitle", &BlogPostShow::blogPostTitle);

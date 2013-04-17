@@ -3,7 +3,9 @@
 #include <controllers/BlogPostController.h>
 #include <views/BlogPostPartial.h>
 
-BlogPostList::BlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
+BlogPostList::BlogPostList(Session* session, const QHash<unsigned, BlogPost*>& blogPosts)
+: BlogView(session)
+, blogPosts(blogPosts) {
 	setFilename("blogposttable.html");
 	
 	addTransform("blogposttable", &BlogPostList::blogPostTable);

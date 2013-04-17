@@ -1,7 +1,8 @@
 #include <session/Session.h>
 
-Session::Session() : AbstractSession(), author(nullptr) {
-	
+Session::Session()
+: AbstractSession()
+, author(nullptr) {
 }
 
 bool Session::isLoggedIn() {

@@ -3,7 +3,9 @@
 #include <datamappers/BlogPostMapper.h>
 #include <views/BlogPostPartial.h>
 
-AllBlogPostList::AllBlogPostList(Session* session, QList<BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
+AllBlogPostList::AllBlogPostList(Session* session, const QList<BlogPost*>& blogPosts)
+: BlogView(session)
+, blogPosts(blogPosts) {
 	setFilename("blogpostlist.html");
 	
 	addTransform("blogpostlist", &AllBlogPostList::blogPostList);

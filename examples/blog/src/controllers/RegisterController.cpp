@@ -5,7 +5,6 @@
 #include <datamappers/AuthorMapper.h>
 
 RegisterController::RegisterController() : BlogController() {
-	
 }
 
 void RegisterController::index() {

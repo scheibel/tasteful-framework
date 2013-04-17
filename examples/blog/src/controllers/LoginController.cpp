@@ -5,7 +5,6 @@
 #include <datamappers/AuthorMapper.h>
 
 LoginController::LoginController() : BlogController() {
-	
 }
 
 void LoginController::index() {

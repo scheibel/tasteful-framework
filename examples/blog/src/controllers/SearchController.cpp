@@ -5,7 +5,6 @@
 #include <views/SearchResult.h>
 
 SearchController::SearchController() : BlogController() {
-	
 }
 
 void SearchController::index() {

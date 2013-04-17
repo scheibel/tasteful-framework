@@ -1,11 +1,6 @@
 #include <datamappers/AuthorMapper.h>
 
 AuthorMapper::AuthorMapper() {
-	
-}
-
-AuthorMapper::~AuthorMapper() {
-	
 }
 
 void AuthorMapper::buildFromRecord(Author* model, const QVariantMap& record) const {

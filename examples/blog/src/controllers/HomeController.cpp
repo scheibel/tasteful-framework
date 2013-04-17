@@ -4,7 +4,6 @@
 #include <datamappers/BlogPostMapper.h>
 
 HomeController::HomeController() : BlogController() {
-	
 }
 
 void HomeController::index() {

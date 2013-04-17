@@ -1,18 +1,13 @@
 #include <models/Tag.h>
 
 Tag::Tag() {
-	
 }
 
-Tag::~Tag() {
-	
-}
-
-QString Tag::getName() {
+const QString& Tag::getName() const {
 	return name;
 }
 
-void Tag::setName(QString newName) {
+void Tag::setName(const QString& newName) {
 	name = newName;
 }
 

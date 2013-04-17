@@ -5,9 +5,9 @@
 #include <AbstractSession>
 
 class Session : public AbstractSession {
-	public:
-		Session();
-		
-		bool isLoggedIn();
-		Author* author;
+public:
+	Session();
+	
+	bool isLoggedIn();
+	Author* author;
 };

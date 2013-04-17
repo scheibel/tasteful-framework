@@ -6,10 +6,10 @@
 #include <QList>
 
 class Home : public BlogView {
-	public:
-		Home(Session* session, QList<BlogPost*> blogPosts);
-		
-		void recentPosts(DomNode& node) const;
-	private:
-		QList<BlogPost*> blogPosts;
+public:
+	Home(Session* session, const QList<BlogPost*>& blogPosts);
+	
+	void recentPosts(DomNode& node) const;
+private:
+	QList<BlogPost*> blogPosts;
 };

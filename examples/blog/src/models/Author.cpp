@@ -3,49 +3,44 @@
 #include <QCryptographicHash>
 
 Author::Author() {
-	
 }
 
-Author::~Author() {
-	
-}
-
-QString Author::getEmail() {
+const QString& Author::getEmail() const {
 	return email;
 }
 
-void Author::setEmail(QString newEmail) {
+void Author::setEmail(const QString& newEmail) {
 	email = newEmail;
 }
 
-QString Author::getPassword() {
+const QString& Author::getPassword() const {
 	return password;
 }
 
-void Author::setPassword(QString newPassword) {
+void Author::setPassword(const QString& newPassword) {
 	password = newPassword;
 }
 
-QString Author::getSalt() {
+const QString& Author::getSalt() const {
 	return salt;
 }
 
-void Author::setSalt(QString newSalt) {
+void Author::setSalt(const QString& newSalt) {
 	salt = newSalt;
 }
 
-bool Author::validatePassword(QString pass) {
+bool Author::validatePassword(const QString& pass) {
 	return password == calculateHash(pass, salt);
 }
 
-void Author::setNewSalt(QString newSalt) {
+void Author::setNewSalt(const QString& newSalt) {
 	setSalt(calculateHash(newSalt, "Blog"));
 }
 
-void Author::setNewPassword(QString newPassword) {
+void Author::setNewPassword(const QString& newPassword) {
 	setPassword(calculateHash(newPassword, salt));
 }
 
-QString Author::calculateHash(QString value, QString salt) {
+QString Author::calculateHash(const QString& value, const QString& salt) {
 	return QCryptographicHash::hash((salt + value).toUtf8(), QCryptographicHash::Sha1).toHex();
 }

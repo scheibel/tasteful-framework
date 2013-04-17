@@ -3,7 +3,7 @@
 #include <views/BlogPostPartial.h>
 #include <datamappers/BlogPostMapper.h>
 
-SearchResult::SearchResult(Session* session, QList<BlogPost*> searchResult, const QString& searchString) : BlogView(session), searchResult(searchResult), searchString(searchString) {
+SearchResult::SearchResult(Session* session, const QList<BlogPost*>& searchResult, const QString& searchString) : BlogView(session), searchResult(searchResult), searchString(searchString) {
 	setFilename("searchresult.html");
 	
 	addTransform("blogpostlist", &SearchResult::blogPostList);

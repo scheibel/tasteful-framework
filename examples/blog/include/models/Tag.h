@@ -3,12 +3,11 @@
 #include <QString>
 
 class Tag {
-	public:
-		Tag();
-		~Tag();
-		
-		QString getName();
-		void setName(QString newName);
-	private:
-		QString name;
+public:
+	Tag();
+	
+	const QString& getName() const;
+	void setName(const QString& newName);
+private:
+	QString name;
 };

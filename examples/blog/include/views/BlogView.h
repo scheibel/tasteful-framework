@@ -6,11 +6,11 @@
 #include <LayoutedTemplateView>
 
 class BlogView : public LayoutedTemplateView {
-	public:
-		BlogView(Session* session);
-	protected:
-		Session* session;
-		Layout layout;
-		
-		const TemplatedLayout& getLayout() const;
+public:
+	BlogView(Session* session);
+protected:
+	Session* session;
+	Layout layout;
+	
+	const TemplatedLayout& getLayout() const;
 };
