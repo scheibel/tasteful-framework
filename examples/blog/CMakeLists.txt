@@ -21,12 +21,10 @@ set(Blog_sources
 	
 	src/datamappers/AuthorMapper.cpp
 	src/datamappers/BlogPostMapper.cpp
-	src/datamappers/CommentMapper.cpp
 	src/datamappers/TagMapper.cpp
 	
 	src/models/Author.cpp
 	src/models/BlogPost.cpp
-	src/models/Comment.cpp
 	src/models/Tag.cpp
 	
 	src/session/Session.cpp

@@ -44,32 +44,17 @@ CREATE TABLE IF NOT EXISTS `blogentries` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments`
---
-
-CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `blogentry` int(10) unsigned NOT NULL,
-  `email` varchar(255) COLLATE utf8_bin NOT NULL,
-  `text` text COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `blogentry` (`blogentry`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `relatedTags`
 --
 
 CREATE TABLE IF NOT EXISTS `relatedTags` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `blogentry` int(10) unsigned NOT NULL,
   `tag` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `blogentry` (`blogentry`),
   KEY `tag` (`tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
