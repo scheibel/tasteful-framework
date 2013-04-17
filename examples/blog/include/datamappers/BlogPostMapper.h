@@ -16,4 +16,6 @@ class BlogPostMapper : public DataMapper<BlogPostMapper, BlogPost, unsigned> {
 		QString table() const;
 		void saveRelationsOf(BlogPost* model);
 		QString databaseId() const;
+	protected:
+		static QList<Tag*> findTagsFor(unsigned blogPostId);
 };
