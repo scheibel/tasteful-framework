@@ -4,6 +4,7 @@
 #include <controllers/RegisterController>
 #include <controllers/BlogPostController>
 #include <controllers/AllBlogPostController>
+#include <controllers/SearchController>
 
 Layout::Layout() : session(nullptr) {
 	setFilename("layout.html");
@@ -25,7 +26,8 @@ void Layout::menu(DomNode& node) const {
 		node << a(href(url(&BlogPostController::index)), "My blogposts") << " | ";
 	}
 	
-	node << a(href(url(&AllBlogPostController::index)), "List blogposts");
+	node << a(href(url(&AllBlogPostController::index)), "List blogposts") << " | ";
+	node << a(href(url(&SearchController::index)), "Search blogposts");
 }
 
 void Layout::login(DomNode& node) const {

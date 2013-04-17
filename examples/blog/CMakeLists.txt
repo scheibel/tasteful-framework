@@ -17,6 +17,7 @@ set(Blog_sources
 	src/controllers/LoginController.cpp
 	src/controllers/RegisterController.cpp
 	src/controllers/AllBlogPostController.cpp
+	src/controllers/SearchController.cpp
 	src/controllers/BlogPostController.cpp
 	
 	src/datamappers/AuthorMapper.cpp
@@ -39,6 +40,8 @@ set(Blog_sources
 	src/views/Layout.cpp
 	src/views/Login.cpp
 	src/views/Registration.cpp
+	src/views/SearchForm.cpp
+	src/views/SearchResult.cpp
 	src/views/TagPartial.cpp
 )
 

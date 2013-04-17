@@ -4,6 +4,7 @@
 #include <controllers/RegisterController>
 #include <controllers/BlogPostController>
 #include <controllers/AllBlogPostController>
+#include <controllers/SearchController>
 #include <session/Session>
 
 int main(int argc, char* argv[]) {
@@ -31,6 +32,10 @@ int main(int argc, char* argv[]) {
 	
 	GET("blogposts") = &AllBlogPostController::index;
 	GET("blogposts/:id") = &AllBlogPostController::show;
+	
+	GET("search") = &SearchController::index;
+	GET("find/:string") = &SearchController::find;
+	POST("find") = &SearchController::findPost;
 	
 	return blog.run();
 }
