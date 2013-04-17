@@ -1,4 +1,4 @@
-#include <session/Session>
+#include <session/Session.h>
 
 Session::Session() : AbstractSession(), author(nullptr) {
 	

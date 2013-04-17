@@ -11,13 +11,6 @@
 		<port>9000</port>
 	</server>
 	
-	<server>
-		<host>localhost</host>
-		<port>9090</port>
-		<certificate>server.crt</certificate>
-		<privatekey>server.key</privatekey>
-	</server>
-	
 	<database>
 		<id>blog</id>
 		<type>mysql</type>

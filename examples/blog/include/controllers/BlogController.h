@@ -1,7 +1,8 @@
 #pragma once
 
+#include <session/Session.h>
+
 #include <RestrictedController>
-#include <session/Session>
 
 class BlogController : public RestrictedController {
 	public:

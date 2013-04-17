@@ -1,7 +1,7 @@
-#include <views/Home>
+#include <views/Home.h>
 
-#include <views/BlogPostPartial>
-#include <datamappers/BlogPostMapper>
+#include <datamappers/BlogPostMapper.h>
+#include <views/BlogPostPartial.h>
 
 Home::Home(Session* session, QList<BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
 	setFilename("home.html");

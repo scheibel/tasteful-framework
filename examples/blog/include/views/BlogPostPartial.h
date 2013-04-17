@@ -1,8 +1,9 @@
 #pragma once
 
+#include <models/BlogPost.h>
+#include <session/Session.h>
+
 #include <Partial>
-#include <models/BlogPost>
-#include <session/Session>
 
 class BlogPostPartial : public Partial {
 	public:

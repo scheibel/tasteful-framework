@@ -1,4 +1,4 @@
-#include <datamappers/AuthorMapper>
+#include <datamappers/AuthorMapper.h>
 
 AuthorMapper::AuthorMapper() {
 	

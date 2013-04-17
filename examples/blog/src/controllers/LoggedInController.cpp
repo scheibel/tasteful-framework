@@ -1,7 +1,7 @@
-#include <controllers/LoggedInController>
+#include <controllers/LoggedInController.h>
 
 #include <RedirectException>
-#include <controllers/HomeController>
+#include <controllers/HomeController.h>
 
 LoggedInController::LoggedInController() : BlogController() {
 	

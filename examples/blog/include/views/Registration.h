@@ -1,6 +1,7 @@
 #pragma once
 
-#include <views/BlogView>
+#include <views/BlogView.h>
+
 #include <QString>
 
 class Registration : public BlogView {

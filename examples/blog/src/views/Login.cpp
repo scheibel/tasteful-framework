@@ -1,5 +1,6 @@
-#include <views/Login>
-#include <controllers/LoginController>
+#include <views/Login.h>
+
+#include <controllers/LoginController.h>
 
 Login::Login(Session* session, QString email, bool loginAttempt) : BlogView(session), email(email), loginAttempt(loginAttempt) {
 	setFilename("login.html");

@@ -1,8 +1,9 @@
 #pragma once
 
-#include <controllers/LoggedInController>
+#include <controllers/LoggedInController.h>
+#include <datamappers/BlogPostMapper.h>
+
 #include <CrudController>
-#include <datamappers/BlogPostMapper>
 
 class BlogPostController : public LoggedInController, public CrudController<BlogPostController, BlogPostMapper> {
 	DEFINE_CRUD_ACTIONS();

@@ -1,4 +1,4 @@
-#include <controllers/BlogController>
+#include <controllers/BlogController.h>
 
 BlogController::BlogController() : RestrictedController() {
 	

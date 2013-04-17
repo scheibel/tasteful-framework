@@ -1,11 +1,12 @@
 #include <startup>
-#include <controllers/HomeController>
-#include <controllers/LoginController>
-#include <controllers/RegisterController>
-#include <controllers/BlogPostController>
-#include <controllers/AllBlogPostController>
-#include <controllers/SearchController>
-#include <session/Session>
+
+#include <controllers/HomeController.h>
+#include <controllers/LoginController.h>
+#include <controllers/RegisterController.h>
+#include <controllers/BlogPostController.h>
+#include <controllers/AllBlogPostController.h>
+#include <controllers/SearchController.h>
+#include <session/Session.h>
 
 int main(int argc, char* argv[]) {
 	WebApplication blog(argc, argv);

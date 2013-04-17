@@ -1,7 +1,8 @@
 #pragma once
 
+#include <models/Tag.h>
+
 #include <Partial>
-#include <models/Tag>
 
 class TagPartial : public Partial {
 	public:

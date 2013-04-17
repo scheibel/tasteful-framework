@@ -1,7 +1,8 @@
 #pragma once
 
+#include <models/BlogPost.h>
+
 #include <DataMapper>
-#include <models/BlogPost>
 
 class BlogPostMapper : public DataMapper<BlogPostMapper, BlogPost, unsigned> {
 	public:

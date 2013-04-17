@@ -1,7 +1,8 @@
 #pragma once
 
+#include <models/Author.h>
+
 #include <DataMapper>
-#include <models/Author>
 
 class AuthorMapper : public DataMapper<AuthorMapper, Author, unsigned> {
 	public:

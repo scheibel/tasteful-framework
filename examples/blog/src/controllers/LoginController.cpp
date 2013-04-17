@@ -1,8 +1,8 @@
-#include <controllers/LoginController>
+#include <controllers/LoginController.h>
 
-#include <controllers/HomeController>
-#include <views/Login>
-#include <datamappers/AuthorMapper>
+#include <controllers/HomeController.h>
+#include <views/Login.h>
+#include <datamappers/AuthorMapper.h>
 
 LoginController::LoginController() : BlogController() {
 	

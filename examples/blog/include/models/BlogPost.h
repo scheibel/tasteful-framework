@@ -1,9 +1,10 @@
 #pragma once
 
+#include <models/Author.h>
+#include <models/Tag.h>
+
 #include <QString>
 #include <QList>
-#include <models/Author>
-#include <models/Tag>
 
 class BlogPost {
 	public:

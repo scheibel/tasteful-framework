@@ -1,7 +1,8 @@
 #pragma once
 
+#include <session/Session.h>
+
 #include <TemplatedLayout>
-#include <session/Session>
 
 class Layout : public TemplatedLayout {
 	public:

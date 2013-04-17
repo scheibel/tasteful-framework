@@ -1,7 +1,8 @@
 #pragma once
 
+#include <models/Tag.h>
+
 #include <DataMapper>
-#include <models/Tag>
 
 class TagMapper : public DataMapper<TagMapper, Tag, unsigned> {
 	public:

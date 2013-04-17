@@ -1,5 +1,6 @@
-#include <views/Registration>
-#include <controllers/RegisterController>
+#include <views/Registration.h>
+
+#include <controllers/RegisterController.h>
 
 Registration::Registration(Session* session, QString email, QString error) : BlogView(session), email(email), error(error) {
 	setFilename("registration.html");

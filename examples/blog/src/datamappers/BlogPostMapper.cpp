@@ -1,6 +1,7 @@
-#include <datamappers/BlogPostMapper>
-#include <datamappers/AuthorMapper>
-#include <datamappers/TagMapper>
+#include <datamappers/BlogPostMapper.h>
+
+#include <datamappers/AuthorMapper.h>
+#include <datamappers/TagMapper.h>
 
 #include <internal/Database>
 

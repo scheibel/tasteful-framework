@@ -1,6 +1,6 @@
-#include <views/TagPartial>
+#include <views/TagPartial.h>
 
-#include <controllers/SearchController>
+#include <controllers/SearchController.h>
 
 TagPartial::TagPartial(DomNode node) : Partial(node), tag(nullptr) {
 	addTransform("searchtagurl", &TagPartial::searchTagUrl);

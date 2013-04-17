@@ -1,7 +1,8 @@
 #pragma once
 
-#include <views/BlogView>
-#include <models/BlogPost>
+#include <models/BlogPost.h>
+#include <views/BlogView.h>
+
 #include <QHash>
 
 class AllBlogPostList : public BlogView {

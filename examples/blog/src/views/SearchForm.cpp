@@ -1,6 +1,6 @@
-#include <views/SearchForm>
+#include <views/SearchForm.h>
 
-#include <controllers/SearchController>
+#include <controllers/SearchController.h>
 
 SearchForm::SearchForm(Session* session) : BlogView(session) {
 	setFilename("searchform.html");

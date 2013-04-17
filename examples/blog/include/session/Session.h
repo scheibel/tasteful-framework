@@ -1,7 +1,8 @@
 #pragma once
 
+#include <models/Author.h>
+
 #include <AbstractSession>
-#include <models/Author>
 
 class Session : public AbstractSession {
 	public:

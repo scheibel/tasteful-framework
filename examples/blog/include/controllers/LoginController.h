@@ -1,6 +1,6 @@
 #pragma once
 
-#include <controllers/BlogController>
+#include <controllers/BlogController.h>
 
 class LoginController : public BlogController {
 	public:

@@ -1,4 +1,4 @@
-#include <models/Author>
+#include <models/Author.h>
 
 #include <QCryptographicHash>
 

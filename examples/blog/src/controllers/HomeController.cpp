@@ -1,7 +1,7 @@
-#include <controllers/HomeController>
+#include <controllers/HomeController.h>
 
-#include <views/Home>
-#include <datamappers/BlogPostMapper>
+#include <views/Home.h>
+#include <datamappers/BlogPostMapper.h>
 
 HomeController::HomeController() : BlogController() {
 	

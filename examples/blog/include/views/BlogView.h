@@ -1,8 +1,9 @@
 #pragma once
 
+#include <session/Session.h>
+#include <views/Layout.h>
+
 #include <LayoutedTemplateView>
-#include <session/Session>
-#include <views/Layout>
 
 class BlogView : public LayoutedTemplateView {
 	public:

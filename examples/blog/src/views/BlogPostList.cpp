@@ -1,7 +1,7 @@
-#include <views/BlogPostList>
+#include <views/BlogPostList.h>
 
-#include <views/BlogPostPartial>
-#include <controllers/BlogPostController>
+#include <controllers/BlogPostController.h>
+#include <views/BlogPostPartial.h>
 
 BlogPostList::BlogPostList(Session* session, QHash<unsigned, BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
 	setFilename("blogposttable.html");

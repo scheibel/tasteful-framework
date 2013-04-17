@@ -1,5 +1,6 @@
-#include <views/BlogPostEdit>
-#include <controllers/BlogPostController>
+#include <views/BlogPostEdit.h>
+
+#include <controllers/BlogPostController.h>
 
 BlogPostEdit::BlogPostEdit(Session* session, BlogPost* blogPost, unsigned id) : BlogView(session), blogPost(blogPost), id(id) {
 	setFilename("blogpostedit.html");

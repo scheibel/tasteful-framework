@@ -1,7 +1,7 @@
-#include <views/AllBlogPostList>
+#include <views/AllBlogPostList.h>
 
-#include <views/BlogPostPartial>
-#include <datamappers/BlogPostMapper>
+#include <datamappers/BlogPostMapper.h>
+#include <views/BlogPostPartial.h>
 
 AllBlogPostList::AllBlogPostList(Session* session, QList<BlogPost*> blogPosts) : BlogView(session), blogPosts(blogPosts) {
 	setFilename("blogpostlist.html");

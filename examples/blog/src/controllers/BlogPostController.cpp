@@ -1,10 +1,10 @@
-#include <controllers/BlogPostController>
+#include <controllers/BlogPostController.h>
 
-#include <views/BlogPostList>
-#include <views/BlogPostShow>
-#include <views/BlogPostEdit>
-#include <datamappers/AuthorMapper>
-#include <datamappers/TagMapper>
+#include <views/BlogPostList.h>
+#include <views/BlogPostShow.h>
+#include <views/BlogPostEdit.h>
+#include <datamappers/AuthorMapper.h>
+#include <datamappers/TagMapper.h>
 
 BlogPostController::BlogPostController() {
 

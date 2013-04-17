@@ -1,6 +1,6 @@
 #pragma once
 
-#include <views/BlogView>
+#include <views/BlogView.h>
 
 class SearchForm : public BlogView {
 	public:

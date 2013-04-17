@@ -1,4 +1,4 @@
-#include <views/BlogView>
+#include <views/BlogView.h>
 
 BlogView::BlogView(Session* session) : session(session) {
 	layout.setSession(session);

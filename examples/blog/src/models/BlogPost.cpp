@@ -1,4 +1,4 @@
-#include <models/BlogPost>
+#include <models/BlogPost.h>
 
 BlogPost::BlogPost() {
 	

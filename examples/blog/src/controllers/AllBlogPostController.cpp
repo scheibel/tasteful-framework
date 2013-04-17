@@ -1,8 +1,8 @@
-#include <controllers/AllBlogPostController>
+#include <controllers/AllBlogPostController.h>
 
-#include <views/AllBlogPostList>
-#include <views/BlogPostShow>
-#include <datamappers/BlogPostMapper>
+#include <views/AllBlogPostList.h>
+#include <views/BlogPostShow.h>
+#include <datamappers/BlogPostMapper.h>
 
 AllBlogPostController::AllBlogPostController() : BlogController() {
 	

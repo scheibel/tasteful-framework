@@ -1,8 +1,8 @@
-#include <controllers/RegisterController>
+#include <controllers/RegisterController.h>
 
-#include <controllers/HomeController>
-#include <views/Registration>
-#include <datamappers/AuthorMapper>
+#include <controllers/HomeController.h>
+#include <views/Registration.h>
+#include <datamappers/AuthorMapper.h>
 
 RegisterController::RegisterController() : BlogController() {
 	

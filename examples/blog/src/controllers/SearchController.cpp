@@ -1,8 +1,8 @@
-#include <controllers/SearchController>
+#include <controllers/SearchController.h>
 
-#include <datamappers/BlogPostMapper>
-#include <views/SearchForm>
-#include <views/SearchResult>
+#include <datamappers/BlogPostMapper.h>
+#include <views/SearchForm.h>
+#include <views/SearchResult.h>
 
 SearchController::SearchController() : BlogController() {
 	

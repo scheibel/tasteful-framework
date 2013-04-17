@@ -1,9 +1,8 @@
-#include <views/BlogPostPartial>
+#include <views/BlogPostPartial.h>
 
-#include <views/TagPartial>
-
-#include <controllers/BlogPostController>
-#include <controllers/AllBlogPostController>
+#include <controllers/BlogPostController.h>
+#include <controllers/AllBlogPostController.h>
+#include <views/TagPartial.h>
 
 BlogPostPartial::BlogPostPartial(DomNode node, Session* session) : Partial(node), session(session), blogPost(nullptr), blogPostId(0) {
 	addTransform("id", &BlogPostPartial::id);
