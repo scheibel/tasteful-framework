@@ -12,23 +12,13 @@ else (WITH_EXAMPLES)
 	message ("-- Compile Tasteful Server WITHOUT examples")
 endif (WITH_EXAMPLES)
 
-find_package(Qt4 COMPONENTS QtCore QtSql QtXml QtNetwork REQUIRED)
+set(CMAKE_AUTOMOC ON)
+find_package(Qt5Core REQUIRED)
 find_package(TastefulServer REQUIRED)
-include(${QT_USE_FILE})
 
 include_directories("./include/" ${TastefulServer_INCLUDE_DIR})
 
 add_definitions(-std=c++0x -Wreturn-type -Werror=return-type)
-
-QT4_WRAP_CPP(Framework_moc_sources
-	include/AbstractSession.h
-	include/internal/SessionPool.h
-	include/Logger.h
-	include/internal/RouteRegistry.h
-	include/internal/Dispatcher.h
-	include/internal/SignalXmlContentHandler.h
-	include/internal/WebAppConfigReader.h
-)
 
 set(Framework_sources
 	src/core/Properties.cpp
@@ -164,7 +154,9 @@ set(Framework_internal_headers
 
 add_library(TastefulFramework SHARED ${Framework_sources} ${Framework_moc_sources} ${Framework_headers} ${Framework_internal_headers})
 
-target_link_libraries(TastefulFramework ${QT_LIBRARIES} ${QT_QTSQL_LIBRARIES} ${TastefulServer_LIBRARY})
+qt5_use_modules(TastefulFramework Sql Xml Network)
+
+target_link_libraries(TastefulFramework ${TastefulServer_LIBRARY})
 
 install(FILES ${Framework_headers} DESTINATION include/tastefulframework/)
 install(FILES ${Framework_internal_headers} DESTINATION include/tastefulframework/internal)
