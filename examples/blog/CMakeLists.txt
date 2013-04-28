@@ -1,8 +1,7 @@
 project(Blog)
 
-find_package(Qt4 COMPONENTS QtCore QtSql QtXml QtNetwork REQUIRED)
+find_package(Qt5Core REQUIRED)
 find_package(TastefulServer REQUIRED)
-include(${QT_USE_FILE})
 
 include_directories("./include/" "../../include/" ${TastefulServer_INCLUDE_DIR})
 
@@ -47,4 +46,6 @@ set(Blog_sources
 
 add_executable(Blog ${Blog_sources})
 
-target_link_libraries(Blog ${QT_LIBRARIES} ${QT_QTSQL_LIBRARIES} TastefulFramework ${TastefulServer_LIBRARY})
+target_link_libraries(Blog TastefulFramework ${TastefulServer_LIBRARY})
+
+qt5_use_modules(Blog Core Network Xml Sql)
