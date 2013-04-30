@@ -27,6 +27,14 @@
 #include <XmlTransform>
 #include <QStringList>
 #include <QDomDocument>
+#include <QtAlgorithms>
+
+XmlTransform::XmlTransform() {
+}
+
+XmlTransform::~XmlTransform() {
+	qDeleteAll(transformations);
+}
 
 void XmlTransform::transform(DomNode& node) const {
 	transformRecursion(node);
@@ -61,8 +69,8 @@ void XmlTransform::transformElement(DomNode& element) const {
 	element.removeAttribute("data-transform");
 	
 	for (const QString& selector: selectors) {
-		if (transforms.contains(selector)) {
-			(this->*transforms[selector])(element);
+		if (transformations.contains(selector)) {
+			(*transformations[selector])(element);
 		}
 	}
 }
@@ -96,4 +104,8 @@ DomNode XmlTransform::findFirstNodeWithAttribute(const DomNode& node, const QStr
 	}
 	
 	return DomNode();
+}
+
+void XmlTransform::addTransform(const QString& selector, internal::LambdaNodeTransformation::Lambda transform) {
+	transformations.insert(selector, new internal::LambdaNodeTransformation(transform));
 }

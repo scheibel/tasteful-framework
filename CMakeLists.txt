@@ -59,6 +59,7 @@ set(Framework_sources
 	src/views/LayoutedTemplateView.cpp
 	src/views/DomHelper.cpp
 	src/views/Partial.cpp
+	src/views/NodeTransformation.cpp
 )
 
 set(Framework_headers
@@ -150,6 +151,8 @@ set(Framework_internal_headers
 	include/internal/IdentityMap
 	include/internal/StringConvertible.h
 	include/internal/StringConvertible
+	include/internal/NodeTransformation
+	include/internal/NodeTransformation.h
 )
 
 add_library(TastefulFramework SHARED ${Framework_sources} ${Framework_moc_sources} ${Framework_headers} ${Framework_internal_headers})

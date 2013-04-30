@@ -26,30 +26,41 @@
 
 #pragma once
 
-#include <QString>
-#include <QHash>
-#include <DomHelper>
 #include <DomNode>
-#include <internal/NodeTransformation>
-#include <typeinfo>
 
-class XmlTransform : protected DomHelper {
-public:
-	XmlTransform();
-	virtual ~XmlTransform();
-private:
-	void transformRecursion(DomNode& node) const;
-	void transformElement(DomNode& node) const;
-	DomNode findFirstNodeWithAttribute(const DomNode& node, const QString& attribute) const;
+#include <functional>
 
-	QHash<QString, internal::NodeTransformation*> transformations;
-protected:
-	template <class T>
-	void addTransform(const QString& selector, void (T::*transform)(DomNode&) const) {
-		transformations.insert(selector, new internal::MethodNodeTransformation<T>(this, transform));
+class XmlTransform;
+
+namespace internal {
+	class NodeTransformation {
+	public:
+		virtual void operator()(DomNode& node) const = 0;
 	};
-	void addTransform(const QString& selector, internal::LambdaNodeTransformation::Lambda transform);
-	void transform(DomNode& node) const;
-	DomNode transformFile(const QString& filename) const;
-	DomNode findContentNode(const DomNode& node) const;
-};
+	
+	template <typename T>
+	class MethodNodeTransformation : public NodeTransformation {
+	public:
+		typedef void (T::*MethodPointer)(DomNode&) const;
+	
+		MethodNodeTransformation(XmlTransform* transform, MethodPointer methodPointer) : transform(transform), methodPointer(methodPointer) {
+		}
+		
+		void operator()(DomNode& node) const {
+			(dynamic_cast<const T*>(transform)->*methodPointer)(node);
+		}
+	private:
+		XmlTransform* transform;
+		MethodPointer methodPointer;
+	};
+
+	class LambdaNodeTransformation : public NodeTransformation {
+	public:
+		typedef std::function<void(DomNode&)> Lambda;
+		LambdaNodeTransformation(Lambda lambda);
+		
+		void operator()(DomNode& node) const;
+	private:
+		Lambda lambda;
+	};
+}

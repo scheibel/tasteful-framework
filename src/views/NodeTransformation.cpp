@@ -24,32 +24,13 @@
   * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
   **/
 
-#pragma once
-
-#include <QString>
-#include <QHash>
-#include <DomHelper>
-#include <DomNode>
 #include <internal/NodeTransformation>
-#include <typeinfo>
 
-class XmlTransform : protected DomHelper {
-public:
-	XmlTransform();
-	virtual ~XmlTransform();
-private:
-	void transformRecursion(DomNode& node) const;
-	void transformElement(DomNode& node) const;
-	DomNode findFirstNodeWithAttribute(const DomNode& node, const QString& attribute) const;
+using namespace internal;
 
-	QHash<QString, internal::NodeTransformation*> transformations;
-protected:
-	template <class T>
-	void addTransform(const QString& selector, void (T::*transform)(DomNode&) const) {
-		transformations.insert(selector, new internal::MethodNodeTransformation<T>(this, transform));
-	};
-	void addTransform(const QString& selector, internal::LambdaNodeTransformation::Lambda transform);
-	void transform(DomNode& node) const;
-	DomNode transformFile(const QString& filename) const;
-	DomNode findContentNode(const DomNode& node) const;
-};
+LambdaNodeTransformation::LambdaNodeTransformation(Lambda lambda) : lambda(lambda) {
+}
+
+void LambdaNodeTransformation::operator()(DomNode& node) const {
+	lambda(node);
+}

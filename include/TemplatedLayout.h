@@ -31,7 +31,7 @@
 
 #include <QString>
 
-class TemplatedLayout : protected XmlTransform, protected UrlHelper {
+class TemplatedLayout : public XmlTransform, protected UrlHelper {
 	public:
 		TemplatedLayout() = default;
 		TemplatedLayout(const QString& filename);

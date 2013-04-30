@@ -31,7 +31,7 @@
 #include <UrlHelper>
 #include <QString>
 
-class Partial : public DomNodeProducer, protected XmlTransform, protected UrlHelper {
+class Partial : public DomNodeProducer, public XmlTransform, protected UrlHelper {
 	public:
 		Partial(const DomNode& node);
 		Partial(const QString& filename);
