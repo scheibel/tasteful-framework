@@ -30,7 +30,7 @@
 #include <View>
 #include <XmlTransform>
 
-class TemplateView : public XmlTransform, public View {
+class TemplateView : public View, public XmlTransform {
 	public:
 		TemplateView() = default;
 		TemplateView(const QString& filename);

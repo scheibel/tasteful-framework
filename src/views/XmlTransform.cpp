@@ -29,9 +29,6 @@
 #include <QDomDocument>
 #include <QtAlgorithms>
 
-XmlTransform::XmlTransform() {
-}
-
 XmlTransform::~XmlTransform() {
 	qDeleteAll(transformations);
 }

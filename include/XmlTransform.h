@@ -31,11 +31,9 @@
 #include <DomHelper>
 #include <DomNode>
 #include <internal/NodeTransformation>
-#include <typeinfo>
 
 class XmlTransform : protected DomHelper {
 public:
-	XmlTransform();
 	virtual ~XmlTransform();
 private:
 	void transformRecursion(DomNode& node) const;
