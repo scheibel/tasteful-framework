@@ -36,5 +36,5 @@ public:
 
 	void setData(Tag* tag);
 private:
-	Tag* tag;
+	Tag* _tag;
 };

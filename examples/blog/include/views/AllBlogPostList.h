@@ -37,5 +37,5 @@ public:
 	
 	void blogPostList(DomNode& node) const;
 private:
-	QList<BlogPost*> blogPosts;
+	QList<BlogPost*> _blogPosts;
 };

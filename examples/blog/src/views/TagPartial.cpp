@@ -28,16 +28,16 @@
 
 #include <controllers/SearchController.h>
 
-TagPartial::TagPartial(DomNode node) : Partial(node), tag(nullptr) {
+TagPartial::TagPartial(DomNode node) : Partial(node), _tag(nullptr) {
 	addTransform("searchtagurl", [this](DomNode& node) {
-		node("href") = url(&SearchController::find, { { "string", tag->getName() } });
+		node("href") = url(&SearchController::find, { { "string", _tag->getName() } });
 	});
 	
 	addTransform("tagname", [this](DomNode& node) {
-		node.inner() = tag->getName();
+		node.inner() = _tag->getName();
 	});
 }
 
 void TagPartial::setData(Tag* tag) {
-	this->tag = tag;
+	_tag = tag;
 }

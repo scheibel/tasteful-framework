@@ -26,10 +26,10 @@
 
 #include <views/BlogView.h>
 
-BlogView::BlogView(Session* session) : session(session) {
-	layout.setSession(session);
+BlogView::BlogView(Session* session) : _session(session) {
+	_layout.setSession(session);
 }
 
 const TemplatedLayout& BlogView::getLayout() const {
-	return layout;
+	return _layout;
 }

@@ -32,7 +32,7 @@
 #include <controllers/AllBlogPostController.h>
 #include <controllers/SearchController.h>
 
-Layout::Layout() : session(nullptr) {
+Layout::Layout() : _session(nullptr) {
 	setFilename("layout.html");
 	
 	addTransform("stylesheets", [this](DomNode& node) {
@@ -44,11 +44,11 @@ Layout::Layout() : session(nullptr) {
 }
 
 void Layout::setSession(Session* newSession) {
-	session = newSession;
+	_session = newSession;
 }
 
 void Layout::menu(DomNode& node) const {
-	if (session && session->isValid() && session->isLoggedIn()) {
+	if (_session && _session->isValid() && _session->isLoggedIn()) {
 		node << a(href(url(&BlogPostController::index)), "My blogposts") << " | ";
 	}
 	
@@ -57,9 +57,9 @@ void Layout::menu(DomNode& node) const {
 }
 
 void Layout::login(DomNode& node) const {
-	if (session && session->isValid()) {
-		if (session->isLoggedIn()) {
-			node << a(href(url(&LoginController::logout)), "Log out") << (" | Logged in as " + session->author->getEmail());
+	if (_session && _session->isValid()) {
+		if (_session->isLoggedIn()) {
+			node << a(href(url(&LoginController::logout)), "Log out") << (" | Logged in as " + _session->author->getEmail());
 		} else {
 			node << a(href(url(&LoginController::index)), "Log in") << " | " << a(href(url(&RegisterController::index)), "Sign up");
 		}

@@ -31,21 +31,21 @@
 
 Home::Home(Session* session, const QList<BlogPost*>& blogPosts)
 : BlogView(session)
-, blogPosts(blogPosts) {
+, _blogPosts(blogPosts) {
 	setFilename("home.html");
 	
 	addTransform("recentposts", &Home::recentPosts);
 }
 
 void Home::recentPosts(DomNode& node) const {
-	if (blogPosts.empty()) {
+	if (_blogPosts.empty()) {
 		node.remove();
 		return;
 	}
 	
-	BlogPostPartial blogPostPartial(node.firstChild().remove(), session);
+	BlogPostPartial blogPostPartial(node.firstChild().remove(), _session);
 	
-	for (BlogPost* blogPost : blogPosts) {
+	for (BlogPost* blogPost : _blogPosts) {
 		blogPostPartial.setData(blogPost, BlogPostMapper::instance().idOf(blogPost));
 		node << blogPostPartial;
 	}

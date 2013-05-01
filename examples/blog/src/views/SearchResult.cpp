@@ -29,22 +29,22 @@
 #include <views/BlogPostPartial.h>
 #include <datamappers/BlogPostMapper.h>
 
-SearchResult::SearchResult(Session* session, const QList<BlogPost*>& searchResult, const QString& searchString) : BlogView(session), searchResult(searchResult), searchString(searchString) {
+SearchResult::SearchResult(Session* session, const QList<BlogPost*>& searchResult, const QString& searchString) : BlogView(session), _searchResult(searchResult), _searchString(searchString) {
 	setFilename("searchresult.html");
 	
 	addTransform("blogpostlist", &SearchResult::showResults);
 }
 
 void SearchResult::showResults(DomNode& node) const {
-	if (searchResult.empty()) {
-		node.inner() = "No results were found for \"" + searchString + "\"";
+	if (_searchResult.empty()) {
+		node.inner() = "No results were found for \"" + _searchString + "\"";
 		
 		return;
 	}
 	
-	BlogPostPartial blogPostPartial(node.firstChild().remove(), session);
+	BlogPostPartial blogPostPartial(node.firstChild().remove(), _session);
 	
-	for (BlogPost* blogPost : searchResult) {
+	for (BlogPost* blogPost : _searchResult) {
 		blogPostPartial.setData(blogPost, BlogPostMapper::instance().idOf(blogPost));
 		node << blogPostPartial;
 	}

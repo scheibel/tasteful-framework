@@ -39,5 +39,5 @@ protected:
 	void login(DomNode& node) const;
 	void menu(DomNode& node) const;
 private:
-	Session* session;
+	Session* _session;
 };

@@ -35,6 +35,6 @@ public:
 	
 	void showResults(DomNode& node) const;
 private:
-	QList<BlogPost*> searchResult;
-	QString searchString;
+	QList<BlogPost*> _searchResult;
+	QString _searchString;
 };
