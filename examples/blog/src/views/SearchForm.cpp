@@ -31,9 +31,7 @@
 SearchForm::SearchForm(Session* session) : BlogView(session) {
 	setFilename("searchform.html");
 	
-	addTransform("searchurl", &SearchForm::searchUrl);
-}
-
-void SearchForm::searchUrl(DomNode& node) const {
-	node("action") = url(&SearchController::findPost);
+	addTransform("searchurl", [this](DomNode& node) {
+		node("action") = url(&SearchController::findPost);
+	});
 }

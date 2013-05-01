@@ -36,7 +36,6 @@ public:
 	BlogPostList(Session* session, const QHash<unsigned, BlogPost*>& blogPosts);
 	
 	void blogPostTable(DomNode& node) const;
-	void newLink(DomNode& node) const;
 private:
-	QHash<unsigned, BlogPost*> blogPosts;
+	QHash<unsigned, BlogPost*> _blogPosts;
 };

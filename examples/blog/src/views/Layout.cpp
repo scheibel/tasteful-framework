@@ -34,17 +34,17 @@
 
 Layout::Layout() : session(nullptr) {
 	setFilename("layout.html");
-	addTransform("stylesheets", &Layout::stylesheets);
+	
+	addTransform("stylesheets", [this](DomNode& node) {
+		node << link(type("text/css"), href("/stylesheets/blog.css"), rel("stylesheet"));
+	});
+	
 	addTransform("login", &Layout::login);
 	addTransform("menu", &Layout::menu);
 }
 
 void Layout::setSession(Session* newSession) {
 	session = newSession;
-}
-
-void Layout::stylesheets(DomNode& node) const {
-	node << link(type("text/css"), href("/stylesheets/blog.css"), rel("stylesheet"));
 }
 
 void Layout::menu(DomNode& node) const {

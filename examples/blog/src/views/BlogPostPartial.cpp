@@ -32,61 +32,54 @@
 
 BlogPostPartial::BlogPostPartial(DomNode node, Session* session)
 : Partial(node)
-, session(session)
-, blogPost(nullptr)
-, blogPostId(0) {
-	addTransform("id", &BlogPostPartial::id);
-	addTransform("title", &BlogPostPartial::title);
-	addTransform("text", &BlogPostPartial::text);
-	addTransform("shorttext", &BlogPostPartial::shortText);
-	addTransform("showlink", &BlogPostPartial::showLink);
-	addTransform("editlink", &BlogPostPartial::editLink);
-	addTransform("deletelink", &BlogPostPartial::deleteLink);
+, _session(session)
+, _blogPost(nullptr)
+, _id(0) {
+	addTransform("id", [this](DomNode& node) {
+		node.inner() = QString::number(_id);
+	});
+	
+	addTransform("title", [this](DomNode& node) {
+		node.inner() = _blogPost->getTitle();
+	});
+	
+	addTransform("text", [this](DomNode& node) {
+		node.inner() = _blogPost->getText();
+	});
+	
+	addTransform("shorttext", [this](DomNode& node) {
+		node.inner() = _blogPost->getText();
+	});
+	
+	addTransform("showlink", [this](DomNode& node) {
+		if (_session->isLoggedIn() && _blogPost->getAuthor() == _session->author) {
+			node("href") = url(&BlogPostController::show, { { "id", _id } });
+		} else {
+			node("href") = url(&AllBlogPostController::show, { { "id", _id } });
+		}
+	});
+	
+	addTransform("editlink", [this](DomNode& node) {
+		node("href") = url(&BlogPostController::edit, { { "id", _id } });
+	});
+	
+	addTransform("deletelink", [this](DomNode& node) {
+		node("href") = url(&BlogPostController::remove, { { "id", _id } });
+	});
+	
 	addTransform("tags", &BlogPostPartial::tags);
 }
 
-void BlogPostPartial::setData(BlogPost* blogPost, unsigned blogPostId) {
-	this->blogPost = blogPost;
-	this->blogPostId = blogPostId;
-}
-
-void BlogPostPartial::id(DomNode& node) const {
-	node.inner() = QString::number(blogPostId);
-}
-
-void BlogPostPartial::title(DomNode& node) const {
-	node.inner() = blogPost->getTitle();
-}
-
-void BlogPostPartial::text(DomNode& node) const {
-	node.inner() = blogPost->getText();
-}
-
-void BlogPostPartial::shortText(DomNode& node) const {
-	node.inner() = blogPost->getText();
-}
-
-void BlogPostPartial::showLink(DomNode& node) const {
-	if (session->isLoggedIn() && blogPost->getAuthor() == session->author) {
-		node("href") = url(&BlogPostController::show, { { "id", blogPostId } });
-	} else {
-		node("href") = url(&AllBlogPostController::show, { { "id", blogPostId } });
-	}
-}
-
-void BlogPostPartial::editLink(DomNode& node) const {
-	node("href") = url(&BlogPostController::edit, { { "id", blogPostId } });
-}
-
-void BlogPostPartial::deleteLink(DomNode& node) const {
-	node("href") = url(&BlogPostController::remove, { { "id", blogPostId } });
+void BlogPostPartial::setData(BlogPost* blogPost, unsigned id) {
+	_blogPost = blogPost;
+	_id = id;
 }
 
 void BlogPostPartial::tags(DomNode& node) const {
 	TagPartial tagPartial(node.children()[0].remove());
 	
-	if (blogPost->getTags().size()) {
-		for (Tag* tag : blogPost->getTags()) {
+	if (_blogPost->getTags().size()) {
+		for (Tag* tag : _blogPost->getTags()) {
 			tagPartial.setData(tag);
 			node << tagPartial;
 			node << " ";

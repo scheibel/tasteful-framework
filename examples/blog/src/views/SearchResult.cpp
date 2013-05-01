@@ -32,10 +32,10 @@
 SearchResult::SearchResult(Session* session, const QList<BlogPost*>& searchResult, const QString& searchString) : BlogView(session), searchResult(searchResult), searchString(searchString) {
 	setFilename("searchresult.html");
 	
-	addTransform("blogpostlist", &SearchResult::blogPostList);
+	addTransform("blogpostlist", &SearchResult::showResults);
 }
 
-void SearchResult::blogPostList(DomNode& node) const {
+void SearchResult::showResults(DomNode& node) const {
 	if (searchResult.empty()) {
 		node.inner() = "No results were found for \"" + searchString + "\"";
 		

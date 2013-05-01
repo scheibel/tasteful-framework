@@ -31,22 +31,21 @@
 
 BlogPostList::BlogPostList(Session* session, const QHash<unsigned, BlogPost*>& blogPosts)
 : BlogView(session)
-, blogPosts(blogPosts) {
+, _blogPosts(blogPosts) {
 	setFilename("blogposttable.html");
 	
 	addTransform("blogposttable", &BlogPostList::blogPostTable);
-	addTransform("newlink", &BlogPostList::newLink);
+	
+	addTransform("newlink", [this](DomNode& node) {
+		node("href") = url(&BlogPostController::create);
+	});
 }
 
 void BlogPostList::blogPostTable(DomNode& node) const {
 	BlogPostPartial blogPostPartial(node["tr"][1].remove(), session);
 	
-	for (unsigned id : blogPosts.keys()) {
-		blogPostPartial.setData(blogPosts.value(id), id);
+	for (unsigned id : _blogPosts.keys()) {
+		blogPostPartial.setData(_blogPosts.value(id), id);
 		node << blogPostPartial;
 	}
-}
-
-void BlogPostList::newLink(DomNode& node) const {
-	node("href") = url(&BlogPostController::create);
 }

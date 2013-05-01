@@ -33,7 +33,7 @@ class SearchResult : public BlogView {
 public:
 	SearchResult(Session* session, const QList<BlogPost*>& searchResult, const QString& searchString);
 	
-	void blogPostList(DomNode& node) const;
+	void showResults(DomNode& node) const;
 private:
 	QList<BlogPost*> searchResult;
 	QString searchString;

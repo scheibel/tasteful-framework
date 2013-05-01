@@ -30,28 +30,26 @@
 
 BlogPostShow::BlogPostShow(Session* session, BlogPost* blogPost, unsigned id)
 : BlogView(session)
-, blogPost(blogPost)
-, id(id) {
+, _blogPost(blogPost)
+, _id(id) {
 	setFilename("blogpostshow.html");
 	
-	addTransform("blogposttitle", &BlogPostShow::blogPostTitle);
-	addTransform("blogpostcontent", &BlogPostShow::blogPostContent);
+	addTransform("blogposttitle", [this](DomNode& node) {
+		node.inner() = _blogPost->getTitle();
+	});
+	
+	addTransform("blogpostcontent", [this](DomNode& node) {
+		node.inner() = _blogPost->getText();
+	});
+	
 	addTransform("tags", &BlogPostShow::blogPostTags);
-}
-
-void BlogPostShow::blogPostTitle(DomNode& node) const {
-	node.inner() = blogPost->getTitle();
-}
-
-void BlogPostShow::blogPostContent(DomNode& node) const {
-	node.inner() = blogPost->getText();
 }
 
 void BlogPostShow::blogPostTags(DomNode& node) const {
 	TagPartial tagPartial(node.children()[0].remove());
 	
-	if (blogPost->getTags().size()) {
-		for (Tag* tag : blogPost->getTags()) {
+	if (_blogPost->getTags().size()) {
+		for (Tag* tag : _blogPost->getTags()) {
 			tagPartial.setData(tag);
 			node << tagPartial;
 			node << " ";

@@ -36,7 +36,6 @@ public:
 	
 	void setSession(Session* newSession);
 protected:
-	void stylesheets(DomNode& node) const;
 	void login(DomNode& node) const;
 	void menu(DomNode& node) const;
 private:

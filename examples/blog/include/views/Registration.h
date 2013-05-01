@@ -33,11 +33,7 @@
 class Registration : public BlogView {
 public:
 	Registration(Session* session, const QString& email = "", const QString& error = "");
-	
-	void registrationForm(DomNode& node) const;
-	void errorMessage(DomNode& node) const;
-	void emailValue(DomNode& node) const;
 private:
-	QString email;
-	QString error;
+	QString _email;
+	QString _error;
 };
