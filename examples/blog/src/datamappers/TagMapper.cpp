@@ -26,9 +26,6 @@
 
 #include <datamappers/TagMapper.h>
 
-TagMapper::TagMapper() {
-}
-
 void TagMapper::buildFromRecord(Tag* model, const QVariantMap& record) const {
 	model->setName(record["name"].toString());
 }

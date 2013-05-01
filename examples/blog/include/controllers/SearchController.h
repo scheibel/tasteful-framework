@@ -30,8 +30,6 @@
 
 class SearchController : public BlogController {
 public:
-	SearchController();
-	
 	void index();
 	void find();
 	void findPost();

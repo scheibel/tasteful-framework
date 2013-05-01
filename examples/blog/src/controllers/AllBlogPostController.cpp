@@ -30,9 +30,6 @@
 #include <views/BlogPostShow.h>
 #include <datamappers/BlogPostMapper.h>
 
-AllBlogPostController::AllBlogPostController() : BlogController() {
-}
-
 void AllBlogPostController::index() {
 	render(AllBlogPostList(getSession(), BlogPostMapper::instance().find("1 ORDER BY id DESC")));
 }

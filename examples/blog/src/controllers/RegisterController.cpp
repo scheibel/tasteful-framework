@@ -30,9 +30,6 @@
 #include <views/Registration.h>
 #include <datamappers/AuthorMapper.h>
 
-RegisterController::RegisterController() : BlogController() {
-}
-
 void RegisterController::index() {
 	render(Registration(getSession()));
 }

@@ -30,31 +30,31 @@
 
 template <class ControllerClass, class MapperClass>
 class CrudController : public virtual Controller {
-	public:
-		typedef typename MapperClass::Model Model;
-		typedef typename MapperClass::Identity Identity;
+public:
+	typedef typename MapperClass::Model Model;
+	typedef typename MapperClass::Identity Identity;
 
-		virtual void index();
-		virtual void show();
-		virtual void create();
-		virtual void edit();
-		virtual void save();
-		virtual void remove();
-	protected:
-		virtual void beforeSave(Model* model);
-		virtual void saved(Model* model);
-		virtual void created(Model* model);
-		virtual void beforeDelete(Model* model);
-		virtual void deleted(Model* model);
+	virtual void index();
+	virtual void show();
+	virtual void create();
+	virtual void edit();
+	virtual void save();
+	virtual void remove();
+protected:
+	virtual void beforeSave(Model* model);
+	virtual void saved(Model* model);
+	virtual void created(Model* model);
+	virtual void beforeDelete(Model* model);
+	virtual void deleted(Model* model);
 
-		virtual void renderListViewFor(const QHash<Identity, Model*>& models) = 0;
-		virtual void renderShowViewFor(Model* model, Identity id) = 0;
-		virtual void renderEditViewFor(Model* model, Identity id) = 0;
+	virtual void renderListViewFor(const QHash<Identity, Model*>& models) = 0;
+	virtual void renderShowViewFor(Model* model, Identity id) = 0;
+	virtual void renderEditViewFor(Model* model, Identity id) = 0;
 
-		virtual QList<Model*> findAll();
+	virtual QList<Model*> findAll();
 
-		MapperClass& getDataMapper();
-		QHash<Identity, Model*> allModels();
+	MapperClass& getDataMapper();
+	QHash<Identity, Model*> allModels();
 };
 
 #define DEFINE_CRUD_ACTIONS() \

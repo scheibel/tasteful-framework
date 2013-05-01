@@ -38,3 +38,14 @@ RouteActionAssigner GET(const QString& urlPattern);
 RouteActionAssigner PUT(const QString& urlPattern);
 RouteActionAssigner POST(const QString& urlPattern);
 RouteActionAssigner DELETE(const QString& urlPattern);
+
+template <class CrudControllerSubclass>
+void registerCrudActions(const QString& urlPattern) {
+	GET(urlPattern) = &CrudControllerSubclass::index;
+	GET(urlPattern+"/:id") = &CrudControllerSubclass::show;
+	GET(urlPattern+"/new") = &CrudControllerSubclass::create;
+	GET(urlPattern+"/:id/edit") = &CrudControllerSubclass::edit;
+	POST(urlPattern+"/save") = &CrudControllerSubclass::save;
+	GET(urlPattern+"/:id/delete") = &CrudControllerSubclass::remove;
+	DELETE(urlPattern+"/:id/delete") = &CrudControllerSubclass::remove;
+}

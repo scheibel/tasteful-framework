@@ -32,9 +32,6 @@
 #include <datamappers/AuthorMapper.h>
 #include <datamappers/TagMapper.h>
 
-BlogPostController::BlogPostController() {
-}
-
 QList<BlogPost*> BlogPostController::findAll() {
 	return getDataMapper().find("author = " + QString::number(AuthorMapper::instance().idOf(getSession()->author())));
 }

@@ -26,9 +26,6 @@
 
 #include <controllers/BlogController.h>
 
-BlogController::BlogController() : RestrictedController() {
-}
-
 bool BlogController::isAuthorized() const {
 	return true;
 }

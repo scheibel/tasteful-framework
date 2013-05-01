@@ -30,7 +30,5 @@
 
 class HomeController : public BlogController {
 public:
-	HomeController();
-	
 	void index();
 };

@@ -83,6 +83,8 @@ public:
 	QVariant countOf(QString field, QString whereClause);
 	QVariant aggregateOf(QString field, QString aggregationType, QString whereClause);
 	*/
+protected:
+	
 private:
 	IdentityMap<T, I> identities;
 };

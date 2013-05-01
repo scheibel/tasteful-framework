@@ -29,9 +29,6 @@
 #include <RedirectException>
 #include <controllers/HomeController.h>
 
-LoggedInController::LoggedInController() : BlogController() {
-}
-
 bool LoggedInController::isAuthorized() const {
 	return getSession()->isLoggedIn();
 }

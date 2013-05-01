@@ -26,9 +26,6 @@
 
 #include <datamappers/AuthorMapper.h>
 
-AuthorMapper::AuthorMapper() {
-}
-
 void AuthorMapper::buildFromRecord(Author* model, const QVariantMap& record) const {
 	model->setEmail(record["email"].toString());
 	model->setPassword(record["password"].toString());

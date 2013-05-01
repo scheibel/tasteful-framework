@@ -49,13 +49,7 @@ int main(int argc, char* argv[]) {
 	GET("register") = &RegisterController::index;
 	POST("register") = &RegisterController::signup;
 	
-	GET("myblogposts") = &BlogPostController::index;
-	GET("myblogposts/:id") = &BlogPostController::show;
-	GET("myblogposts/new") = &BlogPostController::create;
-	GET("myblogposts/:id/edit") = &BlogPostController::edit;
-	POST("myblogposts/save") = &BlogPostController::save;
-	GET("myblogposts/:id/delete") = &BlogPostController::remove;
-	DELETE("myblogposts/:id/delete") = &BlogPostController::remove;
+	registerCrudActions<BlogPostController>("myblogposts");
 	
 	GET("blogposts") = &AllBlogPostController::index;
 	GET("blogposts/:id") = &AllBlogPostController::show;

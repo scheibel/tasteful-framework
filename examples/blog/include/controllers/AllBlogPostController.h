@@ -30,8 +30,6 @@
 
 class AllBlogPostController : public BlogController {
 public:
-	AllBlogPostController();
-	
 	void index();
 	void show();
 };

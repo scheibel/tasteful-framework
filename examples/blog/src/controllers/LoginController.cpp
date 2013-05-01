@@ -30,9 +30,6 @@
 #include <views/Login.h>
 #include <datamappers/AuthorMapper.h>
 
-LoginController::LoginController() : BlogController() {
-}
-
 void LoginController::index() {
 	render(Login(getSession()));
 }

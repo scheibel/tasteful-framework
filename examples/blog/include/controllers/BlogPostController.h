@@ -33,8 +33,6 @@
 
 class BlogPostController : public LoggedInController, public CrudController<BlogPostController, BlogPostMapper> {
 DEFINE_CRUD_ACTIONS();
-public:
-	BlogPostController();
 protected:
 	void beforeSave(BlogPost* blogPost);
 

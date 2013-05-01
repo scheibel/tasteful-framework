@@ -33,9 +33,6 @@
 
 #include <QSet>
 
-BlogPostMapper::BlogPostMapper() {
-}
-
 void BlogPostMapper::buildFromRecord(BlogPost* model, const QVariantMap& record) const {
 	model->setAuthor(AuthorMapper::instance().get(record["author"].toUInt()));
 	model->setTitle(record["title"].toString());
