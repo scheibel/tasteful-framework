@@ -28,6 +28,7 @@
 
 #include <QString>
 #include <QTextStream>
+#include <QVariantMap>
 
 namespace internal {
 	namespace Sql {
@@ -48,6 +49,7 @@ namespace internal {
 			SqlBuilder& FROM(const QString& tablename);
 			SqlBuilder& INTO(const QString& tablename);
 			SqlBuilder& SET(const QString& variables);
+			SqlBuilder& SET(const QList<QString>& variables, bool useVALUES=false);
 			SqlBuilder& WHERE(const QString& whereClause);
 			SqlBuilder& GROUPBY(const QString& fieldname);
 			SqlBuilder& LIMIT(unsigned lowerLimit, unsigned count = 0);

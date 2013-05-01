@@ -258,27 +258,17 @@ bool DataMapper<Subclass, T, I>::save(T* model) {
 	QVariantMap record;
 	buildRecordFrom(model, record);
 
-	QString variables;
-	bool first = true;
-	for (QString key : record.keys()) {
-		if (first) {
-			first = false;
-		} else {
-			variables += ", ";
-		}
-
-		variables += key + " = :" + key;
-	}
-
-	record[identityFieldName()] = id;
-
+	QList<QString> variables = record.keys();
+	
 	if (isValidId(id)) {
+		record[identityFieldName()] = id;
+		
 		QSqlQuery query = getDatabase().build(UPDATE(table()).SET(variables).WHERE(identityFieldName() + " = :" + identityFieldName()), record);
 
 		query.exec();
 	} else {
-		QSqlQuery query = getDatabase().build(INSERT().INTO(table()).SET(variables), record);
-
+		QSqlQuery query = getDatabase().build(INSERT().INTO(table()).SET(variables, true), record);
+		
 		if (query.exec()) {
 			Identity id = query.lastInsertId().value<Identity>();
 

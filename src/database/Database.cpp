@@ -57,13 +57,13 @@ Database& Database::getByIdAndThreadId(const QString& id, const QString& threadI
 		QSqlDatabase prototypeDb = id.isNull() ? QSqlDatabase::database() : QSqlDatabase::database(id);
 
 		if (!prototypeDb.isValid()) {
-			//QString("CanNo connection with id  "+id+" found");
+			throw QString("CanNo connection with id  "+id+" found");
 		}
 
 		QSqlDatabase threadDb = QSqlDatabase::cloneDatabase(prototypeDb, databaseId);
 
 		if (!threadDb.open()) {
-			//QString("Can't establish database connection "+id+": "+threadDb.lastError().text());
+			throw QString("Can't establish database connection "+id+": "+threadDb.lastError().text());
 		}
 
 		databases.insert(databaseId, new Database(threadDb));
@@ -107,12 +107,22 @@ QSqlQuery Database::build(const QString& sql) const {
 
 QSqlQuery Database::build(const QString& sql, const QVariantMap& bindings) const {
 	QSqlQuery query = build(sql);
-
-	for (QString key : bindings.keys()) {
+	
+	for (const QString& key : bindings.keys()) {
 		query.bindValue(":" + key, bindings[key]);
 	}
 
 	return query;
+	
+	/**
+	QString query = sql;
+	
+	for (const QString& key : bindings.keys()) {
+		query = query.replace(":" + key, "\"" + bindings[key].toString() + "\"");
+	}
+
+	return build(query);
+	*/
 }
 
 QSqlQuery Database::build(const SqlBuilder& sqlBuilder) const {

@@ -13,10 +13,7 @@
 	
 	<database>
 		<id>blog</id>
-		<type>mysql</type>
-		<host>localhost</host>
-		<name>blog</name>
-		<user>blog</user>
-		<password>1234567890</password>
+		<type>sqlite</type>
+		<name>blog.sqlite</name>
 	</database>
 </application>

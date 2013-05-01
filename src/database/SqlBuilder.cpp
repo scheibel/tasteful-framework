@@ -26,6 +26,8 @@
 
 #include <internal/SqlBuilder>
 
+#include <QStringList>
+
 using namespace internal;
 
 SqlBuilder::SqlBuilder(Sql::QueryType type) : stream(&sql) {
@@ -74,13 +76,37 @@ SqlBuilder& SqlBuilder::FROM(const QString& tablename) {
 }
 
 SqlBuilder& SqlBuilder::INTO(const QString& tablename) {
-	stream << " " << tablename;
+	stream << " INTO " << tablename;
 	
 	return *this;
 }
 
 SqlBuilder& SqlBuilder::SET(const QString& variables) {
 	stream << " SET " << variables;
+	
+	return *this;
+}
+
+SqlBuilder& SqlBuilder::SET(const QList<QString>& variables, bool useVALUES) {
+	if (useVALUES) {
+		QStringList partBeforeValues;
+		QStringList partAfterValues;
+		
+		for (const QString& key : variables) {
+			partBeforeValues << key;
+			partAfterValues << (":" + key);
+		}
+		
+		stream << " (" <<partBeforeValues.join(", ") << ") VALUES (" << partAfterValues.join(", ") << ")";
+	} else {
+		QStringList part;
+		
+		for (const QString& key : variables) {
+			part << (key + " = :" + key);
+		}
+		
+		stream << " SET " << part.join(", ");
+	}
 	
 	return *this;
 }
