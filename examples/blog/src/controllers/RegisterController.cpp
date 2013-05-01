@@ -56,7 +56,7 @@ void RegisterController::signup() {
 			
 			AuthorMapper::instance().save(author);
 			
-			getSession()->author = author;
+			getSession()->setAuthor(author);
 			
 			redirect(url(&HomeController::index));
 		}

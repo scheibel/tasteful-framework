@@ -28,9 +28,17 @@
 
 Session::Session()
 : AbstractSession()
-, author(nullptr) {
+, _author(nullptr) {
 }
 
 bool Session::isLoggedIn() {
-	return (bool)author;
+	return _author != nullptr;
+}
+
+Author* Session::author() {
+	return _author;
+}
+
+void Session::setAuthor(Author* author) {
+	_author = author;
 }

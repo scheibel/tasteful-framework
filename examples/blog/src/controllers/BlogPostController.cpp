@@ -36,7 +36,7 @@ BlogPostController::BlogPostController() {
 }
 
 QList<BlogPost*> BlogPostController::findAll() {
-	return getDataMapper().find("author = " + QString::number(AuthorMapper::instance().idOf(getSession()->author)));
+	return getDataMapper().find("author = " + QString::number(AuthorMapper::instance().idOf(getSession()->author())));
 }
 
 void BlogPostController::beforeSave(BlogPost* blogPost) {
@@ -50,7 +50,7 @@ void BlogPostController::beforeSave(BlogPost* blogPost) {
 	}
 	blogPost->setTags(newTags);
 	
-	blogPost->setAuthor(getSession()->author);
+	blogPost->setAuthor(getSession()->author());
 }
 
 void BlogPostController::renderListViewFor(const QHash<unsigned, BlogPost*>& blogPosts) {

@@ -32,39 +32,39 @@ Author::Author() {
 }
 
 const QString& Author::getEmail() const {
-	return email;
+	return _email;
 }
 
-void Author::setEmail(const QString& newEmail) {
-	email = newEmail;
+void Author::setEmail(const QString& email) {
+	_email = email;
 }
 
 const QString& Author::getPassword() const {
-	return password;
+	return _password;
 }
 
-void Author::setPassword(const QString& newPassword) {
-	password = newPassword;
+void Author::setPassword(const QString& password) {
+	_password = password;
 }
 
 const QString& Author::getSalt() const {
-	return salt;
+	return _salt;
 }
 
-void Author::setSalt(const QString& newSalt) {
-	salt = newSalt;
+void Author::setSalt(const QString& salt) {
+	_salt = salt;
 }
 
-bool Author::validatePassword(const QString& pass) {
-	return password == calculateHash(pass, salt);
+bool Author::validatePassword(const QString& password) {
+	return _password == calculateHash(password, _salt);
 }
 
-void Author::setNewSalt(const QString& newSalt) {
-	setSalt(calculateHash(newSalt, "Blog"));
+void Author::setNewSalt(const QString& salt) {
+	_salt = calculateHash(salt, "Blog");
 }
 
-void Author::setNewPassword(const QString& newPassword) {
-	setPassword(calculateHash(newPassword, salt));
+void Author::setNewPassword(const QString& password) {
+	_password = calculateHash(password, _salt);
 }
 
 QString Author::calculateHash(const QString& value, const QString& salt) {

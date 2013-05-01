@@ -35,5 +35,9 @@ public:
 	Session();
 	
 	bool isLoggedIn();
-	Author* author;
+	
+	Author* author();
+	void setAuthor(Author* author);
+protected:
+	Author* _author;
 };

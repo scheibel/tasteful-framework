@@ -52,7 +52,7 @@ BlogPostPartial::BlogPostPartial(DomNode node, Session* session)
 	});
 	
 	addTransform("showlink", [this](DomNode& node) {
-		if (_session->isLoggedIn() && _blogPost->getAuthor() == _session->author) {
+		if (_session->isLoggedIn() && _blogPost->getAuthor() == _session->author()) {
 			node("href") = url(&BlogPostController::show, { { "id", _id } });
 		} else {
 			node("href") = url(&AllBlogPostController::show, { { "id", _id } });

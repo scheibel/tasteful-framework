@@ -30,10 +30,10 @@ Tag::Tag() {
 }
 
 const QString& Tag::getName() const {
-	return name;
+	return _name;
 }
 
-void Tag::setName(const QString& newName) {
-	name = newName;
+void Tag::setName(const QString& name) {
+	_name = name;
 }
 

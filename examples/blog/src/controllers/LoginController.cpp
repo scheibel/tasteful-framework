@@ -45,7 +45,7 @@ void LoginController::login() {
 	
 	if (author) {
 		if (author->validatePassword(password)) {
-			getSession()->author = author;
+			getSession()->setAuthor(author);
 			
 			redirect(url(&HomeController::index));
 		}
@@ -55,7 +55,7 @@ void LoginController::login() {
 }
 
 void LoginController::logout() {
-	getSession()->author = nullptr;
+	getSession()->setAuthor(nullptr);
 	
 	redirect(url(&HomeController::index));
 }

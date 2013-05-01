@@ -33,7 +33,7 @@ LoggedInController::LoggedInController() : BlogController() {
 }
 
 bool LoggedInController::isAuthorized() const {
-	return (bool)getSession()->author;
+	return getSession()->isLoggedIn();
 }
 
 void LoggedInController::unauthorized()

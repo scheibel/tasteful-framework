@@ -33,7 +33,7 @@ public:
 	Tag();
 	
 	const QString& getName() const;
-	void setName(const QString& newName);
+	void setName(const QString& name);
 private:
-	QString name;
+	QString _name;
 };

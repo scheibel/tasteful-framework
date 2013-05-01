@@ -37,19 +37,19 @@ public:
 	BlogPost();
 	
 	Author* getAuthor() const;
-	void setAuthor(Author* newAuthor);
+	void setAuthor(Author* author);
 	
 	const QString& getTitle() const;
-	void setTitle(const QString& newTitle);
+	void setTitle(const QString& title);
 	
 	const QString& getText() const;
-	void setText(const QString& newText);
+	void setText(const QString& text);
 	
 	const QList<Tag*>& getTags() const;
-	void setTags(const QList<Tag*>& newTags);
+	void setTags(const QList<Tag*>& tags);
 private:
-	Author* author;
-	QString title;
-	QString text;
-	QList<Tag*> tags;
+	Author* _author;
+	QString _title;
+	QString _text;
+	QList<Tag*> _tags;
 };
