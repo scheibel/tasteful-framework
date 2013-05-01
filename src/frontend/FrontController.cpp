@@ -52,7 +52,7 @@ Response FrontController::dispatch(Request& request) {
 
 	Response response = dispatcher.dispatch(request);
 	checkContent(response);
-
+	
 	return response;
 }
 
@@ -64,6 +64,8 @@ void FrontController::checkContent(Response& response) const
 			response.setContentFromFile(filename);
 			logger() << "replaced content with " << QFileInfo(filename).baseName();
 		}
+	} else if (response.getContentType().is("text", "html")) {
+		response.setContent("<!DOCTYPE html>\n" + response.getContent());
 	}
 }
 

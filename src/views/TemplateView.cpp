@@ -33,6 +33,12 @@ void TemplateView::setFilename(const QString& filename) {
 	this->filename = filename;
 }
 
+void TemplateView::renderOn(Response& response) const {
+	View::renderOn(response);
+	
+	response.setMimeTypeForFileName(filename);
+}
+
 QByteArray TemplateView::content() const {
 	return transformFile(filename).toString().toUtf8();
 }

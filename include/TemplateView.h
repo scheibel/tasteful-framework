@@ -36,6 +36,8 @@ class TemplateView : public View, public XmlTransform {
 		TemplateView(const QString& filename);
 	
 		void setFilename(const QString& filename);
+		
+		virtual void renderOn(Response& response) const;
 	protected:
 		QString filename;
 		
