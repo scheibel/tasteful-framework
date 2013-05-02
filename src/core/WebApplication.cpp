@@ -161,6 +161,12 @@ void WebApplication::addDatabase(const QString& databaseType, const QString& hos
 }
 
 void WebApplication::addDatabase(const DatabaseConfig& dbConfig) {
+	if (dbConfig.type == "QSQLITE" || dbConfig.type == "sqlite") {
+		Database::add({ dbConfig.type, dbConfig.host, getPath(dbConfig.name), dbConfig.user, dbConfig.password, dbConfig.id });
+		
+		return;
+	}
+	
 	Database::add(dbConfig);
 }
 
