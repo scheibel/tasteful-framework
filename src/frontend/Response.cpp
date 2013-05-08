@@ -26,8 +26,9 @@
 
 #include <Response>
 #include <QFileInfo>
+#include <internal/MimeDatabase>
 
-MimeDatabase Response::mimeDatabase;
+using namespace internal;
 
 Response::Response(unsigned statusCode) {
 	setStatusCode(statusCode);
@@ -43,7 +44,7 @@ void Response::setMimeType(const QString& mimeType) {
 }
 
 void Response::setMimeTypeForFileName(const QString& filename) {
-	setMimeType(mimeDatabase.getMimeTypeFor(filename));
+	setMimeType(MimeDatabase::mimeTypeForFilename(filename));
 }
 
 void Response::setSession(AbstractSession* session) {

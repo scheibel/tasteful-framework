@@ -34,6 +34,8 @@
 
 using namespace internal;
 
+MimeDatabase MimeDatabase::instance;
+
 MimeDatabase::MimeDatabase() {
 	loadMimeTypes();
 }
@@ -77,8 +79,22 @@ void MimeDatabase::addMimeType(const QString& mimeType, const QString& extension
 	mimeTypes.insert(extension, mimeType);
 }
 
-QString MimeDatabase::getMimeTypeFor(const QString& filename, const QString& defaultValue) const {
-	QString extension = QFileInfo(filename).suffix();
-	
-	return mimeTypes.contains(extension) ? mimeTypes.value(extension) : defaultValue;
+QString MimeDatabase::getMimeTypeFor(const QString& suffix, const QString& defaultValue) const {
+	return mimeTypes.contains(suffix) ? mimeTypes.value(suffix) : defaultValue;
+}
+
+QString MimeDatabase::mimeTypeFor(const QString& suffix, const QString& defaultValue) {
+	return instance.getMimeTypeFor(suffix, defaultValue);
+}
+
+QString MimeDatabase::mimeTypeForFilename(const QString& filename, const QString& defaultValue) {
+	return mimeTypeFor(QFileInfo(filename).suffix(), defaultValue);
+}
+
+ContentType MimeDatabase::contentTypeFor(const QString& suffix, const QString& defaultValue) {
+	return ContentType::fromString(mimeTypeFor(suffix, defaultValue));
+}
+
+ContentType MimeDatabase::contentTypeForFilename(const QString& filename, const QString& defaultValue) {
+	return contentTypeFor(QFileInfo(filename).suffix(), defaultValue);
 }

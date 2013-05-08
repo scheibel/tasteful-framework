@@ -28,18 +28,24 @@
 
 #include <QString>
 #include <QHash>
+#include <ContentType>
 
 namespace internal {
 	class MimeDatabase {
-		public:
-			MimeDatabase();
-			
-			QString getMimeTypeFor(const QString& filename, const QString& defaultValue = "") const;
-		protected:
-			void addMimeType(const QString& mimeType, const QString& extension);
-			void loadMimeTypes();
-			void loadMimeTypesFromFilename(const QString& filename);
-		private:
-			QHash<QString, QString> mimeTypes;
+	public:
+		MimeDatabase();
+		
+		static QString mimeTypeFor(const QString& suffix, const QString& defaultValue = "");
+		static QString mimeTypeForFilename(const QString& filename, const QString& defaultValue = "");
+		static ContentType contentTypeFor(const QString& suffix, const QString& defaultValue = "");
+		static ContentType contentTypeForFilename(const QString& filename, const QString& defaultValue = "");
+	protected:
+		QString getMimeTypeFor(const QString& filename, const QString& defaultValue) const;
+		void addMimeType(const QString& mimeType, const QString& extension);
+		void loadMimeTypes();
+		void loadMimeTypesFromFilename(const QString& filename);
+	private:
+		static MimeDatabase instance;
+		QHash<QString, QString> mimeTypes;
 	};
 }

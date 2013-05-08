@@ -25,6 +25,10 @@
   **/
 
 #include <TemplateView>
+#include <internal/MimeDatabase>
+#include <QFileInfo>
+
+using namespace internal;
 
 TemplateView::TemplateView(const QString& filename) : filename(filename) {
 }
@@ -40,5 +44,11 @@ void TemplateView::renderOn(Response& response) const {
 }
 
 QByteArray TemplateView::content() const {
-	return transformFile(filename).toString().toUtf8();
+	QByteArray content = transformFile(filename).toString().toUtf8();
+	
+	if (MimeDatabase::contentTypeForFilename(filename, "text/plain").is("text", "html")) {
+		content.prepend("<!DOCTYPE html>\n");
+	}
+	
+	return content;
 }

@@ -27,11 +27,15 @@
 #include <TemplatedLayout>
 #include <QTextStream>
 
-TemplatedLayout::TemplatedLayout(const QString& filename) : filename(filename) {
+TemplatedLayout::TemplatedLayout(const QString& filename) : _filename(filename) {
+}
+
+const QString& TemplatedLayout::filename() const {
+	return _filename;
 }
 
 void TemplatedLayout::setFilename(const QString& filename) {
-	this->filename = filename;
+	_filename = filename;
 }
 
 void TemplatedLayout::layout(DomNode& node) const {
@@ -39,7 +43,7 @@ void TemplatedLayout::layout(DomNode& node) const {
 		return;
 	}
 	
-	DomNode layoutNode = transformFile(filename);
+	DomNode layoutNode = transformFile(_filename);
 	
 	mergeHead(layoutNode.first("head"), node.first("head"));
 	

@@ -25,6 +25,8 @@
   **/
 
 #include <LayoutedTemplateView>
+#include <internal/MimeDatabase>
+#include <QFileInfo>
 
 LayoutedTemplateView::LayoutedTemplateView(const QString& filename) : TemplateView(filename) {
 }
@@ -36,5 +38,11 @@ QByteArray LayoutedTemplateView::content() const {
 	getLayout().layout(layoutedNode);
 	transform(layoutedNode);
 	
-	return layoutedNode.toString().toUtf8();
+	QByteArray content = layoutedNode.toString().toUtf8();
+	
+	if (MimeDatabase::contentTypeForFilename(getLayout().filename(), "text/plain").is("text", "html")) {
+		content.prepend("<!DOCTYPE html>\n");
+	}
+	
+	return content;
 }

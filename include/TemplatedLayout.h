@@ -37,9 +37,11 @@ class TemplatedLayout : public XmlTransform, protected UrlHelper {
 		TemplatedLayout(const QString& filename);
 	
 		void layout(DomNode& node) const;
+		
+		const QString& filename() const;
 		void setFilename(const QString& filename);
 	protected:
-		QString filename;
+		QString _filename;
 	
 		void mergeHead(DomNode targetHead, DomNode sourceHead) const;
 		bool sameNodes(DomNode& node1, DomNode& node2) const;

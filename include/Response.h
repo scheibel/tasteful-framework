@@ -31,35 +31,32 @@
 #include <QString>
 #include <QFile>
 #include <HttpResponse>
-#include <internal/MimeDatabase>
 #include <AbstractSession>
 
 using namespace internal;
 
 class Response : public HttpResponse {
-	public:
-		Response(unsigned statusCode = http::OK);
+public:
+	Response(unsigned statusCode = http::OK);
 
-		HttpResponse& asHttpResponse() const;
+	HttpResponse& asHttpResponse() const;
 
-		void setMimeType(const QString& mimeType);
-		void setMimeTypeForFileName(const QString& filename);
+	void setMimeType(const QString& mimeType);
+	void setMimeTypeForFileName(const QString& filename);
 
-		void setSession(AbstractSession* session);
+	void setSession(AbstractSession* session);
 
-		void setContentFromFile(const QString& filename);
+	void setContentFromFile(const QString& filename);
 
-		Response& asDownload(const QString& name);
+	Response& asDownload(const QString& name);
 
-		static Response notFound();
-		static Response redirect(const QString& url);
-		static Response redirectPermanently(const QString& url);
-		static Response forContent(const QString& content, unsigned statusCode = http::OK);
-		static Response forContent(const QByteArray& content, unsigned statusCode = http::OK);
-		static Response forFile(const QFile& file);
-		static Response download(const QFile& file, const QString& name=QString());
-		static Response download(const QByteArray& content, const QString& name);
-		static Response accessDenied();
-	private:
-		static MimeDatabase mimeDatabase;
+	static Response notFound();
+	static Response redirect(const QString& url);
+	static Response redirectPermanently(const QString& url);
+	static Response forContent(const QString& content, unsigned statusCode = http::OK);
+	static Response forContent(const QByteArray& content, unsigned statusCode = http::OK);
+	static Response forFile(const QFile& file);
+	static Response download(const QFile& file, const QString& name=QString());
+	static Response download(const QByteArray& content, const QString& name);
+	static Response accessDenied();
 };
