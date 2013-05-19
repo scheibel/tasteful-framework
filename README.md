@@ -2,7 +2,7 @@ Tasteful Framework
 ============
 
 Tasteful Framework is web framework library written in C++ based on Tasteful Server.
-It provides an MVC-architecture with routes, controllers, models and views as well as a datamapper as an object-relational mapper.
+It provides an MVC-architecture with routes, controllers, models and views as well as a datamapper and an activerecord as an object-relational mappers.
 
 An example application is a simple blog in [/examples/blog/](https://github.com/scheibel/tasteful-framework/tree/master/examples/blog).
 
