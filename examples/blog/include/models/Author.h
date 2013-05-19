@@ -27,27 +27,32 @@
 #pragma once
 
 #include <QString>
+#include <ActiveRecord>
 
-class Author {
+class Author : public ActiveRecord<Author, unsigned> {
+	DATABASE_NAME(blog);
+	DATABASE_TABLENAME(authors);
+	DATABASE_PRIMARY_KEY(id, unsigned);
+	DATABASE_FIELDNAMES("email, password, salt");
+	DECLARE_PROPERTY(email, QString);
+	DECLARE_PROPERTY(password, QString);
+	DECLARE_PROPERTY(salt, QString);
+	ENTITY_INITIALIZER(
+		INITIALIZE(email);
+		INITIALIZE(password);
+		INITIALIZE(salt);
+	);
+	ENTITY_SAVER(
+		SAVE(email);
+		SAVE(password);
+		SAVE(salt);
+	);
 public:
 	Author();
-	
-	const QString& getEmail() const;
-	void setEmail(const QString& email);
-	
-	const QString& getPassword() const;
-	void setPassword(const QString& password);
-	
-	const QString& getSalt() const;
-	void setSalt(const QString& salt);
 	
 	bool validatePassword(const QString& password);
 	void setNewSalt(const QString& salt);
 	void setNewPassword(const QString& password);
 protected:
 	QString calculateHash(const QString& value, const QString& salt);
-private:
-	QString _email;
-	QString _password;
-	QString _salt;
 };

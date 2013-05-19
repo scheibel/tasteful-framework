@@ -257,7 +257,7 @@ bool DataMapper<Subclass, T, I>::save(T* model) {
 	Identity id = idOf(model);
 	QVariantMap record;
 	buildRecordFrom(model, record);
-
+	
 	QList<QString> variables = record.keys();
 	
 	if (isValidId(id)) {

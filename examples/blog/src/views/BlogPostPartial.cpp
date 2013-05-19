@@ -40,19 +40,19 @@ BlogPostPartial::BlogPostPartial(DomNode node, Session* session)
 	});
 	
 	addTransform("title", [this](DomNode& node) {
-		node.inner() = _blogPost->getTitle();
+		node.inner() = _blogPost->title();
 	});
 	
 	addTransform("text", [this](DomNode& node) {
-		node.inner() = _blogPost->getText();
+		node.inner() = _blogPost->text();
 	});
 	
 	addTransform("shorttext", [this](DomNode& node) {
-		node.inner() = _blogPost->getText();
+		node.inner() = _blogPost->text();
 	});
 	
 	addTransform("showlink", [this](DomNode& node) {
-		if (_session->isLoggedIn() && _blogPost->getAuthor() == _session->author()) {
+		if (_session->isLoggedIn() && _blogPost->author() == _session->author()) {
 			node("href") = url(&BlogPostController::show, { { "id", _id } });
 		} else {
 			node("href") = url(&AllBlogPostController::show, { { "id", _id } });
@@ -78,13 +78,13 @@ void BlogPostPartial::setData(BlogPost* blogPost, unsigned id) {
 void BlogPostPartial::tags(DomNode& node) const {
 	TagPartial tagPartial(node.children()[0].remove());
 	
-	if (_blogPost->getTags().size()) {
-		for (Tag* tag : _blogPost->getTags()) {
-			tagPartial.setData(tag);
-			node << tagPartial;
-			node << " ";
-		}
-	} else {
+	//~ if (_blogPost->getTags().size()) {
+		//~ for (Tag* tag : _blogPost->getTags()) {
+			//~ tagPartial.setData(tag);
+			//~ node << tagPartial;
+			//~ node << " ";
+		//~ }
+	//~ } else {
 		node.inner() = " ";
-	}
+	//~ }
 }

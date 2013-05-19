@@ -27,7 +27,6 @@
 #include <views/SearchResult.h>
 
 #include <views/BlogPostPartial.h>
-#include <datamappers/BlogPostMapper.h>
 
 SearchResult::SearchResult(Session* session, const QList<BlogPost*>& searchResult, const QString& searchString) : BlogView(session), _searchResult(searchResult), _searchString(searchString) {
 	setFilename("searchresult.html");
@@ -45,7 +44,7 @@ void SearchResult::showResults(DomNode& node) const {
 	BlogPostPartial blogPostPartial(node.firstChild().remove(), _session);
 	
 	for (BlogPost* blogPost : _searchResult) {
-		blogPostPartial.setData(blogPost, BlogPostMapper::instance().idOf(blogPost));
+		blogPostPartial.setData(blogPost, blogPost->getPrimaryKey());
 		node << blogPostPartial;
 	}
 }

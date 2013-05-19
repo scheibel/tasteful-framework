@@ -19,10 +19,6 @@ set(Blog_sources
 	src/controllers/SearchController.cpp
 	src/controllers/BlogPostController.cpp
 	
-	src/datamappers/AuthorMapper.cpp
-	src/datamappers/BlogPostMapper.cpp
-	src/datamappers/TagMapper.cpp
-	
 	src/models/Author.cpp
 	src/models/BlogPost.cpp
 	src/models/Tag.cpp

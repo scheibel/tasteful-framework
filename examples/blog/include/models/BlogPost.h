@@ -26,30 +26,38 @@
 
 #pragma once
 
+#define DECLARE_NxM_RELATION(singleName, name, className)
+#define INITIALIZE_NxM_RELATION(name, className, foreignKey)
+#define SAVE_NxM_RELATION(name, className, foreignKey)
+
 #include <models/Author.h>
 #include <models/Tag.h>
 
 #include <QString>
 #include <QList>
+#include <ActiveRecord>
 
-class BlogPost {
+class BlogPost : public ActiveRecord<BlogPost, unsigned> {
+	DATABASE_NAME(blog);
+	DATABASE_TABLENAME(blogentries);
+	DATABASE_PRIMARY_KEY(id, unsigned);
+	DATABASE_FIELDNAMES("author", "title", "text");
+	DECLARE_RELATION(author, Author);
+	DECLARE_PROPERTY(title, QString);
+	DECLARE_PROPERTY(text, QString);
+	DECLARE_NxM_RELATION(tag, tags, Tag);
+	ENTITY_INITIALIZER(
+		INITIALIZE(author);
+		INITIALIZE(title);
+		INITIALIZE(text);
+		INITIALIZE_NxM_RELATION(tags, Tag, blogEntry);
+	);
+	ENTITY_SAVER(
+		SAVE_RELATION(author);
+		SAVE(title);
+		SAVE(text);
+		SAVE_NxM_RELATION(tags, Tag, blogEntry);
+	);
 public:
 	BlogPost();
-	
-	Author* getAuthor() const;
-	void setAuthor(Author* author);
-	
-	const QString& getTitle() const;
-	void setTitle(const QString& title);
-	
-	const QString& getText() const;
-	void setText(const QString& text);
-	
-	const QList<Tag*>& getTags() const;
-	void setTags(const QList<Tag*>& tags);
-private:
-	Author* _author;
-	QString _title;
-	QString _text;
-	QList<Tag*> _tags;
 };

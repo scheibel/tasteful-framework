@@ -30,11 +30,11 @@
 
 TagPartial::TagPartial(DomNode node) : Partial(node), _tag(nullptr) {
 	addTransform("searchtagurl", [this](DomNode& node) {
-		node("href") = url(&SearchController::find, { { "string", _tag->getName() } });
+		node("href") = url(&SearchController::find, { { "string", _tag->name() } });
 	});
 	
 	addTransform("tagname", [this](DomNode& node) {
-		node.inner() = _tag->getName();
+		node.inner() = _tag->name();
 	});
 }
 

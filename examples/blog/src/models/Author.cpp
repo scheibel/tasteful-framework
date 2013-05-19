@@ -31,30 +31,6 @@
 Author::Author() {
 }
 
-const QString& Author::getEmail() const {
-	return _email;
-}
-
-void Author::setEmail(const QString& email) {
-	_email = email;
-}
-
-const QString& Author::getPassword() const {
-	return _password;
-}
-
-void Author::setPassword(const QString& password) {
-	_password = password;
-}
-
-const QString& Author::getSalt() const {
-	return _salt;
-}
-
-void Author::setSalt(const QString& salt) {
-	_salt = salt;
-}
-
 bool Author::validatePassword(const QString& password) {
 	return _password == calculateHash(password, _salt);
 }

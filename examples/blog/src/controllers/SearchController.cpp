@@ -26,7 +26,7 @@
 
 #include <controllers/SearchController.h>
 
-#include <datamappers/BlogPostMapper.h>
+#include <models/BlogPost.h>
 #include <views/SearchForm.h>
 #include <views/SearchResult.h>
 
@@ -44,19 +44,19 @@ void SearchController::find() {
 	}
 	
 	QList<BlogPost*> searchResult;
-	for (BlogPost* blogPost : BlogPostMapper::instance().find("1 ORDER BY id DESC")) {
-		if (blogPost->getTitle().contains(searchString, Qt::CaseInsensitive)) {
+	for (BlogPost* blogPost : BlogPost::find("1 ORDER BY id DESC")) {
+		if (blogPost->title().contains(searchString, Qt::CaseInsensitive)) {
 			searchResult << blogPost;
-		} else if (blogPost->getText().contains(searchString, Qt::CaseInsensitive)) {
+		} else if (blogPost->text().contains(searchString, Qt::CaseInsensitive)) {
 			searchResult << blogPost;
 		} else {
-			for (Tag* tag : blogPost->getTags()) {
-				if (tag->getName().contains(searchString, Qt::CaseInsensitive)) {
-					searchResult << blogPost;
+			//~ for (Tag* tag : blogPost->getTags()) {
+				//~ if (tag->name().contains(searchString, Qt::CaseInsensitive)) {
+					//~ searchResult << blogPost;
 					
-					break;
-				}
-			}
+					//~ break;
+				//~ }
+			//~ }
 		}
 	}
 	

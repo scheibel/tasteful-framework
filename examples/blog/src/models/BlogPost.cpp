@@ -28,35 +28,3 @@
 
 BlogPost::BlogPost() {
 }
-
-Author* BlogPost::getAuthor() const {
-	return _author;
-}
-
-void BlogPost::setAuthor(Author* author) {
-	_author = author;
-}
-
-const QString& BlogPost::getTitle() const {
-	return _title;
-}
-
-void BlogPost::setTitle(const QString& title) {
-	_title = title;
-}
-
-const QString& BlogPost::getText() const {
-	return _text;
-}
-
-void BlogPost::setText(const QString& text) {
-	_text = text;
-}
-
-const QList<Tag*>& BlogPost::getTags() const {
-	return _tags;
-}
-
-void BlogPost::setTags(const QList<Tag*>& tags) {
-	_tags = tags;
-}

@@ -29,11 +29,14 @@
 Tag::Tag() {
 }
 
-const QString& Tag::getName() const {
-	return _name;
+Tag* Tag::obtainByName(const QString& name) {
+	Tag* tag = getBy("name = '" + name + "'");
+	
+	if (!tag) {
+		tag = new Tag();
+		tag->name(name);
+		tag->save();
+	}
+	
+	return tag;
 }
-
-void Tag::setName(const QString& name) {
-	_name = name;
-}
-

@@ -26,8 +26,8 @@
 
 #include <internal/Database>
 
-#include <QSqlError>
 #include <QThread>
+#include <QSqlError>
 
 using namespace internal;
 
@@ -57,7 +57,7 @@ Database& Database::getByIdAndThreadId(const QString& id, const QString& threadI
 		QSqlDatabase prototypeDb = id.isNull() ? QSqlDatabase::database() : QSqlDatabase::database(id);
 
 		if (!prototypeDb.isValid()) {
-			throw QString("CanNo connection with id  "+id+" found");
+			throw QString("No connection with id "+id+" found");
 		}
 
 		QSqlDatabase threadDb = QSqlDatabase::cloneDatabase(prototypeDb, databaseId);
@@ -113,16 +113,6 @@ QSqlQuery Database::build(const QString& sql, const QVariantMap& bindings) const
 	}
 
 	return query;
-	
-	/**
-	QString query = sql;
-	
-	for (const QString& key : bindings.keys()) {
-		query = query.replace(":" + key, "\"" + bindings[key].toString() + "\"");
-	}
-
-	return build(query);
-	*/
 }
 
 QSqlQuery Database::build(const SqlBuilder& sqlBuilder) const {

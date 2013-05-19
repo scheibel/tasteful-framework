@@ -29,25 +29,25 @@
 #include <views/BlogPostList.h>
 #include <views/BlogPostShow.h>
 #include <views/BlogPostEdit.h>
-#include <datamappers/AuthorMapper.h>
-#include <datamappers/TagMapper.h>
+#include <models/Author.h>
+#include <models/Tag.h>
 
 QList<BlogPost*> BlogPostController::findAll() {
-	return getDataMapper().find("author = " + QString::number(AuthorMapper::instance().idOf(getSession()->author())));
+	return getDataMapper().find("author = " + QString::number(getSession()->author()->getPrimaryKey()));
 }
 
 void BlogPostController::beforeSave(BlogPost* blogPost) {
-	QString tags = parameters["tags"].value<QString>();
+	//~ QString tags = parameters["tags"].value<QString>();
 	
-	QList<Tag*> newTags;
-	if (!tags.isNull() && !tags.isEmpty()) {
-		for (const QString& tagName : tags.split(" ")) {
-			newTags << TagMapper::instance().obtainByName(tagName);
-		}
-	}
-	blogPost->setTags(newTags);
+	//~ QList<Tag*> newTags;
+	//~ if (!tags.isNull() && !tags.isEmpty()) {
+		//~ for (const QString& tagName : tags.split(" ")) {
+			//~ newTags << Tag::obtainByName(tagName);
+		//~ }
+	//~ }
+	//~ blogPost->tags(newTags);
 	
-	blogPost->setAuthor(getSession()->author());
+	blogPost->author(getSession()->author());
 }
 
 void BlogPostController::renderListViewFor(const QHash<unsigned, BlogPost*>& blogPosts) {

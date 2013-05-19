@@ -26,7 +26,6 @@
 
 #include <views/AllBlogPostList.h>
 
-#include <datamappers/BlogPostMapper.h>
 #include <views/BlogPostPartial.h>
 
 AllBlogPostList::AllBlogPostList(Session* session, const QList<BlogPost*>& blogPosts)
@@ -46,7 +45,7 @@ void AllBlogPostList::blogPostList(DomNode& node) const {
 	BlogPostPartial blogPostPartial(node.firstChild().remove(), _session);
 	
 	for (BlogPost* blogPost : _blogPosts) {
-		blogPostPartial.setData(blogPost, BlogPostMapper::instance().idOf(blogPost));
+		blogPostPartial.setData(blogPost, blogPost->getPrimaryKey());
 		node << blogPostPartial;
 	}
 }

@@ -28,7 +28,7 @@
 
 #include <controllers/HomeController.h>
 #include <views/Login.h>
-#include <datamappers/AuthorMapper.h>
+#include <models/Author.h>
 
 void LoginController::index() {
 	render(Login(getSession()));
@@ -38,7 +38,7 @@ void LoginController::login() {
 	QString email = parameters["email"].value<QString>();
 	QString password = parameters["password"].value<QString>();
 	
-	Author* author = AuthorMapper::instance().getBy("email = '" + email + "'");
+	Author* author = Author::getBy("email = '" + email + "'");
 	
 	if (author) {
 		if (author->validatePassword(password)) {

@@ -43,11 +43,11 @@ BlogPostEdit::BlogPostEdit(Session* session, BlogPost* blogPost, unsigned id)
 	});
 	
 	addTransform("blogposttitle", [this](DomNode& node) {
-		node("value") = _blogPost ? _blogPost->getTitle() : "";
+		node("value") = _blogPost ? _blogPost->title() : "";
 	});
 	
 	addTransform("blogposttext", [this](DomNode& node) {
-		node.inner() = _blogPost ? _blogPost->getText() : " ";
+		node.inner() = _blogPost ? _blogPost->text() : " ";
 	});
 	
 	addTransform("savebuttontext", [this](DomNode& node) {
@@ -64,14 +64,14 @@ BlogPostEdit::BlogPostEdit(Session* session, BlogPost* blogPost, unsigned id)
 void BlogPostEdit::tagList(DomNode& node) const
 {
 	if (_blogPost) {
-		QList<Tag*> tags = _blogPost->getTags();
-		QStringList tagNames;
+		//~ QList<Tag*> tags = _blogPost->getTags();
+		//~ QStringList tagNames;
 		
-		for (Tag* tag : tags) {
-			tagNames << tag->getName();
-		}
+		//~ for (Tag* tag : tags) {
+			//~ tagNames << tag->name();
+		//~ }
 		
-		node("value") = tagNames.join(" ");
+		//~ node("value") = tagNames.join(" ");
 	} else {
 		node.inner() = "";
 	}

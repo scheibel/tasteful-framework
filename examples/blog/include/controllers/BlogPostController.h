@@ -27,11 +27,11 @@
 #pragma once
 
 #include <controllers/LoggedInController.h>
-#include <datamappers/BlogPostMapper.h>
+#include <models/BlogPost.h>
 
 #include <CrudController>
 
-class BlogPostController : public LoggedInController, public CrudController<BlogPostController, BlogPostMapper> {
+class BlogPostController : public LoggedInController, public CrudController<BlogPostController, BlogPost::DataMapper> {
 DEFINE_CRUD_ACTIONS();
 protected:
 	void beforeSave(BlogPost* blogPost);

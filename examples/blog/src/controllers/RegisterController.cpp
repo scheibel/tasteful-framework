@@ -28,7 +28,7 @@
 
 #include <controllers/HomeController.h>
 #include <views/Registration.h>
-#include <datamappers/AuthorMapper.h>
+#include <models/Author.h>
 
 void RegisterController::index() {
 	render(Registration(getSession()));
@@ -39,7 +39,7 @@ void RegisterController::signup() {
 	QString password = parameters["password"].value<QString>();
 	QString password2 = parameters["password2"].value<QString>();
 	
-	if (AuthorMapper::instance().getBy("email = '" + email + "'")) {
+	if (Author::getBy("email = '" + email + "'")) {
 		render(Registration(getSession(), email, "An account with this email already exists"));
 	} else {
 		if (password != password2) {
@@ -47,11 +47,11 @@ void RegisterController::signup() {
 		} else {
 			Author* author = new Author();
 			
-			author->setEmail(email);
+			author->email(email);
 			author->setNewSalt(email);
 			author->setNewPassword(password);
 			
-			AuthorMapper::instance().save(author);
+			author->save();
 			
 			getSession()->setAuthor(author);
 			

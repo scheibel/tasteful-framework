@@ -35,11 +35,11 @@ BlogPostShow::BlogPostShow(Session* session, BlogPost* blogPost, unsigned id)
 	setFilename("blogpostshow.html");
 	
 	addTransform("blogposttitle", [this](DomNode& node) {
-		node.inner() = _blogPost->getTitle();
+		node.inner() = _blogPost->title();
 	});
 	
 	addTransform("blogpostcontent", [this](DomNode& node) {
-		node.inner() = _blogPost->getText();
+		node.inner() = _blogPost->text();
 	});
 	
 	addTransform("tags", &BlogPostShow::blogPostTags);
@@ -48,13 +48,13 @@ BlogPostShow::BlogPostShow(Session* session, BlogPost* blogPost, unsigned id)
 void BlogPostShow::blogPostTags(DomNode& node) const {
 	TagPartial tagPartial(node.children()[0].remove());
 	
-	if (_blogPost->getTags().size()) {
-		for (Tag* tag : _blogPost->getTags()) {
-			tagPartial.setData(tag);
-			node << tagPartial;
-			node << " ";
-		}
-	} else {
+	//~ if (_blogPost->getTags().size()) {
+		//~ for (Tag* tag : _blogPost->getTags()) {
+			//~ tagPartial.setData(tag);
+			//~ node << tagPartial;
+			//~ node << " ";
+		//~ }
+	//~ } else {
 		node.inner() = " ";
-	}
+	//~ }
 }

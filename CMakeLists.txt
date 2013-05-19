@@ -81,6 +81,8 @@ set(Framework_headers
 	include/Controller
 	include/DataMapper.h
 	include/DataMapper
+	include/ActiveRecord
+	include/ActiveRecord.h
 	include/XmlTransform.h
 	include/XmlTransform
 	include/Logger.h
@@ -149,6 +151,8 @@ set(Framework_internal_headers
 	include/internal/ObjectConstructor
 	include/internal/IdentityMap.h
 	include/internal/IdentityMap
+	include/internal/ActiveRecordDataMapper
+	include/internal/ActiveRecordDataMapper.h
 	include/internal/StringConvertible.h
 	include/internal/StringConvertible
 	include/internal/NodeTransformation

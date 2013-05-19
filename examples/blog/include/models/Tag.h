@@ -27,13 +27,22 @@
 #pragma once
 
 #include <QString>
+#include <ActiveRecord>
 
-class Tag {
+class Tag : public ActiveRecord<Tag, unsigned> {
+	DATABASE_NAME(blog);
+	DATABASE_TABLENAME(tags);
+	DATABASE_PRIMARY_KEY(id, unsigned);
+	DATABASE_FIELDNAMES("name");
+	DECLARE_PROPERTY(name, QString);
+	ENTITY_INITIALIZER(
+		INITIALIZE(name);
+	);
+	ENTITY_SAVER(
+		SAVE(name);
+	);
 public:
 	Tag();
 	
-	const QString& getName() const;
-	void setName(const QString& name);
-private:
-	QString _name;
+	static Tag* obtainByName(const QString& name);
 };

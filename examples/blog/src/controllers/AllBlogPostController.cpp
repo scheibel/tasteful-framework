@@ -28,14 +28,14 @@
 
 #include <views/AllBlogPostList.h>
 #include <views/BlogPostShow.h>
-#include <datamappers/BlogPostMapper.h>
+#include <models/BlogPost.h>
 
 void AllBlogPostController::index() {
-	render(AllBlogPostList(getSession(), BlogPostMapper::instance().find("1 ORDER BY id DESC")));
+	render(AllBlogPostList(getSession(), BlogPost::find("1 ORDER BY id DESC")));
 }
 
 void AllBlogPostController::show() {
-	BlogPostMapper::Identity id = parameters["id"].value<BlogPostMapper::Identity>();
+	BlogPost::DataMapper::Identity id = parameters["id"].value<BlogPost::DataMapper::Identity>();
 	
-	render(BlogPostShow(getSession(), BlogPostMapper::instance().get(id), id));
+	render(BlogPostShow(getSession(), BlogPost::get(id), id));
 }
