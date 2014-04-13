@@ -29,6 +29,8 @@
 #include <QThread>
 #include <QSqlError>
 
+namespace tastefulframework {
+
 QHash<QString, Database *> Database::databases;
 QReadWriteLock Database::lock;
 Database::Database(const QSqlDatabase & database)
@@ -161,3 +163,5 @@ QSqlQuery Database::build(const SqlBuilder & sqlBuilder, const QVariantMap & bin
 
     return query;
 }
+
+} // namespace tastefulframework

@@ -28,6 +28,8 @@
 #include <QFileInfo>
 #include <tastefulframework/MimeDatabase.h>
 
+namespace tastefulframework {
+
 Response::Response(unsigned statusCode)
 {
     setStatusCode(statusCode);
@@ -145,3 +147,5 @@ Response Response::accessDenied()
 {
     return Response(tastefulserver::http::Forbidden);
 }
+
+} // namespace tastefulframework

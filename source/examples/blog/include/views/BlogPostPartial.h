@@ -31,14 +31,14 @@
 
 #include <tastefulframework/Partial.h>
 
-class BlogPostPartial : public Partial
+class BlogPostPartial : public tastefulframework::Partial
 {
 public:
-    BlogPostPartial(DomNode node, Session * session);
+    BlogPostPartial(tastefulframework::DomNode node, Session * session);
 
     void setData(BlogPost * blogPost, unsigned id);
 
-    void tags(DomNode & node) const;
+    void tags(tastefulframework::DomNode & node) const;
 
 private:
     Session * _session;

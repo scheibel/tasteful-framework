@@ -32,6 +32,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 namespace Sql {
 typedef enum
 {
@@ -61,3 +63,5 @@ private:
     QString sql;
     QTextStream stream;
 };
+
+} // namespace tastefulframework

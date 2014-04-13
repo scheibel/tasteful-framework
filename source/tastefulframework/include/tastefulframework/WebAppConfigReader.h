@@ -32,6 +32,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API WebAppConfigReader : public QObject
 {
     Q_OBJECT
@@ -60,3 +62,5 @@ private:
     void handleServer(const QString & ch);
     void handleDatabase(const QString & ch);
 };
+
+} // namespace tastefulframework

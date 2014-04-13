@@ -35,19 +35,19 @@ Registration::Registration(Session * session, const QString & email, const QStri
 {
     setFilename("registration.html");
 
-    addTransform("registrationform", [this](DomNode & node) {
+    addTransform("registrationform", [this](tastefulframework::DomNode & node) {
             node("method") = "POST";
             node("url") = url(&RegisterController::signup);
         });
 
-    addTransform("errormessage", [this](DomNode & node) {
+    addTransform("errormessage", [this](tastefulframework::DomNode & node) {
             if (!_error.isNull())
             {
                 node << _error;
             }
         });
 
-    addTransform("emailvalue", [this](DomNode & node) {
+    addTransform("emailvalue", [this](tastefulframework::DomNode & node) {
             node("value") = _email;
         });
 }

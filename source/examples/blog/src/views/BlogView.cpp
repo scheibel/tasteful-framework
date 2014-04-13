@@ -32,7 +32,7 @@ BlogView::BlogView(Session * session)
     _layout.setSession(session);
 }
 
-const TemplatedLayout &BlogView::getLayout() const
+const tastefulframework::TemplatedLayout &BlogView::getLayout() const
 {
     return _layout;
 }

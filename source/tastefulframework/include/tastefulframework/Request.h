@@ -33,6 +33,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class SessionPool;
 
 class TASTEFULFRAMEWORK_API Request : public tastefulserver::HttpRequest, public SessionContainer
@@ -45,3 +47,5 @@ public:
 
     void obtainSessionFrom(SessionPool * sessionPool);
 };
+
+} // namespace tastefulframework

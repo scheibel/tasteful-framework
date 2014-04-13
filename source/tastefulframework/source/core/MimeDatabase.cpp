@@ -32,6 +32,8 @@
 #include <QString>
 #include <QStringList>
 
+namespace tastefulframework {
+
 MimeDatabase MimeDatabase::instance;
 MimeDatabase::MimeDatabase()
 {
@@ -109,3 +111,5 @@ tastefulserver::ContentType MimeDatabase::contentTypeForFilename(const QString &
 {
     return contentTypeFor(QFileInfo(filename).suffix(), defaultValue);
 }
+
+} // namespace tastefulframework

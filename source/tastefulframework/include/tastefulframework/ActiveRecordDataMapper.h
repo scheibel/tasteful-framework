@@ -31,6 +31,8 @@
 
 #include <tastefulframework/DataMapper.h>
 
+namespace tastefulframework {
+
 template <class T, typename Identity = unsigned>
 class ActiveRecordDataMapper : public DataMapper<ActiveRecordDataMapper<T, Identity>, T, Identity>
 {
@@ -85,3 +87,5 @@ protected:
     QString _tableName;
     QString _primaryKeyName;
 };
+
+} // namespace tastefulframework

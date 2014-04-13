@@ -34,6 +34,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API RouteRegistry : public QObject
 {
     Q_OBJECT
@@ -142,3 +144,5 @@ public:
 private:
     Route * route;
 };
+
+} // namespace tastefulframework

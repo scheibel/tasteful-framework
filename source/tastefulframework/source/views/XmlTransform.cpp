@@ -29,6 +29,8 @@
 #include <QDomDocument>
 #include <QtAlgorithms>
 
+namespace tastefulframework {
+
 XmlTransform::~XmlTransform()
 {
     qDeleteAll(transformations);
@@ -127,3 +129,5 @@ void XmlTransform::addTransform(const QString & selector, LambdaNodeTransformati
 {
     transformations.insert(selector, new LambdaNodeTransformation(transform));
 }
+
+} // namespace tastefulframework

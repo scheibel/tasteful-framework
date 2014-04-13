@@ -28,6 +28,8 @@
 
 #include <QCryptographicHash>
 
+namespace tastefulframework {
+
 unsigned SessionPool::defaultLifetime = 900;
 SessionPool::SessionPool()
     : sessionConstructor(new ObjectConstructor<AbstractSession, AbstractSession>())
@@ -164,3 +166,5 @@ void SessionPool::removeSession(const QString & sessionKey)
     sessions.remove(sessionKey);
     lock.unlock();
 }
+
+} // namespace tastefulframework

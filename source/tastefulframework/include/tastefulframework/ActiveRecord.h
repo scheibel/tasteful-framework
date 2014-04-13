@@ -35,6 +35,8 @@
 
 #include <tastefulframework/ActiveRecordDataMapper.h>
 
+namespace tastefulframework {
+
 template <class T, typename Identity = unsigned>
 class ActiveRecord
 {
@@ -181,3 +183,5 @@ private:
 #define SAVE(variableName) record.insert(#variableName, variableName());
 
 #define SAVE_RELATION(variableName) record.insert(#variableName, variableName()->saveReturningId());
+
+} // namespace tastefulframework

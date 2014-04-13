@@ -30,10 +30,10 @@
 
 #include <tastefulframework/Partial.h>
 
-class TagPartial : public Partial
+class TagPartial : public tastefulframework::Partial
 {
 public:
-    TagPartial(DomNode node);
+    TagPartial(tastefulframework::DomNode node);
 
     void setData(Tag * tag);
 

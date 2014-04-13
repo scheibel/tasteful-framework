@@ -28,6 +28,8 @@
 #include <tastefulframework/MimeDatabase.h>
 #include <QFileInfo>
 
+namespace tastefulframework {
+
 TemplateView::TemplateView(const QString & filename)
     : filename(filename)
 {
@@ -56,3 +58,5 @@ QByteArray TemplateView::content() const
 
     return content;
 }
+
+} // namespace tastefulframework

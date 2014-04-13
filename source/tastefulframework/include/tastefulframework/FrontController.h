@@ -33,6 +33,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API FrontController
 {
 public:
@@ -57,3 +59,5 @@ void FrontController::setSessionClass()
 {
     sessionPool.setSessionClass<SessionClass>();
 }
+
+} // namespace tastefulframework

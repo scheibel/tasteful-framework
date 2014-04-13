@@ -37,7 +37,7 @@ AllBlogPostList::AllBlogPostList(Session * session, const QList<BlogPost *> & bl
     addTransform("blogpostlist", &AllBlogPostList::blogPostList);
 }
 
-void AllBlogPostList::blogPostList(DomNode & node) const
+void AllBlogPostList::blogPostList(tastefulframework::DomNode & node) const
 {
     if (_blogPosts.empty())
     {

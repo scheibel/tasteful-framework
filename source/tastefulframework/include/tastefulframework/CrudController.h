@@ -29,6 +29,8 @@
 #include <tastefulframework/Controller.h>
 #include <tastefulserver/QVariantTree.h>
 
+namespace tastefulframework {
+
 template <class ControllerClass, class MapperClass>
 class CrudController : public virtual Controller
 {
@@ -215,3 +217,5 @@ QHash<typename MapperClass::Identity, typename MapperClass::Model *> CrudControl
 
     return models;
 }
+
+} // namespace tastefulframework

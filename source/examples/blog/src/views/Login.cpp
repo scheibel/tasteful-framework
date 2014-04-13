@@ -35,19 +35,19 @@ Login::Login(Session * session, const QString & email, bool loginAttempt)
 {
     setFilename("login.html");
 
-    addTransform("loginform", [this](DomNode & node) {
+    addTransform("loginform", [this](tastefulframework::DomNode & node) {
             node("method") = "POST";
             node("url") = url(&LoginController::login);
         });
 
-    addTransform("errormessage", [this](DomNode & node) {
+    addTransform("errormessage", [this](tastefulframework::DomNode & node) {
             if (_loginAttempt)
             {
                 node << "Failed to log in.";
             }
         });
 
-    addTransform("emailvalue", [this](DomNode & node) {
+    addTransform("emailvalue", [this](tastefulframework::DomNode & node) {
             node("value") = _email;
         });
 }

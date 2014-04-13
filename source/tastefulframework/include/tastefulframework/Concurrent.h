@@ -29,6 +29,8 @@
 #include <QMutex>
 #include <QSharedPointer>
 
+namespace tastefulframework {
+
 template <class T>
 class Concurrent
 {
@@ -82,3 +84,5 @@ Concurrent<T>::Concurrent(T * object)
     : object(object)
 {
 }
+
+} // namespace tastefulframework

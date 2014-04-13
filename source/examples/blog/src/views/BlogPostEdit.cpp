@@ -35,34 +35,34 @@ BlogPostEdit::BlogPostEdit(Session * session, BlogPost * blogPost, unsigned id)
 {
     setFilename("blogpostedit.html");
 
-    addTransform("blogeditform", [this](DomNode & node) {
+    addTransform("blogeditform", [this](tastefulframework::DomNode & node) {
             node("action") = url(&BlogPostController::save);
         });
 
-    addTransform("blogpostid", [this](DomNode & node) {
+    addTransform("blogpostid", [this](tastefulframework::DomNode & node) {
             node("value") = _id;
         });
 
-    addTransform("blogposttitle", [this](DomNode & node) {
+    addTransform("blogposttitle", [this](tastefulframework::DomNode & node) {
             node("value") = _blogPost ? _blogPost->title() : "";
         });
 
-    addTransform("blogposttext", [this](DomNode & node) {
+    addTransform("blogposttext", [this](tastefulframework::DomNode & node) {
             node.inner() = _blogPost ? _blogPost->text() : " ";
         });
 
-    addTransform("savebuttontext", [this](DomNode & node) {
+    addTransform("savebuttontext", [this](tastefulframework::DomNode & node) {
             node("value") = (_id == 0) ? "Create" : "Save";
         });
 
-    addTransform("backurl", [this](DomNode & node) {
+    addTransform("backurl", [this](tastefulframework::DomNode & node) {
             node("href") = url(&BlogPostController::index);
         });
 
     addTransform("blogposttags", &BlogPostEdit::tagList);
 }
 
-void BlogPostEdit::tagList(DomNode & node) const
+void BlogPostEdit::tagList(tastefulframework::DomNode & node) const
 {
     if (_blogPost)
     {

@@ -28,6 +28,8 @@
 #include <tastefulframework/RedirectException.h>
 #include <tastefulframework/Logger.h>
 
+namespace tastefulframework {
+
 Dispatcher::Dispatcher()
 {
     initializeRoutes();
@@ -162,3 +164,5 @@ Response Dispatcher::performActionFor(Route * route, Request & request) const
         return e.toResponse();
     }
 }
+
+} // namespace tastefulframework

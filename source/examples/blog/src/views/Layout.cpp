@@ -37,7 +37,7 @@ Layout::Layout()
 {
     setFilename("layout.html");
 
-    addTransform("stylesheets", [this](DomNode & node) {
+    addTransform("stylesheets", [this](tastefulframework::DomNode & node) {
             node << link(type("text/css"), href("/stylesheets/blog.css"), rel("stylesheet"));
         });
 
@@ -50,7 +50,7 @@ void Layout::setSession(Session * newSession)
     _session = newSession;
 }
 
-void Layout::menu(DomNode & node) const
+void Layout::menu(tastefulframework::DomNode & node) const
 {
     if (_session && _session->isValid() && _session->isLoggedIn())
     {
@@ -61,7 +61,7 @@ void Layout::menu(DomNode & node) const
     node << a(href(url(&SearchController::index)), "Search blogposts");
 }
 
-void Layout::login(DomNode & node) const
+void Layout::login(tastefulframework::DomNode & node) const
 {
     if (_session && _session->isValid())
     {

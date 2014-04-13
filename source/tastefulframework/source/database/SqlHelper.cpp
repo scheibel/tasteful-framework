@@ -26,6 +26,8 @@
 
 #include <tastefulframework/SqlHelper.h>
 
+namespace tastefulframework {
+
 SqlBuilder SqlHelper::SELECT(const QString & variables) const
 {
     SqlBuilder sqlBuilder(Sql::SELECT);
@@ -58,3 +60,5 @@ SqlBuilder SqlHelper::DELETE() const
 {
     return SqlBuilder(Sql::DELETE);
 }
+
+} // namespace tastefulframework

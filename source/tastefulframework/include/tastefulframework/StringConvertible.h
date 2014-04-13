@@ -31,6 +31,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API StringConvertible
 {
 public:
@@ -38,3 +40,5 @@ public:
     virtual QString toString() const;
     virtual void writeOnStream(QTextStream & stream) const = 0;
 };
+
+} // namespace tastefulframework

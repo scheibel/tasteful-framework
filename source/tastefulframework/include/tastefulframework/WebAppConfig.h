@@ -32,6 +32,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API ServerConfig
 {
 public:
@@ -68,3 +70,5 @@ public:
     QStringList resourceDirs;
     static WebAppConfig fromFile(const QString & filename);
 };
+
+} // namespace tastefulframework

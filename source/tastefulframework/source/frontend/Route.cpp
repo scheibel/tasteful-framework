@@ -27,6 +27,8 @@
 #include <tastefulframework/Route.h>
 #include <QTextStream>
 
+namespace tastefulframework {
+
 RequestedAction::RequestedAction()
 {
 }
@@ -283,3 +285,5 @@ QString WildcardRoute::urlFor(const QVariantMap & parameters) const
 {
     return "";
 }
+
+} // namespace tastefulframework

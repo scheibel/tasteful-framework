@@ -31,6 +31,8 @@
 
 #include <QDebug>
 
+namespace tastefulframework {
+
 WebAppConfigReader::WebAppConfigReader(const QString & filename)
     : filename(filename)
 {
@@ -193,3 +195,5 @@ void WebAppConfigReader::handleDatabase(const QString & ch)
         dbConfig.id = ch;
     }
 }
+
+} // namespace tastefulframework

@@ -26,6 +26,8 @@
 
 #include <tastefulframework/SessionContainer.h>
 
+namespace tastefulframework {
+
 SessionContainer::SessionContainer()
     : session(nullptr)
 {
@@ -40,3 +42,5 @@ void SessionContainer::setSession(AbstractSession * newSession)
 {
     session = newSession;
 }
+
+} // namespace tastefulframework

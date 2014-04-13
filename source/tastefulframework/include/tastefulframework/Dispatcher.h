@@ -37,6 +37,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API Dispatcher : public QObject
 {
     Q_OBJECT
@@ -65,3 +67,5 @@ private:
     QList<Route *> dynamicRoutes;
     QList<Route *> wildcardRoutes;
 };
+
+} // namespace tastefulframework

@@ -32,6 +32,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API Download
 {
 public:
@@ -46,3 +48,5 @@ private:
     QString name;
     QByteArray content;
 };
+
+} // namespace tastefulframework

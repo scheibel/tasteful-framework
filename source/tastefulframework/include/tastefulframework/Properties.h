@@ -31,6 +31,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API Properties
 {
 public:
@@ -62,3 +64,5 @@ private:
     QString filename;
     QSettings * settings;
 };
+
+} // namespace tastefulframework

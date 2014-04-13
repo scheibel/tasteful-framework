@@ -35,6 +35,8 @@
 
 #include <tastefulframework/FrameworkEntryPoint.h>
 
+namespace tastefulframework {
+
 WebApplication::WebApplication(int & argc, char ** argv)
     : app(argc, argv)
 {
@@ -242,3 +244,5 @@ void WebApplication::setUpFromConfig(const WebAppConfig & config)
         addDatabase(dbConfig);
     }
 }
+
+} // namespace tastefulframework

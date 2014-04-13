@@ -26,6 +26,8 @@
 
 #include <tastefulframework/RouteRegistry.h>
 
+namespace tastefulframework {
+
 RouteRegistry::RouteRegistry()
 {
 }
@@ -96,3 +98,5 @@ Route * RouteRegistry::getOrCreate(const tastefulserver::HttpMethod & method, co
 {
     return instance().obtain(method, urlPattern);
 }
+
+} // namespace tastefulframework

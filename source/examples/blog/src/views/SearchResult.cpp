@@ -38,7 +38,7 @@ SearchResult::SearchResult(Session * session, const QList<BlogPost *> & searchRe
     addTransform("blogpostlist", &SearchResult::showResults);
 }
 
-void SearchResult::showResults(DomNode & node) const
+void SearchResult::showResults(tastefulframework::DomNode & node) const
 {
     if (_searchResult.empty())
     {

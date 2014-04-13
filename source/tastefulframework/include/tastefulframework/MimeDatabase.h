@@ -32,6 +32,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API MimeDatabase
 {
 public:
@@ -52,3 +54,5 @@ private:
     static MimeDatabase instance;
     QHash<QString, QString> mimeTypes;
 };
+
+} // namespace tastefulframework

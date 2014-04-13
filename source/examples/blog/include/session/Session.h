@@ -30,7 +30,7 @@
 
 #include <tastefulframework/AbstractSession.h>
 
-class Session : public AbstractSession
+class Session : public tastefulframework::AbstractSession
 {
 public:
     Session();

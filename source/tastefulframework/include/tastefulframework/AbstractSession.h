@@ -30,6 +30,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API AbstractSession : public QObject
 {
     Q_OBJECT
@@ -60,3 +62,5 @@ private:
     unsigned milliseconds;
     QTimer timer;
 };
+
+} // namespace tastefulframework

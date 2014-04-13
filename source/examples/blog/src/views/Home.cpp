@@ -37,7 +37,7 @@ Home::Home(Session * session, const QList<BlogPost *> & blogPosts)
     addTransform("recentposts", &Home::recentPosts);
 }
 
-void Home::recentPosts(DomNode & node) const
+void Home::recentPosts(tastefulframework::DomNode & node) const
 {
     if (_blogPosts.empty())
     {

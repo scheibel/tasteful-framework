@@ -26,6 +26,7 @@
 
 #include <tastefulframework/AbstractSession.h>
 
+namespace tastefulframework {
 
 AbstractSession::AbstractSession()
     : invalidState(false)
@@ -81,3 +82,5 @@ void AbstractSession::timeout()
 {
     emit(expired(identifier));
 }
+
+} // namespace tastefulframework

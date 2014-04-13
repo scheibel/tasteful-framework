@@ -34,6 +34,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API XmlTransform : protected DomHelper
 {
 public:
@@ -58,3 +60,5 @@ protected:
     DomNode transformFile(const QString & filename) const;
     DomNode findContentNode(const DomNode & node) const;
 };
+
+} // namespace tastefulframework

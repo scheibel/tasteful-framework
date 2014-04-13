@@ -26,6 +26,8 @@
 
 #include <tastefulframework/View.h>
 
+namespace tastefulframework {
+
 void View::renderOn(Response & response) const
 {
     response.setContent(content());
@@ -36,3 +38,5 @@ QList<tastefulserver::HttpHeader> View::headers() const
 {
     return QList<tastefulserver::HttpHeader>();
 }
+
+} // namespace tastefulframework

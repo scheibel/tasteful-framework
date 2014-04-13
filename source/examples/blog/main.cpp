@@ -34,6 +34,8 @@
 #include <controllers/SearchController.h>
 #include <session/Session.h>
 
+using namespace tastefulframework;
+
 int main(int argc, char * argv[])
 {
     WebApplication blog(argc, argv);

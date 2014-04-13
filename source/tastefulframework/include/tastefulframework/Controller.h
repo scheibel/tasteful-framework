@@ -37,6 +37,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API Controller : public SessionContainer, public UrlHelper
 {
 public:
@@ -61,3 +63,5 @@ protected:
     tastefulserver::RequestParameters parameters;
     tastefulserver::Cookies cookies;
 };
+
+} // namespace tastefulframework

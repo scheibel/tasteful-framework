@@ -26,6 +26,8 @@
 
 #include <tastefulframework/Download.h>
 
+namespace tastefulframework {
+
 Download::Download(const Download & download)
     : file(download.file.fileName())
     , name(download.name)
@@ -49,3 +51,5 @@ Response Download::getResponse() const
 {
     return content.isNull() ? Response::download(file, name) : Response::download(content, name);
 }
+
+} // namespace tastefulframework

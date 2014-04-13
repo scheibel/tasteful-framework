@@ -30,29 +30,29 @@
 #include <controllers/AllBlogPostController.h>
 #include <views/TagPartial.h>
 
-BlogPostPartial::BlogPostPartial(DomNode node, Session * session)
+BlogPostPartial::BlogPostPartial(tastefulframework::DomNode node, Session * session)
     : Partial(node)
     , _session(session)
     , _blogPost(nullptr)
     , _id(0)
 {
-    addTransform("id", [this](DomNode & node) {
+    addTransform("id", [this](tastefulframework::DomNode & node) {
             node.inner() = QString::number(_id);
         });
 
-    addTransform("title", [this](DomNode & node) {
+    addTransform("title", [this](tastefulframework::DomNode & node) {
             node.inner() = _blogPost->title();
         });
 
-    addTransform("text", [this](DomNode & node) {
+    addTransform("text", [this](tastefulframework::DomNode & node) {
             node.inner() = _blogPost->text();
         });
 
-    addTransform("shorttext", [this](DomNode & node) {
+    addTransform("shorttext", [this](tastefulframework::DomNode & node) {
             node.inner() = _blogPost->text();
         });
 
-    addTransform("showlink", [this](DomNode & node) {
+    addTransform("showlink", [this](tastefulframework::DomNode & node) {
             if (_session->isLoggedIn() && (_blogPost->author() == _session->author()))
             {
                 node("href") = url(&BlogPostController::show, { { "id", _id }
@@ -65,12 +65,12 @@ BlogPostPartial::BlogPostPartial(DomNode node, Session * session)
             }
         });
 
-    addTransform("editlink", [this](DomNode & node) {
+    addTransform("editlink", [this](tastefulframework::DomNode & node) {
             node("href") = url(&BlogPostController::edit, { { "id", _id }
                     });
         });
 
-    addTransform("deletelink", [this](DomNode & node) {
+    addTransform("deletelink", [this](tastefulframework::DomNode & node) {
             node("href") = url(&BlogPostController::remove, { { "id", _id }
                     });
         });
@@ -84,7 +84,7 @@ void BlogPostPartial::setData(BlogPost * blogPost, unsigned id)
     _id = id;
 }
 
-void BlogPostPartial::tags(DomNode & node) const
+void BlogPostPartial::tags(tastefulframework::DomNode & node) const
 {
     TagPartial tagPartial(node.children()[0].remove());
 

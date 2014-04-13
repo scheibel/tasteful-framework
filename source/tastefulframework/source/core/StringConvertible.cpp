@@ -26,6 +26,8 @@
 
 #include <tastefulframework/StringConvertible.h>
 
+namespace tastefulframework {
+
 StringConvertible::~StringConvertible()
 {
 }
@@ -39,3 +41,5 @@ QString StringConvertible::toString() const
 
     return string;
 }
+
+} // namespace tastefulframework

@@ -30,7 +30,7 @@
 
 #include <tastefulframework/RestrictedController.h>
 
-class BlogController : public RestrictedController
+class BlogController : public tastefulframework::RestrictedController
 {
 public:
     Session* getSession() const;

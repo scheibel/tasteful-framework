@@ -26,6 +26,8 @@
 
 #include <tastefulframework/RestrictedController.h>
 
+namespace tastefulframework {
+
 RestrictedController::RestrictedController()
     : Controller()
 {
@@ -48,3 +50,5 @@ bool RestrictedController::beforeAction()
 
     return true;
 }
+
+} // namespace tastefulframework

@@ -26,6 +26,8 @@
 
 #include <tastefulframework/FrameworkEntryPoint.h>
 
+namespace tastefulframework {
+
 FrameworkEntryPoint::FrameworkEntryPoint(FrontController * frontController)
     : frontController(frontController)
 {
@@ -35,3 +37,5 @@ tastefulserver::HttpResponse FrameworkEntryPoint::operator()(const tastefulserve
 {
     return frontController->handleRequest(httpRequest);
 }
+
+} // namespace tastefulframework

@@ -31,6 +31,8 @@
 #include <QByteArray>
 #include <initializer_list>
 
+namespace tastefulframework {
+
 template <typename Key, typename Value>
 QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list)
 {
@@ -49,3 +51,5 @@ QString methodPointerToString(void (T::* methodPointer)())
 {
     return QString(QByteArray((char *)&methodPointer, sizeof(methodPointer)).toHex());
 }
+
+} // namespace tastefulframework

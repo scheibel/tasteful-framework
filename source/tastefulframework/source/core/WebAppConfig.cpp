@@ -27,6 +27,8 @@
 #include <tastefulframework/WebAppConfig.h>
 #include <tastefulframework/WebAppConfigReader.h>
 
+namespace tastefulframework {
+
 ServerConfig::ServerConfig()
     : port(0)
 {
@@ -43,3 +45,5 @@ WebAppConfig WebAppConfig::fromFile(const QString & filename)
 
     return reader.parse();
 }
+
+} // namespace tastefulframework

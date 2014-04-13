@@ -35,12 +35,14 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API Response : public tastefulserver::HttpResponse
 {
 public:
     Response(unsigned statusCode = tastefulserver::http::OK);
 
-    HttpResponse&asHttpResponse() const;
+    HttpResponse &asHttpResponse() const;
 
     void setMimeType(const QString & mimeType);
     void setMimeTypeForFileName(const QString & filename);
@@ -60,3 +62,5 @@ public:
     static Response download(const QByteArray & content, const QString & name);
     static Response accessDenied();
 };
+
+} // namespace tastefulframework

@@ -31,7 +31,7 @@
 
 #include <tastefulframework/CrudController.h>
 
-class BlogPostController : public LoggedInController, public CrudController<BlogPostController, BlogPost::DataMapper>
+class BlogPostController : public LoggedInController, public tastefulframework::CrudController<BlogPostController, BlogPost::DataMapper>
 {
     DEFINE_CRUD_ACTIONS();
 

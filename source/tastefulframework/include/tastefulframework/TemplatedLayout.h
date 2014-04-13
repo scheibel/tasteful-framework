@@ -33,6 +33,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API TemplatedLayout : public XmlTransform, protected UrlHelper
 {
 public:
@@ -50,3 +52,5 @@ protected:
     void mergeHead(DomNode targetHead, DomNode sourceHead) const;
     bool sameNodes(DomNode & node1, DomNode & node2) const;
 };
+
+} // namespace tastefulframework

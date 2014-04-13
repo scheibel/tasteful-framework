@@ -26,6 +26,8 @@
 
 #include <tastefulframework/Partial.h>
 
+namespace tastefulframework {
+
 Partial::Partial(const DomNode & node)
     : node(node.clone())
 {
@@ -46,3 +48,5 @@ DomNode Partial::toDomNode() const
 
     return n;
 }
+
+} // namespace tastefulframework

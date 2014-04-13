@@ -29,6 +29,8 @@
 #include <QStringList>
 #include <QRegExp>
 
+namespace tastefulframework {
+
 DomNode::DomNode()
 {
 }
@@ -771,3 +773,5 @@ void DomNodeList::writeOnStream(QTextStream & stream) const
         stream << node.toString() << endl;
     }
 }
+
+} // namespace tastefulframework

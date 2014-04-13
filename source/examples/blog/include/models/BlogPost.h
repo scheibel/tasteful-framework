@@ -37,7 +37,7 @@
 #include <QList>
 #include <tastefulframework/ActiveRecord.h>
 
-class BlogPost : public ActiveRecord<BlogPost, unsigned>
+class BlogPost : public tastefulframework::ActiveRecord<BlogPost, unsigned>
 {
     DATABASE_NAME(blog);
     DATABASE_TABLENAME(blogentries);

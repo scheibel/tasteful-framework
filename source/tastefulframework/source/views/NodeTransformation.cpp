@@ -26,6 +26,8 @@
 
 #include <tastefulframework/NodeTransformation.h>
 
+namespace tastefulframework {
+
 NodeTransformation::~NodeTransformation()
 {
 }
@@ -39,3 +41,5 @@ void LambdaNodeTransformation::operator()(DomNode & node) const
 {
     lambda(node);
 }
+
+} // namespace tastefulframework

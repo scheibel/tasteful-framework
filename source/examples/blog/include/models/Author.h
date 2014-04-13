@@ -29,7 +29,7 @@
 #include <QString>
 #include <tastefulframework/ActiveRecord.h>
 
-class Author : public ActiveRecord<Author, unsigned>
+class Author : public tastefulframework::ActiveRecord<Author, unsigned>
 {
     DATABASE_NAME(blog);
     DATABASE_TABLENAME(authors);

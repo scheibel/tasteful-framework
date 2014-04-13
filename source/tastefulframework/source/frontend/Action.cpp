@@ -26,6 +26,8 @@
 
 #include <tastefulframework/Action.h>
 
+namespace tastefulframework {
+
 Action::~Action()
 {
 }
@@ -79,3 +81,5 @@ Response LambdaAction::operator()(Request & request) const
 {
     return lambda(request);
 }
+
+} // namespace tastefulframework

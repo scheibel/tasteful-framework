@@ -27,6 +27,8 @@
 #include <tastefulframework/TemplatedLayout.h>
 #include <QTextStream>
 
+namespace tastefulframework {
+
 TemplatedLayout::TemplatedLayout(const QString & filename)
     : _filename(filename)
 {
@@ -108,3 +110,5 @@ bool TemplatedLayout::sameNodes(DomNode & node1, DomNode & node2) const
     return node1.attributes() == node2.attributes();
     // TODO: take text into account
 }
+
+} // namespace tastefulframework

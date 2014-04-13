@@ -31,6 +31,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API RedirectException
 {
 public:
@@ -49,3 +51,5 @@ private:
     QString url;
     bool permanently;
 };
+
+} // namespace tastefulframework

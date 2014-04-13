@@ -33,7 +33,7 @@ SearchForm::SearchForm(Session * session)
 {
     setFilename("searchform.html");
 
-    addTransform("searchurl", [this](DomNode & node) {
+    addTransform("searchurl", [this](tastefulframework::DomNode & node) {
             node("action") = url(&SearchController::findPost);
         });
 }

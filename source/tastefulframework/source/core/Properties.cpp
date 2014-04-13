@@ -28,6 +28,8 @@
 
 #include <QFile>
 
+namespace tastefulframework {
+
 Properties::Properties(const QString & filename)
     : filename(filename)
 {
@@ -43,3 +45,5 @@ QString Properties::getFilename() const
 {
     return filename;
 }
+
+} // namespace tastefulframework

@@ -28,6 +28,8 @@
 
 #include <tastefulframework/SessionPool.h>
 
+namespace tastefulframework {
+
 Request::Request()
 {
 }
@@ -52,3 +54,5 @@ void Request::obtainSessionFrom(SessionPool * sessionPool)
 {
     sessionPool->addSessionTo(*this);
 }
+
+} // namespace tastefulframework

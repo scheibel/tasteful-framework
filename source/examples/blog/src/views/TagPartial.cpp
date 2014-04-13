@@ -28,16 +28,16 @@
 
 #include <controllers/SearchController.h>
 
-TagPartial::TagPartial(DomNode node)
+TagPartial::TagPartial(tastefulframework::DomNode node)
     : Partial(node)
     , _tag(nullptr)
 {
-    addTransform("searchtagurl", [this](DomNode & node) {
+    addTransform("searchtagurl", [this](tastefulframework::DomNode & node) {
             node("href") = url(&SearchController::find, { { "string", _tag->name() }
                     });
         });
 
-    addTransform("tagname", [this](DomNode & node) {
+    addTransform("tagname", [this](tastefulframework::DomNode & node) {
             node.inner() = _tag->name();
         });
 }

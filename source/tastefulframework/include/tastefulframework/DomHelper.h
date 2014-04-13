@@ -33,6 +33,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 #define CUSTOM_TAG(tagname) \
     template <typename... Args> \
     NodeCreator tagname(Args... args) const
@@ -46,7 +48,6 @@
     TagModifier attributename(const QString &attributename) const { \
         return attribute(#attributename, attributename); \
     }
-
 
 class DomNode;
 
@@ -201,3 +202,5 @@ public:
 
     SUPPORT_ATTRIBUTE(name) SUPPORT_ATTRIBUTE(id) SUPPORT_ATTRIBUTE(href) SUPPORT_ATTRIBUTE(type) SUPPORT_ATTRIBUTE(rel) SUPPORT_ATTRIBUTE(value) SUPPORT_TAG(a) SUPPORT_TAG(abbr) SUPPORT_TAG(acronym) SUPPORT_TAG(address) SUPPORT_TAG(applet) SUPPORT_TAG(area) SUPPORT_TAG(article) SUPPORT_TAG(aside) SUPPORT_TAG(audio) SUPPORT_TAG(b) SUPPORT_TAG(base) SUPPORT_TAG(basefont) SUPPORT_TAG(bdi) SUPPORT_TAG(bdo) SUPPORT_TAG(big) SUPPORT_TAG(blockquote) SUPPORT_TAG(body) SUPPORT_TAG(br) SUPPORT_TAG(button) SUPPORT_TAG(canvas) SUPPORT_TAG(caption) SUPPORT_TAG(center) SUPPORT_TAG(cite) SUPPORT_TAG(code) SUPPORT_TAG(col) SUPPORT_TAG(colgroup) SUPPORT_TAG(command) SUPPORT_TAG(datalist) SUPPORT_TAG(dd) SUPPORT_TAG(del) SUPPORT_TAG(details) SUPPORT_TAG(dfn) SUPPORT_TAG(dir) SUPPORT_TAG(div) SUPPORT_TAG(dl) SUPPORT_TAG(dt) SUPPORT_TAG(em) SUPPORT_TAG(embed) SUPPORT_TAG(fieldset) SUPPORT_TAG(figcaption) SUPPORT_TAG(figure) SUPPORT_TAG(font) SUPPORT_TAG(footer) SUPPORT_TAG(form) SUPPORT_TAG(frame) SUPPORT_TAG(frameset) SUPPORT_TAG(h1) SUPPORT_TAG(h2) SUPPORT_TAG(h3) SUPPORT_TAG(h4) SUPPORT_TAG(h5) SUPPORT_TAG(h6) SUPPORT_TAG(head) SUPPORT_TAG(header) SUPPORT_TAG(hgroup) SUPPORT_TAG(hr) SUPPORT_TAG(html) SUPPORT_TAG(i) SUPPORT_TAG(iframe) SUPPORT_TAG(img) SUPPORT_TAG(input) SUPPORT_TAG(ins) SUPPORT_TAG(keygen) SUPPORT_TAG(kbd) SUPPORT_TAG(label) SUPPORT_TAG(legend) SUPPORT_TAG(li) SUPPORT_TAG(link) SUPPORT_TAG(map) SUPPORT_TAG(mark) SUPPORT_TAG(menu) SUPPORT_TAG(meta) SUPPORT_TAG(meter) SUPPORT_TAG(nav) SUPPORT_TAG(noframes) SUPPORT_TAG(noscript) SUPPORT_TAG(object) SUPPORT_TAG(ol) SUPPORT_TAG(optgroup) SUPPORT_TAG(option) SUPPORT_TAG(output) SUPPORT_TAG(p) SUPPORT_TAG(param) SUPPORT_TAG(pre) SUPPORT_TAG(progress) SUPPORT_TAG(q) SUPPORT_TAG(rp) SUPPORT_TAG(rt) SUPPORT_TAG(ruby) SUPPORT_TAG(s) SUPPORT_TAG(samp) SUPPORT_TAG(script) SUPPORT_TAG(section) SUPPORT_TAG(select) SUPPORT_TAG(small) SUPPORT_TAG(source) SUPPORT_TAG(span) SUPPORT_TAG(strike) SUPPORT_TAG(strong) SUPPORT_TAG(style) SUPPORT_TAG(sub) SUPPORT_TAG(summary) SUPPORT_TAG(sup) SUPPORT_TAG(table) SUPPORT_TAG(tbody) SUPPORT_TAG(td) SUPPORT_TAG(textarea) SUPPORT_TAG(tfoot) SUPPORT_TAG(th) SUPPORT_TAG(thead) SUPPORT_TAG(time) SUPPORT_TAG(title) SUPPORT_TAG(tr) SUPPORT_TAG(track) SUPPORT_TAG(tt) SUPPORT_TAG(u) SUPPORT_TAG(ul) SUPPORT_TAG(var) SUPPORT_TAG(video) SUPPORT_TAG(wbr)
 };
+
+} // namespace tastefulframework

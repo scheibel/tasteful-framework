@@ -26,6 +26,8 @@
 
 #include <tastefulframework/routing.h>
 
+namespace tastefulframework {
+
 RouteActionAssigner ROOT = GET("/");
 
 RouteActionAssigner GET(const QString & urlPattern)
@@ -47,3 +49,5 @@ RouteActionAssigner DELETE(const QString & urlPattern)
 {
     return RouteActionAssigner(RouteRegistry::getOrCreate(tastefulserver::HttpMethod::DELETE, urlPattern));
 }
+
+} // namespace tastefulframework

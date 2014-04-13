@@ -34,6 +34,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API View : protected UrlHelper
 {
 public:
@@ -43,3 +45,5 @@ protected:
     virtual QList<tastefulserver::HttpHeader> headers() const;
     virtual QByteArray content() const = 0;
 };
+
+} // namespace tastefulframework

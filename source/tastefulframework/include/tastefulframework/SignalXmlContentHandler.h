@@ -30,6 +30,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API SignalXmlContentHandler : public QObject, public QXmlContentHandler
 {
     Q_OBJECT
@@ -60,3 +62,5 @@ public:
     virtual bool startElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts);
     virtual bool startPrefixMapping(const QString & prefix, const QString & uri);
 };
+
+} // namespace tastefulframework

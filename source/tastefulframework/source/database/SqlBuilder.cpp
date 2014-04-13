@@ -28,6 +28,8 @@
 
 #include <QStringList>
 
+namespace tastefulframework {
+
 SqlBuilder::SqlBuilder(Sql::QueryType type)
     : stream(&sql)
 {
@@ -154,3 +156,5 @@ SqlBuilder &SqlBuilder::GROUPBY(const QString & fieldname)
 
     return *this;
 }
+
+} // namespace tastefulframework

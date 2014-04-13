@@ -31,6 +31,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API LayoutedTemplateView : public TemplateView
 {
 public:
@@ -42,3 +44,5 @@ protected:
 
     virtual const TemplatedLayout&getLayout() const = 0;
 };
+
+} // namespace tastefulframework

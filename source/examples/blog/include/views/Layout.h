@@ -30,7 +30,7 @@
 
 #include <tastefulframework/TemplatedLayout.h>
 
-class Layout : public TemplatedLayout
+class Layout : public tastefulframework::TemplatedLayout
 {
 public:
     Layout();
@@ -38,8 +38,8 @@ public:
     void setSession(Session * newSession);
 
 protected:
-    void login(DomNode & node) const;
-    void menu(DomNode & node) const;
+    void login(tastefulframework::DomNode & node) const;
+    void menu(tastefulframework::DomNode & node) const;
 
 private:
     Session * _session;

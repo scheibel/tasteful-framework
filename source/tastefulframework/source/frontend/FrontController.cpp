@@ -28,6 +28,8 @@
 #include <tastefulframework/Logger.h>
 #include <QDir>
 
+namespace tastefulframework {
+
 FrontController::FrontController()
 {
 }
@@ -88,3 +90,5 @@ bool FrontController::canDeliver(const QFile & file) const
 
     return foundMatch && fileInfo.exists() && fileInfo.isFile() && fileInfo.isReadable();
 }
+
+} // namespace tastefulframework

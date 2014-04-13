@@ -26,6 +26,8 @@
 
 #include <tastefulframework/SignalXmlContentHandler.h>
 
+namespace tastefulframework {
+
 bool SignalXmlContentHandler::characters(const QString & ch)
 {
     emit(charactersRead(ch));
@@ -102,3 +104,5 @@ bool SignalXmlContentHandler::startPrefixMapping(const QString & prefix, const Q
 {
     return true;
 }
+
+} // namespace tastefulframework

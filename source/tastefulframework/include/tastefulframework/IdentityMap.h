@@ -29,6 +29,8 @@
 #include <QHash>
 #include <QReadWriteLock>
 
+namespace tastefulframework {
+
 template <class T, typename Identity = unsigned>
 class IdentityMap
 {
@@ -86,3 +88,5 @@ void IdentityMap<T, Identity>::registerModel(Identity id, T * model)
     identities[id] = model;
     lock.unlock();
 }
+
+} // namespace tastefulframework

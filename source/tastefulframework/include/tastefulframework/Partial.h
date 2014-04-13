@@ -33,6 +33,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API Partial : public DomNodeProducer, public XmlTransform, protected UrlHelper
 {
 public:
@@ -44,3 +46,5 @@ public:
 protected:
     DomNode node;
 };
+
+} // namespace tastefulframework

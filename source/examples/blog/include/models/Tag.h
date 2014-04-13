@@ -29,7 +29,7 @@
 #include <QString>
 #include <tastefulframework/ActiveRecord.h>
 
-class Tag : public ActiveRecord<Tag, unsigned>
+class Tag : public tastefulframework::ActiveRecord<Tag, unsigned>
 {
     DATABASE_NAME(blog);
     DATABASE_TABLENAME(tags);

@@ -26,6 +26,8 @@
 
 #include <tastefulframework/GenericSession.h>
 
+namespace tastefulframework {
+
 GenericSession::GenericSession()
     : AbstractSession::AbstractSession()
 {
@@ -41,3 +43,5 @@ bool GenericSession::has(const QString & key) const
 {
     return values.contains(key);
 }
+
+} // namespace tastefulframework

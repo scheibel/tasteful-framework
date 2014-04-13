@@ -36,7 +36,7 @@ class AllBlogPostList : public BlogView
 public:
     AllBlogPostList(Session * session, const QList<BlogPost *> & blogPosts);
 
-    void blogPostList(DomNode & node) const;
+    void blogPostList(tastefulframework::DomNode & node) const;
 
 private:
     QList<BlogPost *> _blogPosts;

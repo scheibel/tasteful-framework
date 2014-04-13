@@ -26,6 +26,8 @@
 
 #pragma once
 
+namespace tastefulframework {
+
 template <class Superclass>
 class AbstractObjectConstructor
 {
@@ -52,3 +54,5 @@ public:
     }
 
 };
+
+} // namespace tastefulframework

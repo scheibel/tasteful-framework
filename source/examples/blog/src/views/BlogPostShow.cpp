@@ -35,18 +35,18 @@ BlogPostShow::BlogPostShow(Session * session, BlogPost * blogPost, unsigned id)
 {
     setFilename("blogpostshow.html");
 
-    addTransform("blogposttitle", [this](DomNode & node) {
+    addTransform("blogposttitle", [this](tastefulframework::DomNode & node) {
             node.inner() = _blogPost->title();
         });
 
-    addTransform("blogpostcontent", [this](DomNode & node) {
+    addTransform("blogpostcontent", [this](tastefulframework::DomNode & node) {
             node.inner() = _blogPost->text();
         });
 
     addTransform("tags", &BlogPostShow::blogPostTags);
 }
 
-void BlogPostShow::blogPostTags(DomNode & node) const
+void BlogPostShow::blogPostTags(tastefulframework::DomNode & node) const
 {
     TagPartial tagPartial(node.children()[0].remove());
 

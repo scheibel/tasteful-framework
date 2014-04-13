@@ -30,6 +30,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API SessionContainer
 {
 public:
@@ -49,3 +51,5 @@ T * SessionContainer::getSession() const
 {
     return (T *)session;
 }
+
+} // namespace tastefulframework

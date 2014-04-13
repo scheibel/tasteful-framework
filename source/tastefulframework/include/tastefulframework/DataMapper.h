@@ -36,6 +36,8 @@
 #include <QVariantMap>
 #include <QSqlRecord>
 
+namespace tastefulframework {
+
 template <class Subclass, class T, typename I = unsigned>
 class DataMapper : protected SqlHelper
 {
@@ -345,3 +347,5 @@ Database & DataMapper<Subclass, T, I>::getDatabase() const
 {
     return Database::get(databaseId());
 }
+
+} // namespace tastefulframework

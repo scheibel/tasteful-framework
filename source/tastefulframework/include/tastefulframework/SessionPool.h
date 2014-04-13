@@ -35,6 +35,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API SessionPool : public QObject
 {
     Q_OBJECT
@@ -77,3 +79,5 @@ void SessionPool::setSessionClass()
 {
     sessionConstructor = new ObjectConstructor<AbstractSession, SessionClass>();
 }
+
+} // namespace tastefulframework

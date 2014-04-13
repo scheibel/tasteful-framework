@@ -33,6 +33,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API FrameworkEntryPoint
 {
 public:
@@ -43,3 +45,5 @@ public:
 private:
     FrontController * frontController;
 };
+
+} // namespace tastefulframework

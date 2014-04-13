@@ -34,7 +34,7 @@ class BlogPostShow : public BlogView
 public:
     BlogPostShow(Session * session, BlogPost * blogPost, unsigned id);
 
-    void blogPostTags(DomNode & node) const;
+    void blogPostTags(tastefulframework::DomNode & node) const;
 
 private:
     BlogPost * _blogPost;

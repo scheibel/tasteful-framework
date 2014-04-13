@@ -31,7 +31,7 @@
 
 #include <tastefulframework/LayoutedTemplateView.h>
 
-class BlogView : public LayoutedTemplateView
+class BlogView : public tastefulframework::LayoutedTemplateView
 {
 public:
     BlogView(Session * session);
@@ -39,5 +39,5 @@ public:
 protected:
     Session * _session;
     Layout _layout;
-    const TemplatedLayout&getLayout() const;
+    const tastefulframework::TemplatedLayout & getLayout() const;
 };

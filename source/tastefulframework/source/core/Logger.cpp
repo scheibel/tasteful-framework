@@ -27,6 +27,8 @@
 #include <tastefulframework/Logger.h>
 #include <stdio.h>
 
+namespace tastefulframework {
+
 LogDevice::LogDevice()
     : logDevice(nullptr)
 {
@@ -277,3 +279,5 @@ Logger &Logger::operator<<(const void * val)
 
     return *this;
 }
+
+} // namespace tastefulframework

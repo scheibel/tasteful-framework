@@ -30,6 +30,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 extern TASTEFULFRAMEWORK_API RouteActionAssigner ROOT;
 extern TASTEFULFRAMEWORK_API RouteActionAssigner ROBOTS_TXT;
 extern TASTEFULFRAMEWORK_API RouteActionAssigner FAV_ICON;
@@ -49,3 +51,5 @@ void registerCrudActions(const QString & urlPattern)
     GET(urlPattern + "/:id/delete") = &CrudControllerSubclass::remove;
     DELETE(urlPattern + "/:id/delete") = &CrudControllerSubclass::remove;
 }
+
+} // namespace tastefulframework

@@ -37,6 +37,10 @@
 #include <initializer_list>
 #include <tastefulframework/StringConvertible.h>
 
+#include <tastefulframework/tastefulframework_api.h>
+
+namespace tastefulframework {
+
 class NodeCreator;
 class DomNodeList;
 class DomAttribute;
@@ -44,8 +48,6 @@ class DomAttributes;
 class RawXml;
 class InnerXml;
 class DomNodeProducer;
-
-#include <tastefulframework/tastefulframework_api.h>
 
 class TASTEFULFRAMEWORK_API DomNode : public StringConvertible
 {
@@ -288,3 +290,5 @@ private:
     }
 
 };
+
+} // namespace tastefulframework

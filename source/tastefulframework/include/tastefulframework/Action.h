@@ -35,6 +35,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class Controller;
 
 class TASTEFULFRAMEWORK_API Action
@@ -128,3 +130,5 @@ public:
 private:
     Lambda lambda;
 };
+
+} // namespace tastefulframework

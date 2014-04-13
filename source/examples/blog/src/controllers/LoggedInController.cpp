@@ -36,5 +36,5 @@ bool LoggedInController::isAuthorized() const
 
 void LoggedInController::unauthorized()
 {
-    throw RedirectException(url(&HomeController::index));
+    throw tastefulframework::RedirectException(url(&HomeController::index));
 }

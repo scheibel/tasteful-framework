@@ -35,6 +35,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API WebApplication
 {
 public:
@@ -100,3 +102,5 @@ void WebApplication::setSessionClass()
 {
     frontController->setSessionClass<SessionClass>();
 }
+
+} // namespace tastefulframework

@@ -32,6 +32,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class XmlTransform;
 
 class TASTEFULFRAMEWORK_API NodeTransformation
@@ -74,3 +76,5 @@ public:
 private:
     Lambda lambda;
 };
+
+} // namespace tastefulframework

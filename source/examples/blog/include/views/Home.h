@@ -36,7 +36,7 @@ class Home : public BlogView
 public:
     Home(Session * session, const QList<BlogPost *> & blogPosts);
 
-    void recentPosts(DomNode & node) const;
+    void recentPosts(tastefulframework::DomNode & node) const;
 
 private:
     QList<BlogPost *> _blogPosts;

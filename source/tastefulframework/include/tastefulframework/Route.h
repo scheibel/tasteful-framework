@@ -39,6 +39,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API RequestedAction
 {
 public:
@@ -129,3 +131,5 @@ public:
 private:
     QRegExp regexp;
 };
+
+} // namespace tastefulframework

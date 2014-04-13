@@ -32,6 +32,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API TemplateView : public View, public XmlTransform
 {
 public:
@@ -46,3 +48,5 @@ protected:
     QString filename;
     virtual QByteArray content() const;
 };
+
+} // namespace tastefulframework

@@ -33,6 +33,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API GenericSession : public AbstractSession
 {
 public:
@@ -55,3 +57,5 @@ public:
 protected:
     QHash<QString, QVariant> values;
 };
+
+} // namespace tastefulframework

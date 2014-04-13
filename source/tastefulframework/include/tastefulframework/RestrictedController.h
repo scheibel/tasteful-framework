@@ -30,6 +30,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API RestrictedController : public virtual Controller
 {
 public:
@@ -41,3 +43,5 @@ protected:
     virtual bool isAuthorized() const = 0;
     virtual void unauthorized();
 };
+
+} // namespace tastefulframework

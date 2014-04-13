@@ -37,12 +37,12 @@ BlogPostList::BlogPostList(Session * session, const QHash<unsigned, BlogPost *> 
 
     addTransform("blogposttable", &BlogPostList::blogPostTable);
 
-    addTransform("newlink", [this](DomNode & node) {
+    addTransform("newlink", [this](tastefulframework::DomNode & node) {
             node("href") = url(&BlogPostController::create);
         });
 }
 
-void BlogPostList::blogPostTable(DomNode & node) const
+void BlogPostList::blogPostTable(tastefulframework::DomNode & node) const
 {
     BlogPostPartial blogPostPartial(node["tr"][1].remove(), _session);
 

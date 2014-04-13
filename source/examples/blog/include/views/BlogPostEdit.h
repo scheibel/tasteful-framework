@@ -34,7 +34,7 @@ class BlogPostEdit : public BlogView
 public:
     BlogPostEdit(Session * session, BlogPost * blogPost, unsigned id);
 
-    void tagList(DomNode & node) const;
+    void tagList(tastefulframework::DomNode & node) const;
 
 private:
     BlogPost * _blogPost;

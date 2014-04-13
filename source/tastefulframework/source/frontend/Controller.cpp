@@ -29,6 +29,8 @@
 #include <tastefulframework/LayoutedTemplateView.h>
 #include <tastefulframework/TemplatedLayout.h>
 
+namespace tastefulframework {
+
 Controller::Controller()
 {
 
@@ -94,3 +96,5 @@ tastefulserver::Cookies &Controller::getCookies()
 {
     return cookies;
 }
+
+} // namespace tastefulframework

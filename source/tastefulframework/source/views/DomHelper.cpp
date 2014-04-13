@@ -29,6 +29,8 @@
 #include <iostream>
 #include <QFile>
 
+namespace tastefulframework {
+
 QDomDocument DomHelper::loadDocument(const QString & filename) const
 {
     QFile file("resources:" + filename);
@@ -169,3 +171,5 @@ void NodeCreator::addModifier(double d)
 {
     addModifier(QString::number(d));
 }
+
+} // namespace tastefulframework

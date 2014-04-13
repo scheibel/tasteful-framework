@@ -30,6 +30,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API SqlHelper
 {
 protected:
@@ -39,3 +41,5 @@ protected:
     SqlBuilder REPLACE() const;
     SqlBuilder DELETE() const;
 };
+
+} // namespace tastefulframework

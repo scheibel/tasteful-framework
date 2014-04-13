@@ -36,6 +36,8 @@
 
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulframework {
+
 class TASTEFULFRAMEWORK_API Database
 {
 public:
@@ -56,3 +58,5 @@ private:
     static QHash<QString, Database *> databases;
     static QReadWriteLock lock;
 };
+
+} // namespace tastefulframework
