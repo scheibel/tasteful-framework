@@ -46,10 +46,6 @@ protected:
     AbstractSession * session;
 };
 
-template <typename T>
-T * SessionContainer::getSession() const
-{
-    return (T *)session;
-}
-
 } // namespace tastefulframework
+
+#include <tastefulframework/SessionContainer.hpp>

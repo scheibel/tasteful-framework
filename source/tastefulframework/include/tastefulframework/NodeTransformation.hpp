@@ -26,18 +26,21 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/NodeTransformation.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <typename T>
+MethodNodeTransformation<T>::MethodNodeTransformation(XmlTransform * transform, MethodPointer methodPointer)
+: transform(transform)
+, methodPointer(methodPointer)
+{
+}
 
 template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+void MethodNodeTransformation<T>::operator()(DomNode & node) const
+{
+	(dynamic_cast<const T *>(transform)->*methodPointer)(node);
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

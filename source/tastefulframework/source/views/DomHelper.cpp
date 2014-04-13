@@ -172,4 +172,11 @@ void NodeCreator::addModifier(double d)
     addModifier(QString::number(d));
 }
 
+DEFINE_ATTRIBUTE(DomHelper, name)
+DEFINE_ATTRIBUTE(DomHelper, id)
+DEFINE_ATTRIBUTE(DomHelper, href)
+DEFINE_ATTRIBUTE(DomHelper, type)
+DEFINE_ATTRIBUTE(DomHelper, rel)
+DEFINE_ATTRIBUTE(DomHelper, value)
+
 } // namespace tastefulframework

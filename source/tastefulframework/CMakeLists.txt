@@ -90,38 +90,57 @@ set(sources
 set(api_includes
 	${include_path}/AbstractSession.h
 	${include_path}/Action.h
+	${include_path}/Action.hpp
 	${include_path}/ActiveRecordDataMapper.h
+	${include_path}/ActiveRecordDataMapper.hpp
 	${include_path}/ActiveRecord.h
+	${include_path}/ActiveRecord.hpp
 	${include_path}/Concurrent.h
+	${include_path}/Concurrent.hpp
 	${include_path}/Controller.h
 	${include_path}/CrudController.h
+	${include_path}/CrudController.hpp
 	${include_path}/Database.h
 	${include_path}/DataMapper.h
+	${include_path}/DataMapper.hpp
 	${include_path}/Dispatcher.h
 	${include_path}/DomHelper.h
+	${include_path}/DomHelper.hpp
 	${include_path}/DomNode.h
+	${include_path}/DomNode.hpp
 	${include_path}/Download.h
 	${include_path}/FrameworkEntryPoint.h
 	${include_path}/FrontController.h
+	${include_path}/FrontController.hpp
 	${include_path}/GenericSession.h
+	${include_path}/GenericSession.hpp
 	${include_path}/IdentityMap.h
+	${include_path}/IdentityMap.hpp
 	${include_path}/LayoutedTemplateView.h
 	${include_path}/Logger.h
 	${include_path}/MimeDatabase.h
 	${include_path}/NodeTransformation.h
+	${include_path}/NodeTransformation.hpp
 	${include_path}/ObjectConstructor.h
+	${include_path}/ObjectConstructor.hpp
 	${include_path}/Partial.h
 	${include_path}/Properties.h
+	${include_path}/Properties.hpp
 	${include_path}/QHashExtension.h
+	${include_path}/QHashExtension.hpp
 	${include_path}/RedirectException.h
 	${include_path}/Request.h
 	${include_path}/Response.h
 	${include_path}/RestrictedController.h
 	${include_path}/Route.h
 	${include_path}/RouteRegistry.h
+	${include_path}/RouteRegistry.hpp
 	${include_path}/routing.h
+	${include_path}/routing.hpp
 	${include_path}/SessionContainer.h
+	${include_path}/SessionContainer.hpp
 	${include_path}/SessionPool.h
+	${include_path}/SessionPool.hpp
 	${include_path}/SignalXmlContentHandler.h
 	${include_path}/SqlBuilder.h
 	${include_path}/SqlHelper.h
@@ -136,6 +155,7 @@ set(api_includes
 	${include_path}/WebAppConfigReader.h
 	${include_path}/WebApplication.h
 	${include_path}/XmlTransform.h
+	${include_path}/XmlTransform.hpp
 )
 
 # Group source files

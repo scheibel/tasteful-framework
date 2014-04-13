@@ -26,18 +26,50 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/Concurrent.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <class T>
+Concurrent<T>::Concurrent()
+    : mutex(new QMutex())
+{
+}
 
-template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+template <class T>
+Concurrent<T>::Concurrent(T * object)
+    : object(object)
+{
+}
+
+template <class T>
+template <typename R, typename... Args>
+R Concurrent<T>::perform(R (T::* mp)(Args...), Args... args)
+{
+        mutex.lock();
+        R ret = (object.data()->*mp)(args...);
+        mutex.unlock();
+
+        return ret;
+}
+
+template <class T>
+template <typename R, typename... Args>
+R Concurrent<T>::perform(R (T::* mp)(Args...) const, Args... args)
+{
+        mutex.lock();
+        R ret = (object.data()->*mp)(args...);
+        mutex.unlock();
+
+        return ret;
+}
+
+template <class T>
+void Concurrent<T>::execute(std::function<void(T *)> function)
+{
+        mutex.lock();
+        function(object);
+        mutex.unlock();
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

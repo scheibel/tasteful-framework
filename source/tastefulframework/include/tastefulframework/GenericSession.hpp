@@ -26,18 +26,20 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/GenericSession.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <typename T>
+T GenericSession::get(const QString & key) const
+{
+	return values.value(key).value<T>();
+}
 
 template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+void GenericSession::set(const QString & key, T value)
+{
+	values.insert(key, QVariant::fromValue(value));
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

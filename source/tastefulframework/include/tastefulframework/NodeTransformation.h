@@ -49,16 +49,8 @@ class TASTEFULFRAMEWORK_API MethodNodeTransformation : public NodeTransformation
 public:
     typedef void (T::* MethodPointer)(DomNode &) const;
 
-    MethodNodeTransformation(XmlTransform * transform, MethodPointer methodPointer)
-        : transform(transform)
-        , methodPointer(methodPointer)
-    {
-    }
-
-    void operator()(DomNode & node) const
-    {
-        (dynamic_cast<const T *>(transform)->*methodPointer)(node);
-    }
+    MethodNodeTransformation(XmlTransform * transform, MethodPointer methodPointer);
+    void operator()(DomNode & node) const;
 
 private:
     XmlTransform * transform;
@@ -78,3 +70,5 @@ private:
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/NodeTransformation.hpp>

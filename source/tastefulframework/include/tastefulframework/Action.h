@@ -52,24 +52,9 @@ class ControllerAction : public Action
 public:
     typedef void (T::* MethodPointer)();
 
-    ControllerAction(MethodPointer methodPointer)
-        : methodPointer(methodPointer)
-    {
-    }
+    ControllerAction(MethodPointer methodPointer);
 
-    Response operator()(Request & request) const
-    {
-        T controller;
-
-        controller.initialize(request);
-        if (controller.beforeAction())
-        {
-            (controller.*methodPointer)();
-            controller.afterAction();
-        }
-
-        return controller.getResponse();
-    }
+    Response operator()(Request & request) const;
 
 private:
     MethodPointer methodPointer;
@@ -132,3 +117,5 @@ private:
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/Action.hpp>

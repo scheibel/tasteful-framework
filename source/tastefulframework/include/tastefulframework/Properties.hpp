@@ -26,18 +26,22 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/Properties.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <typename T>
+T Properties::property(const QString & key, const T & defaultValue) const
+{
+	QVariant value = settings->value(key);
+
+	return value.isValid() ? value.value<T>() : defaultValue;
+}
 
 template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+T Properties::property(const QString & section, const QString & field, const T & defaultValue) const
+{
+	return property<T>(section + "/" + field, defaultValue);
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

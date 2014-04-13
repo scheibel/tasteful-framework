@@ -26,18 +26,28 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/RouteRegistry.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <typename T>
+void RouteRegistry::assignMethodToRoute(void (T::* methodPointer)(), Route * route)
+{
+    instance().addMethodStringToRoutes(methodPointerToString(methodPointer), route);
+}
 
 template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+Route* RouteRegistry::routeFor(void (T::* methodPointer)())
+{
+    return instance().getRouteForMethodString(methodPointerToString(methodPointer));
+}
+
+template <typename T>
+QSharedPointer<Action> RouteActionAssigner::operator=(void (T::* methodPointer)())
+{
+    RouteRegistry::assignMethodToRoute(methodPointer, route);
+
+    return *this = new ControllerAction<T>(methodPointer);
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

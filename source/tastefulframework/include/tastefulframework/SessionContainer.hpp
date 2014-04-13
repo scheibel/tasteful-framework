@@ -26,18 +26,14 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/SessionContainer.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
-
 template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+T * SessionContainer::getSession() const
+{
+    return (T *)session;
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

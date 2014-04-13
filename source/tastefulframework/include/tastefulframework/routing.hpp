@@ -26,18 +26,20 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/routing.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
-
-template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+template <class CrudControllerSubclass>
+void registerCrudActions(const QString & urlPattern)
+{
+    GET(urlPattern) = &CrudControllerSubclass::index;
+    GET(urlPattern + "/:id") = &CrudControllerSubclass::show;
+    GET(urlPattern + "/new") = &CrudControllerSubclass::create;
+    GET(urlPattern + "/:id/edit") = &CrudControllerSubclass::edit;
+    POST(urlPattern + "/save") = &CrudControllerSubclass::save;
+    GET(urlPattern + "/:id/delete") = &CrudControllerSubclass::remove;
+    DELETE(urlPattern + "/:id/delete") = &CrudControllerSubclass::remove;
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

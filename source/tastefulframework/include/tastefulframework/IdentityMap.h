@@ -46,47 +46,6 @@ private:
     mutable QReadWriteLock lock;
 };
 
-template <class T, typename Identity>
-IdentityMap<T, Identity>::IdentityMap()
-{
-}
-
-template <class T, typename Identity>
-Identity IdentityMap<T, Identity>::idOf(T * model) const
-{
-    lock.lockForRead();
-    Identity id = identities.key(model);
-    lock.unlock();
-
-    return id;
-}
-
-template <class T, typename Identity>
-bool IdentityMap<T, Identity>::hasModel(Identity id) const
-{
-    lock.lockForRead();
-    bool has = identities.contains(id);
-    lock.unlock();
-
-    return has;
-}
-
-template <class T, typename Identity>
-T * IdentityMap<T, Identity>::getModel(Identity id) const
-{
-    lock.lockForRead();
-    T * model = hasModel(id) ? identities[id] : nullptr;
-    lock.unlock();
-
-    return model;
-}
-
-template <class T, typename Identity>
-void IdentityMap<T, Identity>::registerModel(Identity id, T * model)
-{
-    lock.lockForWrite();
-    identities[id] = model;
-    lock.unlock();
-}
-
 } // namespace tastefulframework
+
+#include <tastefulframework/IdentityMap.hpp>

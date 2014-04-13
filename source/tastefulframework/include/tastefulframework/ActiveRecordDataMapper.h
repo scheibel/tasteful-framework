@@ -37,49 +37,15 @@ template <class T, typename Identity = unsigned>
 class ActiveRecordDataMapper : public DataMapper<ActiveRecordDataMapper<T, Identity>, T, Identity>
 {
 public:
-    ActiveRecordDataMapper()
-    {
-        _databaseName = T::databaseName();
-        _fieldNames = T::fieldNames();
-        _tableName = T::tableName();
-        _primaryKeyName = T::primaryKeyName();
-    }
+    ActiveRecordDataMapper();
 
-    virtual void buildFromRecord(T * model, const QVariantMap & record) const
-    {
-        model->initializeFromRecord(record);
-        model->setSaved();
-    }
-
-    virtual void buildRecordFrom(T * model, QVariantMap & record) const
-    {
-        model->serializeToRecord(record);
-    }
-
-    virtual QString table() const
-    {
-        return _tableName;
-    }
-
-    virtual QList<QString> selectVariables() const
-    {
-        return _fieldNames;
-    }
-
-    virtual QString identityFieldName() const
-    {
-        return _primaryKeyName;
-    }
-
-    virtual QString databaseId() const
-    {
-        return _databaseName;
-    }
-
-    virtual void saveRelationsOf(T * model)
-    {
-        model->saveRelations();
-    }
+    virtual void buildFromRecord(T * model, const QVariantMap & record) const;
+    virtual void buildRecordFrom(T * model, QVariantMap & record) const;
+    virtual QString table() const;
+    virtual QList<QString> selectVariables() const;
+    virtual QString identityFieldName() const;
+    virtual QString databaseId() const;
+    virtual void saveRelationsOf(T * model);
 
 protected:
     QString _databaseName;
@@ -89,3 +55,5 @@ protected:
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/ActiveRecordDataMapper.hpp>

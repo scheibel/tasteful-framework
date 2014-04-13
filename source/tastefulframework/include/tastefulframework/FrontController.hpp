@@ -26,18 +26,14 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/FrontController.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
-
-template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+template <class SessionClass>
+void FrontController::setSessionClass()
+{
+    sessionPool.setSessionClass<SessionClass>();
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

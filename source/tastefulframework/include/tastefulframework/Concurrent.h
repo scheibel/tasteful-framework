@@ -39,31 +39,12 @@ public:
     Concurrent(T * object);
 
     template <typename R, typename... Args>
-    R perform(R (T::* mp)(Args...), Args... args)
-    {
-        mutex.lock();
-        R ret = (object.data()->*mp)(args...);
-        mutex.unlock();
-
-        return ret;
-    }
+    R perform(R (T::* mp)(Args...), Args... args);
 
     template <typename R, typename... Args>
-    R perform(R (T::* mp)(Args...) const, Args... args)
-    {
-        mutex.lock();
-        R ret = (object.data()->*mp)(args...);
-        mutex.unlock();
+    R perform(R (T::* mp)(Args...) const, Args... args);
 
-        return ret;
-    }
-
-    void execute(std::function<void(T *)> function)
-    {
-        mutex.lock();
-        function(object);
-        mutex.unlock();
-    }
+    void execute(std::function<void(T *)> function);
 
 private:
     Concurrent(const Concurrent &);
@@ -73,16 +54,6 @@ protected:
     T * object;
 };
 
-template <class T>
-Concurrent<T>::Concurrent()
-    : mutex(new QMutex())
-{
-}
-
-template <class T>
-Concurrent<T>::Concurrent(T * object)
-    : object(object)
-{
-}
-
 } // namespace tastefulframework
+
+#include <tastefulframework/Concurrent.hpp>

@@ -42,12 +42,7 @@ public:
     QString getFilename() const;
 
     template <typename T>
-    T property(const QString & key, const T & defaultValue) const
-    {
-        QVariant value = settings->value(key);
-
-        return value.isValid() ? value.value<T>() : defaultValue;
-    }
+    T property(const QString & key, const T & defaultValue) const;
 
     QVariant basicProperty(const QString & key) const
     {
@@ -55,10 +50,7 @@ public:
     }
 
     template <typename T>
-    T property(const QString & section, const QString & field, const T & defaultValue) const
-    {
-        return property<T>(section + "/" + field, defaultValue);
-    }
+    T property(const QString & section, const QString & field, const T & defaultValue) const;
 
 private:
     QString filename;
@@ -66,3 +58,5 @@ private:
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/Properties.hpp>

@@ -74,10 +74,6 @@ protected:
     static unsigned defaultLifetime;
 };
 
-template <class SessionClass>
-void SessionPool::setSessionClass()
-{
-    sessionConstructor = new ObjectConstructor<AbstractSession, SessionClass>();
-}
-
 } // namespace tastefulframework
+
+#include <tastefulframework/SessionPool.hpp>

@@ -32,27 +32,18 @@ template <class Superclass>
 class AbstractObjectConstructor
 {
 public:
-    virtual ~AbstractObjectConstructor()
-    {
-    }
-
+    virtual ~AbstractObjectConstructor();
     virtual Superclass* createInstance() const = 0;
-    Superclass * operator()() const
-    {
-        return createInstance();
-    }
-
+    Superclass * operator()() const;
 };
 
 template <class Superclass, class ConcreteClass>
 class ObjectConstructor : public AbstractObjectConstructor<Superclass>
 {
 public:
-    Superclass* createInstance() const
-    {
-        return new ConcreteClass();
-    }
-
+    Superclass* createInstance() const;
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/ObjectConstructor.hpp>

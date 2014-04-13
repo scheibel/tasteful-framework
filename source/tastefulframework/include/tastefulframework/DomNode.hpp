@@ -26,18 +26,22 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/DomNode.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <typename... T>
+void DomNode::replaceChildren(T... newChildren)
+{
+	removeChildren();
+	appendChildren(newChildren...);
+}
 
-template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+template <typename T, typename... Rest>
+void DomNode::appendChildren(T child, Rest... rest)
+{
+	appendChild(child);
+	appendChildren(rest...);
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

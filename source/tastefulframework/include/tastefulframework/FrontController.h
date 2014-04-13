@@ -54,10 +54,6 @@ private:
     Dispatcher dispatcher;
 };
 
-template <class SessionClass>
-void FrontController::setSessionClass()
-{
-    sessionPool.setSessionClass<SessionClass>();
-}
-
 } // namespace tastefulframework
+
+#include <tastefulframework/FrontController.hpp>

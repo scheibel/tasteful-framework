@@ -67,16 +67,9 @@ public:
     static Key keyFor(const tastefulserver::HttpMethod & method, const QString & urlPattern);
 
     template <typename T>
-    static void assignMethodToRoute(void (T::* methodPointer)(), Route * route)
-    {
-        instance().addMethodStringToRoutes(methodPointerToString(methodPointer), route);
-    }
-
+    static void assignMethodToRoute(void (T::* methodPointer)(), Route * route);
     template <typename T>
-    static Route* routeFor(void (T::* methodPointer)())
-    {
-        return instance().getRouteForMethodString(methodPointerToString(methodPointer));
-    }
+    static Route* routeFor(void (T::* methodPointer)());
 
 private:
     QHash<QString, Route *> methodsToRoutes;
@@ -104,12 +97,7 @@ public:
     }
 
     template <typename T>
-    QSharedPointer<Action> operator=(void (T::* methodPointer)())
-    {
-        RouteRegistry::assignMethodToRoute(methodPointer, route);
-
-        return *this = new ControllerAction<T>(methodPointer);
-    }
+    QSharedPointer<Action> operator=(void (T::* methodPointer)());
 
     QSharedPointer<Action> operator=(const QString & string)
     {
@@ -146,3 +134,5 @@ private:
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/RouteRegistry.hpp>

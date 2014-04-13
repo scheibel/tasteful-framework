@@ -26,18 +26,25 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/ObjectConstructor.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <class Superclass>
+AbstractObjectConstructor<Superclass>::~AbstractObjectConstructor()
+{
+}
 
-template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+template <class Superclass>
+Superclass * AbstractObjectConstructor<Superclass>::operator()() const
+{
+	return createInstance();
+}
+
+template <class Superclass, class ConcreteClass>
+Superclass* ObjectConstructor<Superclass, ConcreteClass>::createInstance() const
+{
+	return new ConcreteClass();
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

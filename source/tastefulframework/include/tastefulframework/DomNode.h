@@ -122,22 +122,14 @@ public:
     void transferChildrenFrom(DomNode otherNode, bool removeOldChildren = false);
 
     template <typename... T>
-    void replaceChildren(T... newChildren)
-    {
-        removeChildren();
-        appendChildren(newChildren...);
-    }
+    void replaceChildren(T... newChildren);
 
     void appendChildren()
     {
     }
 
     template <typename T, typename... Rest>
-    void appendChildren(T child, Rest... rest)
-    {
-        appendChild(child);
-        appendChildren(rest...);
-    }
+    void appendChildren(T child, Rest... rest);
 
     DomNode clone(bool deep = true) const;
 
@@ -292,3 +284,5 @@ private:
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/DomNode.hpp>

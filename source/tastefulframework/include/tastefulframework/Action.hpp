@@ -26,18 +26,29 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/Action.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+template <typename T>
+ControllerAction<T>::ControllerAction(MethodPointer methodPointer)
+: methodPointer(methodPointer)
+{
+}
 
 template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+Response ControllerAction<T>::operator()(Request & request) const
+{
+	T controller;
+
+	controller.initialize(request);
+	if (controller.beforeAction())
+	{
+	    (controller.*methodPointer)();
+	    controller.afterAction();
+	}
+
+	return controller.getResponse();
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

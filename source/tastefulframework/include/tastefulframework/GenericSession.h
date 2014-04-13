@@ -43,19 +43,14 @@ public:
 
     bool has(const QString & key) const;
     template <typename T>
-    T get(const QString & key) const
-    {
-        return values.value(key).value<T>();
-    }
-
+    T get(const QString & key) const;
     template <typename T>
-    void set(const QString & key, T value)
-    {
-        values.insert(key, QVariant::fromValue(value));
-    }
+    void set(const QString & key, T value);
 
 protected:
     QHash<QString, QVariant> values;
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/GenericSession.hpp>

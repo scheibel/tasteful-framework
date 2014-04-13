@@ -22,22 +22,18 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
- **/
+**/
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/XmlTransform.h>
 
 namespace tastefulframework {
 
-template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
-
-template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+template <class T>
+void XmlTransform::addTransform(const QString & selector, void (T::* transform)(DomNode &) const)
+{
+	transformations.insert(selector, new MethodNodeTransformation<T>(this, transform));
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

@@ -50,10 +50,7 @@ private:
 
 protected:
     template <class T>
-    void addTransform(const QString & selector, void (T::* transform)(DomNode &) const)
-    {
-        transformations.insert(selector, new MethodNodeTransformation<T>(this, transform));
-    }
+    void addTransform(const QString & selector, void (T::* transform)(DomNode &) const);
 
     void addTransform(const QString & selector, LambdaNodeTransformation::Lambda transform);
     void transform(DomNode & node) const;
@@ -62,3 +59,5 @@ protected:
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/XmlTransform.hpp>

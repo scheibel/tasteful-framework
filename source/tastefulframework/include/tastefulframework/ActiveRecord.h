@@ -41,80 +41,26 @@ template <class T, typename Identity = unsigned>
 class ActiveRecord
 {
 public:
-    ActiveRecord()
-        : saved(false)
-    {
-    }
+	typedef ActiveRecordDataMapper<T, Identity> DataMapper;
 
-    virtual ~ActiveRecord()
-    {
-    }
+    ActiveRecord();
+    virtual ~ActiveRecord();
 
-    typedef ActiveRecordDataMapper<T, Identity> DataMapper;
-    static T* getBy(const QString & whereClause)
-    {
-        return dataMapper().getBy(whereClause);
-    }
+    static T* getBy(const QString & whereClause);
+    static QList<T *> find(const QString & whereClause);
+    static T* get(Identity id);
+    static QList<T *> all();
 
-    static QList<T *> find(const QString & whereClause)
-    {
-        return dataMapper().find(whereClause);
-    }
-
-    static T* get(Identity id)
-    {
-        return dataMapper().get(id);
-    }
-
-    static QList<T *> all()
-    {
-        return dataMapper().all();
-    }
-
-    Identity getPrimaryKey()
-    {
-        return dataMapper().idOf(dynamic_cast<T *>(this));
-    }
-
-    void setSaved(bool b = true)
-    {
-        saved = b;
-    }
-
-    bool isSaved()
-    {
-        return saved;
-    }
-
-    bool save()
-    {
-        if (saved)
-        {
-            return true;
-        }
-
-        return dataMapper().save(dynamic_cast<T *>(this));
-    }
-
-    Identity saveReturningId()
-    {
-        save();
-
-        return getPrimaryKey();
-    }
-
-    void saveRelations()
-    {
-
-    }
+    Identity getPrimaryKey();
+    void setSaved(bool b = true);
+    bool isSaved();
+    bool save();
+    Identity saveReturningId();
+    void saveRelations();
 
 protected:
     bool saved;
-    static DataMapper&dataMapper()
-    {
-        return DataMapper::instance();
-    }
-
+    static ActiveRecordDataMapper<T, Identity>& dataMapper();
 };
 
 #define INTERN_PROPERTY(name, type) \
@@ -185,3 +131,5 @@ private:
 #define SAVE_RELATION(variableName) record.insert(#variableName, variableName()->saveReturningId());
 
 } // namespace tastefulframework
+
+#include <tastefulframework/ActiveRecord.hpp>

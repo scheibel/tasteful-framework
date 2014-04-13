@@ -26,18 +26,29 @@
 
 #pragma once
 
-#include <QHash>
-#include <QString>
-#include <initializer_list>
+#include <tastefulframework/QHashExtension.h>
+
+#include <QByteArray>
 
 namespace tastefulframework {
 
 template <typename Key, typename Value>
-QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list);
+QHash<Key, Value> createQHashFrom(std::initializer_list<std::pair<Key, Value >> list)
+{
+    QHash<Key, Value> hash;
+
+    for (std::pair<Key, Value> pair : list)
+    {
+        hash.insert(pair.first, pair.second);
+    }
+
+    return hash;
+}
 
 template <typename T>
-QString methodPointerToString(void (T::* methodPointer)());
+QString methodPointerToString(void (T::* methodPointer)())
+{
+    return QString(QByteArray((char *)&methodPointer, sizeof(methodPointer)).toHex());
+}
 
 } // namespace tastefulframework
-
-#include <tastefulframework/QHashExtension.hpp>

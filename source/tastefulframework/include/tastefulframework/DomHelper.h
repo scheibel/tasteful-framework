@@ -35,18 +35,26 @@
 
 namespace tastefulframework {
 
-#define CUSTOM_TAG(tagname) \
+#define DECLARE_TAG(tagname) \
     template <typename... Args> \
     NodeCreator tagname(Args... args) const
 
-#define SUPPORT_TAG(tagname) \
-    CUSTOM_TAG(tagname) { \
-        return tag(#tagname)(args...); \
+#define DEFINE_TAG(classname, tagname) \
+    template <typename... Args> \
+    NodeCreator classname::tagname(Args... args) const {\
+        return tag(#tagname)(args...);\
     }
 
-#define SUPPORT_ATTRIBUTE(attributename) \
-    TagModifier attributename(const QString &attributename) const { \
-        return attribute(#attributename, attributename); \
+#define DEFINE_CUSTOM_TAG(classname, tagname) \
+    template <typename... Args> \
+    NodeCreator classname::tagname(Args... args) const
+
+#define DECLARE_ATTRIBUTE(attributename) \
+    TagModifier attributename(const QString &attributename) const
+
+#define DEFINE_ATTRIBUTE(classname, attributename) \
+    TagModifier classname::attributename(const QString &value) const { \
+        return attribute(#attributename, value); \
     }
 
 class DomNode;
@@ -67,11 +75,7 @@ public:
     }
 
     template <typename T, typename... Args>
-    void add(T t, Args... args)
-    {
-        addModifier(t);
-        add(args...);
-    }
+    void add(T t, Args... args);
 
     QDomElement operator()(QDomDocument doc) const;
     void operator()(QDomNode node) const;
@@ -105,14 +109,7 @@ public:
     }
 
     template <typename... Args>
-    NodeCreator operator()(Args... args) const
-    {
-        NodeCreator NodeCreator(name);
-
-        NodeCreator.add(args...);
-
-        return NodeCreator;
-    }
+    NodeCreator operator()(Args... args) const;
 
 private:
     QString name;
@@ -130,77 +127,159 @@ public:
     TagModifier cssClass(const QString & name) const;
 
     // convenience tags
-    CUSTOM_TAG(formbutton) {
-        return input(type("button"), args...);
-    }
-    CUSTOM_TAG(checkbox) {
-        return input(type("checkbox"), args...);
-    }
-    CUSTOM_TAG(file) {
-        return input(type("file"), args...);
-    }
-    CUSTOM_TAG(hidden) {
-        return input(type("hidden"), args...);
-    }
-    CUSTOM_TAG(imagebutton) {
-        return input(type("image"), args...);
-    }
-    CUSTOM_TAG(password) {
-        return input(type("password"), args...);
-    }
-    CUSTOM_TAG(radiobutton) {
-        return input(type("radio"), args...);
-    }
-    CUSTOM_TAG(resetbutton) {
-        return input(type("reset"), args...);
-    }
-    CUSTOM_TAG(submitbutton) {
-        return input(type("submit"), args...);
-    }
-    CUSTOM_TAG(textfield) {
-        return input(type("text"), args...);
-    }
-    CUSTOM_TAG(colorchooser) {
-        return input(type("color"), args...);
-    }
-    CUSTOM_TAG(datepicker) {
-        return input(type("date"), args...);
-    }
-    CUSTOM_TAG(datetimepicker) {
-        return input(type("datetime"), args...);
-    }
-    CUSTOM_TAG(localdatetimepicker) {
-        return input(type("datetime-local"), args...);
-    }
-    CUSTOM_TAG(emailfield) {
-        return input(type("email"), args...);
-    }
-    CUSTOM_TAG(monthpicker) {
-        return input(type("month"), args...);
-    }
-    CUSTOM_TAG(numberfield) {
-        return input(type("number"), args...);
-    }
-    CUSTOM_TAG(rangeslider) {
-        return input(type("range"), args...);
-    }
-    CUSTOM_TAG(searchfield) {
-        return input(type("search"), args...);
-    }
-    CUSTOM_TAG(telephonefield) {
-        return input(type("tel"), args...);
-    }
-    CUSTOM_TAG(timefield) {
-        return input(type("time"), args...);
-    }
-    CUSTOM_TAG(urlfield) {
-        return input(type("url"), args...);
-    }
-    CUSTOM_TAG(weekpicker) {
-        return input(type("week"), args...);
-    }
+    DECLARE_TAG(formbutton);
+    DECLARE_TAG(checkbox);
+    DECLARE_TAG(file);
+    DECLARE_TAG(hidden);
+    DECLARE_TAG(imagebutton);
+    DECLARE_TAG(password);
+    DECLARE_TAG(radiobutton);
+    DECLARE_TAG(resetbutton);
+    DECLARE_TAG(submitbutton);
+    DECLARE_TAG(textfield);
+    DECLARE_TAG(colorchooser);
+    DECLARE_TAG(datepicker);
+    DECLARE_TAG(datetimepicker);
+    DECLARE_TAG(localdatetimepicker);
+    DECLARE_TAG(emailfield);
+    DECLARE_TAG(monthpicker);
+    DECLARE_TAG(numberfield);
+    DECLARE_TAG(rangeslider);
+    DECLARE_TAG(searchfield);
+    DECLARE_TAG(telephonefield);
+    DECLARE_TAG(timefield);
+    DECLARE_TAG(urlfield);
+    DECLARE_TAG(weekpicker);
 
-    SUPPORT_ATTRIBUTE(name) SUPPORT_ATTRIBUTE(id) SUPPORT_ATTRIBUTE(href) SUPPORT_ATTRIBUTE(type) SUPPORT_ATTRIBUTE(rel) SUPPORT_ATTRIBUTE(value) SUPPORT_TAG(a) SUPPORT_TAG(abbr) SUPPORT_TAG(acronym) SUPPORT_TAG(address) SUPPORT_TAG(applet) SUPPORT_TAG(area) SUPPORT_TAG(article) SUPPORT_TAG(aside) SUPPORT_TAG(audio) SUPPORT_TAG(b) SUPPORT_TAG(base) SUPPORT_TAG(basefont) SUPPORT_TAG(bdi) SUPPORT_TAG(bdo) SUPPORT_TAG(big) SUPPORT_TAG(blockquote) SUPPORT_TAG(body) SUPPORT_TAG(br) SUPPORT_TAG(button) SUPPORT_TAG(canvas) SUPPORT_TAG(caption) SUPPORT_TAG(center) SUPPORT_TAG(cite) SUPPORT_TAG(code) SUPPORT_TAG(col) SUPPORT_TAG(colgroup) SUPPORT_TAG(command) SUPPORT_TAG(datalist) SUPPORT_TAG(dd) SUPPORT_TAG(del) SUPPORT_TAG(details) SUPPORT_TAG(dfn) SUPPORT_TAG(dir) SUPPORT_TAG(div) SUPPORT_TAG(dl) SUPPORT_TAG(dt) SUPPORT_TAG(em) SUPPORT_TAG(embed) SUPPORT_TAG(fieldset) SUPPORT_TAG(figcaption) SUPPORT_TAG(figure) SUPPORT_TAG(font) SUPPORT_TAG(footer) SUPPORT_TAG(form) SUPPORT_TAG(frame) SUPPORT_TAG(frameset) SUPPORT_TAG(h1) SUPPORT_TAG(h2) SUPPORT_TAG(h3) SUPPORT_TAG(h4) SUPPORT_TAG(h5) SUPPORT_TAG(h6) SUPPORT_TAG(head) SUPPORT_TAG(header) SUPPORT_TAG(hgroup) SUPPORT_TAG(hr) SUPPORT_TAG(html) SUPPORT_TAG(i) SUPPORT_TAG(iframe) SUPPORT_TAG(img) SUPPORT_TAG(input) SUPPORT_TAG(ins) SUPPORT_TAG(keygen) SUPPORT_TAG(kbd) SUPPORT_TAG(label) SUPPORT_TAG(legend) SUPPORT_TAG(li) SUPPORT_TAG(link) SUPPORT_TAG(map) SUPPORT_TAG(mark) SUPPORT_TAG(menu) SUPPORT_TAG(meta) SUPPORT_TAG(meter) SUPPORT_TAG(nav) SUPPORT_TAG(noframes) SUPPORT_TAG(noscript) SUPPORT_TAG(object) SUPPORT_TAG(ol) SUPPORT_TAG(optgroup) SUPPORT_TAG(option) SUPPORT_TAG(output) SUPPORT_TAG(p) SUPPORT_TAG(param) SUPPORT_TAG(pre) SUPPORT_TAG(progress) SUPPORT_TAG(q) SUPPORT_TAG(rp) SUPPORT_TAG(rt) SUPPORT_TAG(ruby) SUPPORT_TAG(s) SUPPORT_TAG(samp) SUPPORT_TAG(script) SUPPORT_TAG(section) SUPPORT_TAG(select) SUPPORT_TAG(small) SUPPORT_TAG(source) SUPPORT_TAG(span) SUPPORT_TAG(strike) SUPPORT_TAG(strong) SUPPORT_TAG(style) SUPPORT_TAG(sub) SUPPORT_TAG(summary) SUPPORT_TAG(sup) SUPPORT_TAG(table) SUPPORT_TAG(tbody) SUPPORT_TAG(td) SUPPORT_TAG(textarea) SUPPORT_TAG(tfoot) SUPPORT_TAG(th) SUPPORT_TAG(thead) SUPPORT_TAG(time) SUPPORT_TAG(title) SUPPORT_TAG(tr) SUPPORT_TAG(track) SUPPORT_TAG(tt) SUPPORT_TAG(u) SUPPORT_TAG(ul) SUPPORT_TAG(var) SUPPORT_TAG(video) SUPPORT_TAG(wbr)
+    DECLARE_ATTRIBUTE(name);
+    DECLARE_ATTRIBUTE(id);
+    DECLARE_ATTRIBUTE(href);
+    DECLARE_ATTRIBUTE(type);
+    DECLARE_ATTRIBUTE(rel);
+    DECLARE_ATTRIBUTE(value);
+
+    DECLARE_TAG(a);
+    DECLARE_TAG(abbr);
+    DECLARE_TAG(acronym);
+    DECLARE_TAG(address);
+    DECLARE_TAG(applet);
+    DECLARE_TAG(area);
+    DECLARE_TAG(article);
+    DECLARE_TAG(aside);
+    DECLARE_TAG(audio);
+    DECLARE_TAG(b);
+    DECLARE_TAG(base);
+    DECLARE_TAG(basefont);
+    DECLARE_TAG(bdi);
+    DECLARE_TAG(bdo);
+    DECLARE_TAG(big);
+    DECLARE_TAG(blockquote);
+    DECLARE_TAG(body);
+    DECLARE_TAG(br);
+    DECLARE_TAG(button);
+    DECLARE_TAG(canvas);
+    DECLARE_TAG(caption);
+    DECLARE_TAG(center);
+    DECLARE_TAG(cite);
+    DECLARE_TAG(code);
+    DECLARE_TAG(col);
+    DECLARE_TAG(colgroup);
+    DECLARE_TAG(command);
+    DECLARE_TAG(datalist);
+    DECLARE_TAG(dd);
+    DECLARE_TAG(del);
+    DECLARE_TAG(details);
+    DECLARE_TAG(dfn);
+    DECLARE_TAG(dir);
+    DECLARE_TAG(div);
+    DECLARE_TAG(dl);
+    DECLARE_TAG(dt);
+    DECLARE_TAG(em);
+    DECLARE_TAG(embed);
+    DECLARE_TAG(fieldset);
+    DECLARE_TAG(figcaption);
+    DECLARE_TAG(figure);
+    DECLARE_TAG(font);
+    DECLARE_TAG(footer);
+    DECLARE_TAG(form);
+    DECLARE_TAG(frame);
+    DECLARE_TAG(frameset);
+    DECLARE_TAG(h1);
+    DECLARE_TAG(h2);
+    DECLARE_TAG(h3);
+    DECLARE_TAG(h4);
+    DECLARE_TAG(h5);
+    DECLARE_TAG(h6);
+    DECLARE_TAG(head);
+    DECLARE_TAG(header);
+    DECLARE_TAG(hgroup);
+    DECLARE_TAG(hr);
+    DECLARE_TAG(html);
+    DECLARE_TAG(i);
+    DECLARE_TAG(iframe);
+    DECLARE_TAG(img);
+    DECLARE_TAG(input);
+    DECLARE_TAG(ins);
+    DECLARE_TAG(keygen);
+    DECLARE_TAG(kbd);
+    DECLARE_TAG(label);
+    DECLARE_TAG(legend);
+    DECLARE_TAG(li);
+    DECLARE_TAG(link);
+    DECLARE_TAG(map);
+    DECLARE_TAG(mark);
+    DECLARE_TAG(menu);
+    DECLARE_TAG(meta);
+    DECLARE_TAG(meter);
+    DECLARE_TAG(nav);
+    DECLARE_TAG(noframes);
+    DECLARE_TAG(noscript);
+    DECLARE_TAG(object);
+    DECLARE_TAG(ol);
+    DECLARE_TAG(optgroup);
+    DECLARE_TAG(option);
+    DECLARE_TAG(output);
+    DECLARE_TAG(p);
+    DECLARE_TAG(param);
+    DECLARE_TAG(pre);
+    DECLARE_TAG(progress);
+    DECLARE_TAG(q);
+    DECLARE_TAG(rp);
+    DECLARE_TAG(rt);
+    DECLARE_TAG(ruby);
+    DECLARE_TAG(s);
+    DECLARE_TAG(samp);
+    DECLARE_TAG(script);
+    DECLARE_TAG(section);
+    DECLARE_TAG(select);
+    DECLARE_TAG(small);
+    DECLARE_TAG(source);
+    DECLARE_TAG(span);
+    DECLARE_TAG(strike);
+    DECLARE_TAG(strong);
+    DECLARE_TAG(style);
+    DECLARE_TAG(sub);
+    DECLARE_TAG(summary);
+    DECLARE_TAG(sup);
+    DECLARE_TAG(table);
+    DECLARE_TAG(tbody);
+    DECLARE_TAG(td);
+    DECLARE_TAG(textarea);
+    DECLARE_TAG(tfoot);
+    DECLARE_TAG(th);
+    DECLARE_TAG(thead);
+    DECLARE_TAG(time);
+    DECLARE_TAG(title);
+    DECLARE_TAG(tr);
+    DECLARE_TAG(track);
+    DECLARE_TAG(tt);
+    DECLARE_TAG(u);
+    DECLARE_TAG(ul);
+    DECLARE_TAG(var);
+    DECLARE_TAG(video);
+    DECLARE_TAG(wbr);
 };
 
 } // namespace tastefulframework
+
+#include <tastefulframework/DomHelper.hpp>
