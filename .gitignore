@@ -19,3 +19,6 @@ documentation
 
 # SQLite databases
 *.sqlite
+
+# Qt Creator files
+*CMakeLists.txt.user

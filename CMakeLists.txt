@@ -1,175 +1,148 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 
-project(TastefulFramework)
 
-option(WITH_EXAMPLES "Compile with examples" OFF)
+# PROJECT DESCRIPTION
 
-if (WITH_EXAMPLES)
-	message ("-- Compile Tasteful Server WITH examples")
-	
-	add_subdirectory(examples)
-else (WITH_EXAMPLES)
-	message ("-- Compile Tasteful Server WITHOUT examples")
-endif (WITH_EXAMPLES)
+set(META_PROJECT_NAME        "TastefulFramework")
+set(META_VERSION_MAJOR       "0")
+set(META_VERSION_MINOR       "1")
+set(META_VERSION_PATCH       "0")
+set(META_VERSION             "${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH}")
+set(META_AUTHOR_ORGANIZATION "Tasteful Revolution")
+set(META_AUTHOR_DOMAIN       "https://github.com/scheibel/tastefulframework/")
 
-set(CMAKE_AUTOMOC ON)
-find_package(Qt5Core REQUIRED)
-find_package(TastefulServer REQUIRED)
 
-include_directories("./include/" ${TastefulServer_INCLUDE_DIR})
+# OPTIONS
 
-add_definitions(-std=c++0x -Wreturn-type -Werror=return-type)
+option(OPTION_LIMIT_CONFIGS       "Generate limited configs (Release; Debug)" ON)
+option(OPTION_PORTABLE_INSTALL    "Install to a local directory instead of the system" OFF)
+option(OPTION_BUILD_STATIC   "Build static libraries" OFF)
+option(OPTION_BUILD_EXAMPLES "Compile with examples" ON)
 
-set(Framework_sources
-	src/core/Properties.cpp
-	src/core/Logger.cpp
-	src/core/SignalXmlContentHandler.cpp
-	src/core/WebAppConfig.cpp
-	src/core/WebAppConfigReader.cpp
-	src/core/WebApplication.cpp
-	src/core/MimeDatabase.cpp
-	src/core/DomNode.cpp
-	src/core/StringConvertible.cpp
-	
-	src/frontend/FrameworkEntryPoint.cpp
-	src/frontend/FrontController.cpp
-	src/frontend/AbstractSession.cpp
-	src/frontend/GenericSession.cpp
-	src/frontend/Controller.cpp
-	src/frontend/RestrictedController.cpp
-	src/frontend/Action.cpp
-	src/frontend/Request.cpp
-	src/frontend/Dispatcher.cpp
-	src/frontend/Response.cpp
-	src/frontend/Route.cpp
-	src/frontend/RouteRegistry.cpp
-	src/frontend/Download.cpp
-	src/frontend/routing.cpp
-	src/frontend/SessionContainer.cpp
-	src/frontend/SessionPool.cpp
-	
-	src/database/Database.cpp
-	src/database/SqlBuilder.cpp
-	src/database/SqlHelper.cpp
-	
-	src/views/View.cpp
-	src/views/XmlTransform.cpp
-	src/views/TemplatedLayout.cpp
-	src/views/TemplateView.cpp
-	src/views/LayoutedTemplateView.cpp
-	src/views/DomHelper.cpp
-	src/views/Partial.cpp
-	src/views/NodeTransformation.cpp
-)
 
-set(Framework_headers
-	include/WebApplication.h
-	include/WebApplication
-	include/Request.h
-	include/Request
-	include/routing.h
-	include/routing
-	include/Download.h
-	include/Download
-	include/RestrictedController.h
-	include/RestrictedController
-	include/Concurrent.h
-	include/Concurrent
-	include/UrlHelper.h
-	include/UrlHelper
-	include/Controller.h
-	include/Controller
-	include/DataMapper.h
-	include/DataMapper
-	include/ActiveRecord
-	include/ActiveRecord.h
-	include/XmlTransform.h
-	include/XmlTransform
-	include/Logger.h
-	include/Logger
-	include/TemplateView.h
-	include/TemplateView
-	include/WebAppConfig.h
-	include/WebAppConfig
-	include/GenericSession.h
-	include/GenericSession
-	include/startup.h
-	include/startup
-	include/AbstractSession.h
-	include/AbstractSession
-	include/View.h
-	include/View
-	include/DomHelper.h
-	include/DomHelper
-	include/CrudController.h
-	include/CrudController
-	include/RedirectException.h
-	include/RedirectException
-	include/TemplatedLayout.h
-	include/TemplatedLayout
-	include/Response.h
-	include/Response
-	include/DomNode.h
-	include/DomNode
-	include/Partial.h
-	include/Partial
-)
+#
+# CMake configuration
+#
 
-set(Framework_internal_headers
-	include/internal/Action.h
-	include/internal/Action
-	include/internal/FrontController.h
-	include/internal/FrontController
-	include/internal/Database.h
-	include/internal/Database
-	include/internal/SignalXmlContentHandler.h
-	include/internal/SignalXmlContentHandler
-	include/internal/SessionContainer.h
-	include/internal/SessionContainer
-	include/internal/SqlBuilder.h
-	include/internal/SqlBuilder
-	include/internal/MimeDatabase.h
-	include/internal/MimeDatabase
-	include/internal/util.h
-	include/internal/WebAppConfigReader.h
-	include/internal/WebAppConfigReader
-	include/internal/Dispatcher.h
-	include/internal/Dispatcher
-	include/internal/SessionPool.h
-	include/internal/SessionPool
-	include/internal/SqlHelper.h
-	include/internal/SqlHelper
-	include/internal/Route.h
-	include/internal/Route
-	include/internal/FrameworkEntryPoint.h
-	include/internal/FrameworkEntryPoint
-	include/internal/RouteRegistry.h
-	include/internal/RouteRegistry
-	include/internal/Properties.h
-	include/internal/Properties
-	include/internal/ObjectConstructor.h
-	include/internal/ObjectConstructor
-	include/internal/IdentityMap.h
-	include/internal/IdentityMap
-	include/internal/ActiveRecordDataMapper
-	include/internal/ActiveRecordDataMapper.h
-	include/internal/StringConvertible.h
-	include/internal/StringConvertible
-	include/internal/NodeTransformation
-	include/internal/NodeTransformation.h
-)
+# Include cmake modules from ./cmake
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-add_library(TastefulFramework SHARED ${Framework_sources} ${Framework_moc_sources} ${Framework_headers} ${Framework_internal_headers})
+# Set output directories
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-qt5_use_modules(TastefulFramework Sql Xml Network)
+# Set configuration types
+if(OPTION_LIMIT_CONFIGS)
+    set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Limited Configs" FORCE)
+endif()
+set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build, options are: ${CMAKE_CONFIGURATION_TYPES}")
 
-target_link_libraries(TastefulFramework ${TastefulServer_LIBRARY})
+# Project
+project(${META_PROJECT_NAME} C CXX)
 
-install(FILES ${Framework_headers} DESTINATION include/tastefulframework/)
-install(FILES ${Framework_internal_headers} DESTINATION include/tastefulframework/internal)
-install(TARGETS TastefulFramework
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-)
-install(FILES "${CMAKE_SOURCE_DIR}/FindTastefulFramework.cmake" DESTINATION ${CMAKE_ROOT}/Modules)
+
+# Generate folders for IDE targets (e.g., VisualStudio solutions)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(IDE_FOLDER "")  # Put projects in root folder by default
+
+# Include custom cmake functions
+include(cmake/Custom.cmake)
+include(cmake/GitRevision.cmake)
+
+
+#
+# Platform and architecture
+#
+
+# Architecture (32/64 bit)
+set(X64 OFF)
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(X64 ON)
+endif()
+
+# Setup platform specifics (compile flags, etc., ...)
+if(MSVC)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PlatformWindowsMSVC.cmake)
+elseif(WIN32 AND CMAKE_COMPILER_IS_GNUCXX)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PlatformWindowsGCC.cmake)
+elseif(APPLE)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PlatformMacOS.cmake)
+elseif(UNIX)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PlatformLinuxGCC.cmake)
+else()
+    message(WARNING "Unsupported platform/compiler combination")
+endif()
+
+# Installation paths
+set(project ${META_PROJECT_NAME})
+if(WIN32)
+    set(INSTALL_ROOT      ".")                         # C:\Programme\<project>
+    set(INSTALL_EXAMPLES  "bin")                       # C:\Programme\<project>
+    set(INSTALL_DATA      "bin")                       # C:\Programme\<project>
+    set(INSTALL_BIN       "bin")                       # C:\Programme\<project>
+    set(INSTALL_SHARED    ".")                         # C:\Programme\<project>
+    set(INSTALL_LIB       "lib")                       # C:\Programme\<project>\lib
+    set(INSTALL_INCLUDE   "include")                   # C:\Programme\<project>\include
+    set(INSTALL_DOC       "doc")                       # C:\Programme\<project>\doc
+    set(INSTALL_SHORTCUTS ".")                         # Not available under Windows
+    set(INSTALL_ICONS     ".")                         # Not available under Windows
+    set(INSTALL_INIT      ".")                         # Not available under Windows
+else()
+    set(INSTALL_ROOT      "share/${project}")          # /usr/[local]/share/<project>
+    set(INSTALL_EXAMPLES  "share/${project}/examples") # /usr/[local]/share/<project>/examples
+    set(INSTALL_DATA      "share/${project}/examples") # /usr/[local]/share/<project>
+    set(INSTALL_BIN       "bin")                       # /usr/[local]/bin
+    set(INSTALL_SHARED    "lib")                       # /usr/[local]/lib
+    set(INSTALL_LIB       "lib")                       # /usr/[local]/lib
+    set(INSTALL_INCLUDE   "include")                   # /usr/[local]/include
+    set(INSTALL_DOC       "share/doc/${project}")      # /usr/[local]/share/doc/<project>
+    set(INSTALL_SHORTCUTS "share/applications")        # /usr/[local]/share/applications
+    set(INSTALL_ICONS     "share/pixmaps")             # /usr/[local]/share/pixmaps
+    set(INSTALL_INIT      "/etc/init")                 # /etc/init (upstart init scripts)
+
+    # Adjust target paths for portable installs
+    if(OPTION_PORTABLE_INSTALL)
+        # Put binaries in root directory and keep data directory name
+        set(INSTALL_ROOT     ".") # <INSTALL_PREFIX>/
+        set(INSTALL_EXAMPLES ".") # <INSTALL_PREFIX>/
+        set(INSTALL_DATA     ".") # <INSTALL_PREFIX>/
+        set(INSTALL_BIN      ".") # <INSTALL_PREFIX>/
+
+        # We have to change the RPATH of binaries to achieve a usable local install.
+        # [TODO] For binaries, "$ORIGIN/lib" is right, so that libraries are found in ./lib.
+        #        However, I have not yet tested what happens when libraries use other libraries.
+        #        In that case, they might need the rpath $ORIGIN instead ...
+        set(CMAKE_SKIP_BUILD_RPATH            FALSE)         # Use automatic rpath for build
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH    FALSE)         # Use specific rpath for INSTALL
+        set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)         # NO automatic rpath for INSTALL
+        set(CMAKE_INSTALL_RPATH               "$ORIGIN/lib") # Libraries are relative to binary
+    endif()
+endif()
+
+
+#
+# Global deployment
+#
+
+# Project meta files
+install(FILES tastefulframework-config.cmake DESTINATION ${INSTALL_ROOT})
+install(FILES AUTHORS           DESTINATION ${INSTALL_ROOT})
+install(FILES COPYING           DESTINATION ${INSTALL_ROOT})
+install(FILES GPL           DESTINATION ${INSTALL_ROOT})
+install(FILES LGPL           DESTINATION ${INSTALL_ROOT})
+
+# Add a revision file containing the git-head tag for cpack and install
+create_revision_file(${CMAKE_BINARY_DIR}/revision ${INSTALL_ROOT})
+
+# Data files
+# install(DIRECTORY ${CMAKE_SOURCE_DIR}/data DESTINATION ${INSTALL_DATA})
+
+
+#
+# Include projects
+#
+
+add_subdirectory(source)
+add_subdirectory(docs)
+add_subdirectory(packages)
