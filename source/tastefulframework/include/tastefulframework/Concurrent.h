@@ -3,7 +3,7 @@
  *
  * Tasteful Framework <https://github.com/scheibel/tasteful-framework>
  *
- * Copyright: 2012 Lux, Scheibel
+ * Copyright: 2012-2014 Lux, Scheibel
  * Authors:
  *     Roland Lux <rollux2000@googlemail.com>
  *     Willy Scheibel <willyscheibel@gmx.de>
