@@ -31,21 +31,23 @@
 
 class Author : public tastefulframework::ActiveRecord<Author, unsigned>
 {
-    DATABASE_NAME(blog);
-    DATABASE_TABLENAME(authors);
-    DATABASE_PRIMARY_KEY(id, unsigned);
-    DATABASE_FIELDNAMES("email, password, salt");
-    DECLARE_PROPERTY(email, QString);
-    DECLARE_PROPERTY(password, QString);
-    DECLARE_PROPERTY(salt, QString);
-    ENTITY_INITIALIZER(INITIALIZE(email);
+    DATABASE_NAME(blog)
+    DATABASE_TABLENAME(authors)
+    DATABASE_PRIMARY_KEY(id, unsigned)
+    DATABASE_FIELDNAMES("email, password, salt")
+    DECLARE_PROPERTY(email, QString)
+    DECLARE_PROPERTY(password, QString)
+    DECLARE_PROPERTY(salt, QString)
+    ENTITY_INITIALIZER(
+        INITIALIZE(email);
         INITIALIZE(password);
         INITIALIZE(salt);
-        );
-    ENTITY_SAVER(SAVE(email);
+        )
+    ENTITY_SAVER(
+        SAVE(email);
         SAVE(password);
         SAVE(salt);
-        );
+        )
 
 public:
     Author();

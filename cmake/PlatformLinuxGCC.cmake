@@ -29,7 +29,7 @@ set(DEFAULT_COMPILE_DEFS_RELEASE
     NDEBUG	                  # Release build
 )
 
-set(LINUX_COMPILE_FLAGS "-fvisibility=hidden -pthread -pipe -fPIC -Werror -Wall -Wreturn-type -fexceptions") # -pedantic -Wextra -Wfloat-equal -Wcast-qual -Wcast-align -Wno-error=float-equal -Wno-error=switch
+set(LINUX_COMPILE_FLAGS "-fvisibility=hidden -pthread -pipe -fPIC -Werror -Wall -pedantic -Wextra -Wfloat-equal -Wcast-qual -Wcast-align -Wno-error=float-equal -Wno-error=switch -Wreturn-type -fexceptions")
 # pthread       -> use pthread library
 # no-rtti       -> disable c++ rtti
 # no-exceptions -> disable exception handling

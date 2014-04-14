@@ -133,7 +133,8 @@ Logger::Logger()
 {
 }
 
-Logger::Logger(const Logger & logger)
+Logger::Logger(const Logger & /*logger*/)
+: QObject()
 {
 }
 

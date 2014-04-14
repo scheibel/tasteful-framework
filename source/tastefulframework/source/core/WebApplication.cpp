@@ -58,7 +58,7 @@ int WebApplication::run() const
     return app.exec();
 }
 
-void WebApplication::shutdown(int exitCode)
+void WebApplication::shutdown(int /*exitCode*/)
 {
     stopServers();
     logger() << "shutting down...";

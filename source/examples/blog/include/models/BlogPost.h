@@ -39,24 +39,24 @@
 
 class BlogPost : public tastefulframework::ActiveRecord<BlogPost, unsigned>
 {
-    DATABASE_NAME(blog);
-    DATABASE_TABLENAME(blogentries);
-    DATABASE_PRIMARY_KEY(id, unsigned);
-    DATABASE_FIELDNAMES("author", "title", "text");
-    DECLARE_RELATION(author, Author);
-    DECLARE_PROPERTY(title, QString);
-    DECLARE_PROPERTY(text, QString);
-    DECLARE_NxM_RELATION(tag, tags, Tag);
+    DATABASE_NAME(blog)
+    DATABASE_TABLENAME(blogentries)
+    DATABASE_PRIMARY_KEY(id, unsigned)
+    DATABASE_FIELDNAMES("author", "title", "text")
+    DECLARE_RELATION(author, Author)
+    DECLARE_PROPERTY(title, QString)
+    DECLARE_PROPERTY(text, QString)
+    DECLARE_NxM_RELATION(tag, tags, Tag)
     ENTITY_INITIALIZER(INITIALIZE(author);
         INITIALIZE(title);
         INITIALIZE(text);
         INITIALIZE_NxM_RELATION(tags, Tag, blogEntry);
-        );
+        )
     ENTITY_SAVER(SAVE_RELATION(author);
         SAVE(title);
         SAVE(text);
         SAVE_NxM_RELATION(tags, Tag, blogEntry);
-        );
+        )
 
 public:
     BlogPost();

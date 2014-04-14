@@ -37,7 +37,7 @@ StringAction::StringAction(const QString & content)
 {
 }
 
-Response StringAction::operator()(Request & request) const
+Response StringAction::operator()(Request & /*request*/) const
 {
     return Response::forContent(content);
 }
@@ -47,7 +47,7 @@ FileAction::FileAction(const QFile & file)
 {
 }
 
-Response FileAction::operator()(Request & request) const
+Response FileAction::operator()(Request & /*request*/) const
 {
     return Response::forFile(file);
 }
@@ -57,7 +57,7 @@ DownloadAction::DownloadAction(const Download & download)
 {
 }
 
-Response DownloadAction::operator()(Request & request) const
+Response DownloadAction::operator()(Request & /*request*/) const
 {
     return download.getResponse();
 }
@@ -67,7 +67,7 @@ ResponseAction::ResponseAction(const Response & response)
 {
 }
 
-Response ResponseAction::operator()(Request & request) const
+Response ResponseAction::operator()(Request & /*request*/) const
 {
     return response;
 }

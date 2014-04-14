@@ -63,7 +63,7 @@ WebAppConfig WebAppConfigReader::parse()
     return config;
 }
 
-void WebAppConfigReader::startElement(const QString & namespaceURI, const QString & localName, const QString & qName, const QXmlAttributes & atts)
+void WebAppConfigReader::startElement(const QString & /*namespaceURI*/, const QString & localName, const QString & /*qName*/, const QXmlAttributes & /*atts*/)
 {
     element = localName;
     pathElements << element;
@@ -79,7 +79,7 @@ void WebAppConfigReader::startElement(const QString & namespaceURI, const QStrin
     }
 }
 
-void WebAppConfigReader::endElement(const QString & namespaceURI, const QString & localName, const QString & qName)
+void WebAppConfigReader::endElement(const QString & /*namespaceURI*/, const QString & /*localName*/, const QString & /*qName*/)
 {
     pathElements.removeLast();
     path = pathElements.join("/");

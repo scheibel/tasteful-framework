@@ -42,7 +42,7 @@ class TASTEFULFRAMEWORK_API Response : public tastefulserver::HttpResponse
 public:
     Response(unsigned statusCode = tastefulserver::http::OK);
 
-    HttpResponse &asHttpResponse() const;
+    HttpResponse &asHttpResponse();
 
     void setMimeType(const QString & mimeType);
     void setMimeTypeForFileName(const QString & filename);

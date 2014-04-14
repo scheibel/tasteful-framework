@@ -33,7 +33,7 @@
 
 class BlogPostController : public LoggedInController, public tastefulframework::CrudController<BlogPostController, BlogPost::DataMapper>
 {
-    DEFINE_CRUD_ACTIONS();
+    DEFINE_CRUD_ACTIONS()
 
 protected:
     void beforeSave(BlogPost * blogPost);

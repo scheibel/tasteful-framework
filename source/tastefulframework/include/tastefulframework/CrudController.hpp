@@ -107,31 +107,31 @@ void CrudController<ControllerClass, MapperClass>::remove()
 }
 
 template <class ControllerClass, class MapperClass>
-void CrudController<ControllerClass, MapperClass>::beforeSave(Model * model)
+void CrudController<ControllerClass, MapperClass>::beforeSave(Model * /*model*/)
 {
 
 }
 
 template <class ControllerClass, class MapperClass>
-void CrudController<ControllerClass, MapperClass>::saved(Model * model)
+void CrudController<ControllerClass, MapperClass>::saved(Model * /*model*/)
 {
 
 }
 
 template <class ControllerClass, class MapperClass>
-void CrudController<ControllerClass, MapperClass>::created(Model * model)
+void CrudController<ControllerClass, MapperClass>::created(Model * /*model*/)
 {
 
 }
 
 template <class ControllerClass, class MapperClass>
-void CrudController<ControllerClass, MapperClass>::beforeDelete(Model * model)
+void CrudController<ControllerClass, MapperClass>::beforeDelete(Model * /*model*/)
 {
 
 }
 
 template <class ControllerClass, class MapperClass>
-void CrudController<ControllerClass, MapperClass>::deleted(Model * model)
+void CrudController<ControllerClass, MapperClass>::deleted(Model * /*model*/)
 {
 
 }

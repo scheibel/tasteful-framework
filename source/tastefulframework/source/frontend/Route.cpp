@@ -281,7 +281,7 @@ bool WildcardRoute::match(const RequestedAction & requestedAction) const
     return requestedAction.getMethod()==method && regexp.exactMatch(requestedAction.getPath());
 }
 
-QString WildcardRoute::urlFor(const QVariantMap & parameters) const
+QString WildcardRoute::urlFor(const QVariantMap & /*parameters*/) const
 {
     return "";
 }

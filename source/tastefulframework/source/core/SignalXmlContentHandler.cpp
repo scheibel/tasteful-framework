@@ -75,7 +75,7 @@ bool SignalXmlContentHandler::processingInstruction(const QString & target, cons
     return true;
 }
 
-void SignalXmlContentHandler::setDocumentLocator(QXmlLocator * locator)
+void SignalXmlContentHandler::setDocumentLocator(QXmlLocator * /*locator*/)
 {
 }
 
@@ -100,7 +100,7 @@ bool SignalXmlContentHandler::startElement(const QString & namespaceURI, const Q
     return true;
 }
 
-bool SignalXmlContentHandler::startPrefixMapping(const QString & prefix, const QString & uri)
+bool SignalXmlContentHandler::startPrefixMapping(const QString & /*prefix*/, const QString & /*uri*/)
 {
     return true;
 }

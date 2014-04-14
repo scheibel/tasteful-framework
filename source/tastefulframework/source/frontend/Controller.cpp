@@ -67,7 +67,7 @@ void Controller::render(const View & view)
     view.renderOn(response);
 }
 
-void Controller::renderWithLayout(const QString & templateFile, const QString & layoutFile)
+void Controller::renderWithLayout(const QString & /*templateFile*/, const QString & /*layoutFile*/)
 {
     // render(LayoutedTemplateView(templateFile, TemplatedLayout(layoutFile));
 }

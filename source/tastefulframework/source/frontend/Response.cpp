@@ -36,9 +36,9 @@ Response::Response(unsigned statusCode)
     setHeader(tastefulserver::http::Server, "tasteful server");
 }
 
-tastefulserver::HttpResponse &Response::asHttpResponse() const
+tastefulserver::HttpResponse &Response::asHttpResponse()
 {
-    return *(HttpResponse *)this;
+    return *this;
 }
 
 void Response::setMimeType(const QString & mimeType)

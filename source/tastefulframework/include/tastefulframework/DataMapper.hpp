@@ -275,7 +275,7 @@ QString DataMapper<Subclass, T, I>::databaseId() const
 }
 
 template <class Subclass, class T, typename I>
-void DataMapper<Subclass, T, I>::saveRelationsOf(T * model)
+void DataMapper<Subclass, T, I>::saveRelationsOf(T * /*model*/)
 {
 
 }

@@ -31,15 +31,15 @@
 
 class Tag : public tastefulframework::ActiveRecord<Tag, unsigned>
 {
-    DATABASE_NAME(blog);
-    DATABASE_TABLENAME(tags);
-    DATABASE_PRIMARY_KEY(id, unsigned);
-    DATABASE_FIELDNAMES("name");
-    DECLARE_PROPERTY(name, QString);
+    DATABASE_NAME(blog)
+    DATABASE_TABLENAME(tags)
+    DATABASE_PRIMARY_KEY(id, unsigned)
+    DATABASE_FIELDNAMES("name")
+    DECLARE_PROPERTY(name, QString)
     ENTITY_INITIALIZER(INITIALIZE(name);
-        );
+        )
     ENTITY_SAVER(SAVE(name);
-        );
+        )
 
 public:
     Tag();
