@@ -47,7 +47,7 @@ public:
     void setFilename(const QString & filename);
 
 protected:
-    QString _filename;
+    QString m_filename;
 
     void mergeHead(DomNode targetHead, DomNode sourceHead) const;
     bool sameNodes(DomNode & node1, DomNode & node2) const;

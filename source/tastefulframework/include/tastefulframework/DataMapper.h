@@ -48,13 +48,13 @@ protected:
     DataMapper &operator=(const DataMapper &);
 
 private:
-    static Subclass * _instance;
+    static Subclass * s_instance;
 
 public:
     typedef T Model;
     typedef I Identity;
 
-    static Subclass&instance();
+    static Subclass & instance();
     virtual T* newModel() const;
     virtual void buildFromRecord(T * model, const QVariantMap & record) const = 0;
     virtual void buildRecordFrom(T * model, QVariantMap & record) const = 0;
@@ -63,7 +63,7 @@ public:
     virtual QString identityFieldName() const = 0;
     virtual QString databaseId() const;
     virtual void saveRelationsOf(T * model);
-    Database&getDatabase() const;
+    Database & getDatabase() const;
     Identity idOf(T * model) const;
     bool isValidId(const Identity & id) const;
     T* obtainFromIdentityMap(const QVariantMap & map);
@@ -89,7 +89,7 @@ public:
 protected:
 
 private:
-    IdentityMap<T, I> identities;
+    IdentityMap<T, I> m_identities;
 };
 
 } // namespace tastefulframework

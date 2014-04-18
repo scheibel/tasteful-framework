@@ -37,19 +37,19 @@ class TASTEFULFRAMEWORK_API RedirectException
 {
 public:
     RedirectException(const QString & url, bool permanently = false)
-        : url(url)
-        , permanently(permanently)
+        : m_url(url)
+        , m_permanently(permanently)
     {
     }
 
     Response toResponse() const
     {
-        return permanently ? Response::redirectPermanently(url) : Response::redirect(url);
+        return m_permanently ? Response::redirectPermanently(m_url) : Response::redirect(m_url);
     }
 
 private:
-    QString url;
-    bool permanently;
+    QString m_url;
+    bool m_permanently;
 };
 
 } // namespace tastefulframework

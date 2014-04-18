@@ -44,7 +44,7 @@ private:
     RouteRegistry();
     RouteRegistry(const RouteRegistry & registry);    // do not implement
     RouteRegistry &operator=(const RouteRegistry & registry);    // do not implement
-    static RouteRegistry _instance;
+    static RouteRegistry s_instance;
 
     void addMethodStringToRoutes(const QString & methodPointerString, Route * route);
     Route* getRouteForMethodString(const QString & methodPointerString) const;
@@ -72,21 +72,21 @@ public:
     static Route* routeFor(void (T::* methodPointer)());
 
 private:
-    QHash<QString, Route *> methodsToRoutes;
-    QHash<Key, Route *> _routes;
+    QHash<QString, Route *> m_methodsToRoutes;
+    QHash<Key, Route *> m_routes;
 };
 
 class TASTEFULFRAMEWORK_API RouteActionAssigner
 {
 public:
     RouteActionAssigner(Route * route)
-        : route(route)
+        : m_route(route)
     {
     }
 
     QSharedPointer<Action> operator=(QSharedPointer<Action> action)
     {
-        route->setAction(action);
+        m_route->setAction(action);
 
         return action;
     }
@@ -130,7 +130,7 @@ public:
     }
 
 private:
-    Route * route;
+    Route * m_route;
 };
 
 } // namespace tastefulframework

@@ -42,8 +42,8 @@ public:
     void registerModel(Identity id, T * model);
 
 private:
-    QHash<Identity, T *> identities;
-    mutable QReadWriteLock lock;
+    QHash<Identity, T *> m_identities;
+    mutable QReadWriteLock m_lock;
 };
 
 } // namespace tastefulframework

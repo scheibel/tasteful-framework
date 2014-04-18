@@ -48,7 +48,7 @@ public:
     void set(const QString & key, T value);
 
 protected:
-    QHash<QString, QVariant> values;
+    QHash<QString, QVariant> m_values;
 };
 
 } // namespace tastefulframework

@@ -32,7 +32,7 @@ namespace tastefulframework {
 
 template <typename T>
 ControllerAction<T>::ControllerAction(MethodPointer methodPointer)
-: methodPointer(methodPointer)
+: m_methodPointer(methodPointer)
 {
 }
 
@@ -44,7 +44,7 @@ Response ControllerAction<T>::operator()(Request & request) const
 	controller.initialize(request);
 	if (controller.beforeAction())
 	{
-	    (controller.*methodPointer)();
+	    (controller.*m_methodPointer)();
 	    controller.afterAction();
 	}
 

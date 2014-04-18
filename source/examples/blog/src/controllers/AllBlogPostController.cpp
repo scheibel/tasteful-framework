@@ -39,7 +39,7 @@ void AllBlogPostController::index()
 
 void AllBlogPostController::show()
 {
-    BlogPost::DataMapper::Identity id = parameters["id"].value<BlogPost::DataMapper::Identity>();
+    BlogPost::DataMapper::Identity id = m_parameters["id"].value<BlogPost::DataMapper::Identity>();
 
     render(BlogPostShow(getSession(), BlogPost::get(id), id));
 }

@@ -34,7 +34,7 @@
 
 namespace tastefulframework {
 
-MimeDatabase MimeDatabase::instance;
+MimeDatabase MimeDatabase::s_instance;
 MimeDatabase::MimeDatabase()
 {
     loadMimeTypes();
@@ -84,17 +84,17 @@ void MimeDatabase::loadMimeTypesFromFilename(const QString & filename)
 
 void MimeDatabase::addMimeType(const QString & mimeType, const QString & extension)
 {
-    mimeTypes.insert(extension, mimeType);
+    m_mimeTypes.insert(extension, mimeType);
 }
 
 QString MimeDatabase::getMimeTypeFor(const QString & suffix, const QString & defaultValue) const
 {
-    return mimeTypes.contains(suffix) ? mimeTypes.value(suffix) : defaultValue;
+    return m_mimeTypes.contains(suffix) ? m_mimeTypes.value(suffix) : defaultValue;
 }
 
 QString MimeDatabase::mimeTypeFor(const QString & suffix, const QString & defaultValue)
 {
-    return instance.getMimeTypeFor(suffix, defaultValue);
+    return s_instance.getMimeTypeFor(suffix, defaultValue);
 }
 
 QString MimeDatabase::mimeTypeForFilename(const QString & filename, const QString & defaultValue)

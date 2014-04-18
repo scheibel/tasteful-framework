@@ -43,7 +43,7 @@ public:
     void setSession(AbstractSession * newSession);
 
 protected:
-    AbstractSession * session;
+    AbstractSession * m_session;
 };
 
 } // namespace tastefulframework

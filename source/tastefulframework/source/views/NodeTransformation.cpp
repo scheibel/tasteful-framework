@@ -33,13 +33,13 @@ NodeTransformation::~NodeTransformation()
 }
 
 LambdaNodeTransformation::LambdaNodeTransformation(Lambda lambda)
-    : lambda(lambda)
+    : m_lambda(lambda)
 {
 }
 
 void LambdaNodeTransformation::operator()(DomNode & node) const
 {
-    lambda(node);
+    m_lambda(node);
 }
 
 } // namespace tastefulframework

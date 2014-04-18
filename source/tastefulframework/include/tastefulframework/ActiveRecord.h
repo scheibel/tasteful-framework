@@ -59,7 +59,7 @@ public:
     void saveRelations();
 
 protected:
-    bool saved;
+    bool m_saved;
     static ActiveRecordDataMapper<T, Identity>& dataMapper();
 };
 
@@ -68,7 +68,7 @@ private: \
     type _ ## name; \
 public: \
     type name() const { return _ ## name;}; \
-    void name(type name) { _ ## name = name;saved = false;}; \
+    void name(type name) { _ ## name = name;m_saved = false;}; \
 private:
 
 #define INTERN_CONST_PROPERTY(name, type) \
@@ -76,7 +76,7 @@ private: \
     type _ ## name; \
 public: \
     const type & name() const { return _ ## name;}; \
-    void name(const type &name) { _ ## name = name;saved = false;}; \
+    void name(const type &name) { _ ## name = name;m_saved = false;}; \
 private:
 
 #define DATABASE_NAME(name) \
@@ -101,11 +101,11 @@ private:
 
 #define DECLARE_PROPERTY(name, type) \
     INTERN_CONST_PROPERTY(name, type) \
-    void name(const QVariant &name) { _ ## name = name.value<type>();saved = false;};
+    void name(const QVariant &name) { _ ## name = name.value<type>();m_saved = false;};
 
 #define DECLARE_RELATION(name, type) \
     INTERN_PROPERTY(name, type *) \
-    void name(const QVariant &name) { _ ## name = type::get(name.value<unsigned>());saved = false;};
+    void name(const QVariant &name) { _ ## name = type::get(name.value<unsigned>());m_saved = false;};
 
 
 #define ENTITY_INITIALIZER(code) \

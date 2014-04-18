@@ -63,9 +63,9 @@ private:
 
     Response performActionFor(Route * route, Request & request) const;
 
-    QHash<RouteRegistry::Key, Route *> staticRoutes;
-    QList<Route *> dynamicRoutes;
-    QList<Route *> wildcardRoutes;
+    QHash<RouteRegistry::Key, Route *> m_staticRoutes;
+    QList<Route *> m_dynamicRoutes;
+    QList<Route *> m_wildcardRoutes;
 };
 
 } // namespace tastefulframework

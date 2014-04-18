@@ -44,7 +44,7 @@ public:
     virtual DomNode toDomNode() const;
 
 protected:
-    DomNode node;
+    DomNode m_node;
 };
 
 } // namespace tastefulframework

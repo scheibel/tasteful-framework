@@ -39,7 +39,7 @@ void SearchController::index()
 
 void SearchController::find()
 {
-    QString searchString = parameters["string"].value<QString>();
+    QString searchString = m_parameters["string"].value<QString>();
 
     if (searchString.isNull() || searchString.isEmpty())
     {

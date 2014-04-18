@@ -40,7 +40,7 @@ void NodeCreator::add(T t, Args... args)
 template <typename... Args>
 NodeCreator NodeCreatorPlaceholder::operator()(Args... args) const
 {
-	NodeCreator NodeCreator(name);
+	NodeCreator NodeCreator(m_name);
 
 	NodeCreator.add(args...);
 

@@ -33,7 +33,7 @@ namespace tastefulframework {
 template <typename T>
 T Properties::property(const QString & key, const T & defaultValue) const
 {
-	QVariant value = settings->value(key);
+	QVariant value = m_settings->value(key);
 
 	return value.isValid() ? value.value<T>() : defaultValue;
 }

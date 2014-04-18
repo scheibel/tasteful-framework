@@ -36,32 +36,32 @@ DomNode::DomNode()
 }
 
 DomNode::DomNode(const QDomNode & node)
-    : node(node)
+    : m_node(node)
 {
 }
 
 DomNode::DomNode(const QString & text)
-    : node(QDomNodeCreator::create(text))
+    : m_node(QDomNodeCreator::create(text))
 {
 }
 
 DomNode::DomNode(const char * text)
-    : node(QDomNodeCreator::create(text))
+    : m_node(QDomNodeCreator::create(text))
 {
 }
 
 DomNode::DomNode(const NodeCreator & nodeCreator)
-    : node(QDomNodeCreator::create(nodeCreator))
+    : m_node(QDomNodeCreator::create(nodeCreator))
 {
 }
 
 DomNode::DomNode(const NodeCreatorPlaceholder & nodeCreatorPlaceholder)
-    : node(QDomNodeCreator::create(nodeCreatorPlaceholder()))
+    : m_node(QDomNodeCreator::create(nodeCreatorPlaceholder()))
 {
 }
 
 DomNode::DomNode(const DomNodeProducer & nodeProducer)
-    : node(nodeProducer.toDomNode().node)
+    : m_node(nodeProducer.toDomNode().m_node)
 {
 }
 
@@ -72,17 +72,17 @@ DomNode::operator QDomNode() const
 
 QDomNode DomNode::asQDomNode() const
 {
-    return node;
+    return m_node;
 }
 
 QDomDocument DomNode::document() const
 {
-    return node.ownerDocument();
+    return m_node.ownerDocument();
 }
 
 void DomNode::writeOnStream(QTextStream & stream) const
 {
-    stream << node;
+    stream << m_node;
 }
 
 DomNodeList DomNode::operator[](const QString & selector) const
@@ -98,7 +98,7 @@ DomNodeList DomNode::find(const QString & selector) const
     {
         return list;
     }
-    QDomNodeList childNodes = node.toElement().childNodes();
+    QDomNodeList childNodes = m_node.toElement().childNodes();
     for (int i = 0;i<childNodes.size();++i)
     {
         QDomElement child = childNodes.at(i).toElement();
@@ -122,7 +122,7 @@ DomNode DomNode::first(const QString & selector) const
         return DomNode();
     }
 
-    QDomNodeList childNodes = node.toElement().childNodes();
+    QDomNodeList childNodes = m_node.toElement().childNodes();
     for (int i = 0;i<childNodes.size();++i)
     {
         QDomElement child = childNodes.at(i).toElement();
@@ -141,22 +141,22 @@ DomNode DomNode::first(const QString & selector) const
 
 DomAttributes DomNode::attributes()
 {
-    return DomAttributes(node);
+    return DomAttributes(m_node);
 }
 
 const DomAttributes DomNode::attributes() const
 {
-    return DomAttributes(node);
+    return DomAttributes(m_node);
 }
 
 DomAttribute DomNode::attribute(const QString & name, const QString & defaultValue)
 {
-    return DomAttribute(node, name, defaultValue);
+    return DomAttribute(m_node, name, defaultValue);
 }
 
 const DomAttribute DomNode::attribute(const QString & name, const QString & defaultValue) const
 {
-    return DomAttribute(node, name, defaultValue, false);
+    return DomAttribute(m_node, name, defaultValue, false);
 }
 
 QString DomNode::getAttribute(const QString & name) const
@@ -186,7 +186,7 @@ void DomNode::removeAttribute(const QString & name)
 
 bool DomNode::hasAttribute(const QString & name) const
 {
-    return node.toElement().hasAttribute(name);
+    return m_node.toElement().hasAttribute(name);
 }
 
 void DomNode::addClass(const QString & name)
@@ -252,32 +252,32 @@ void DomNode::removeId()
 
 QString DomNode::tagName() const
 {
-    return node.toElement().tagName();
+    return m_node.toElement().tagName();
 }
 
 void DomNode::setTagName(const QString & name)
 {
-    node.toElement().setTagName(name);
+    m_node.toElement().setTagName(name);
 }
 
 DomNode DomNode::previous() const
 {
-    return node.previousSibling();
+    return m_node.previousSibling();
 }
 
 DomNode DomNode::next() const
 {
-    return node.nextSibling();
+    return m_node.nextSibling();
 }
 
 DomNode DomNode::previousElement() const
 {
-    return node.previousSiblingElement();
+    return m_node.previousSiblingElement();
 }
 
 DomNode DomNode::nextElement()  const
 {
-    return node.nextSiblingElement();
+    return m_node.nextSiblingElement();
 }
 
 DomNode &DomNode::prepend(const DomNode & otherNode)
@@ -288,7 +288,7 @@ DomNode &DomNode::prepend(const DomNode & otherNode)
     }
     // importNode()?
     QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
-    node.parentNode().insertBefore(newNode, node);
+    m_node.parentNode().insertBefore(newNode, m_node);
 
     return *this;
 }
@@ -300,7 +300,7 @@ DomNode &DomNode::append(const DomNode & otherNode)
         return *this;
     }
     QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
-    node.parentNode().insertAfter(newNode, node);
+    m_node.parentNode().insertAfter(newNode, m_node);
 
     return *this;
 }
@@ -312,7 +312,7 @@ DomNode &DomNode::prependChild(const DomNode & childNode)
         return *this;
     }
     QDomNode newNode = document().importNode(childNode.asQDomNode(), true);
-    node.insertBefore(newNode, node.firstChild());
+    m_node.insertBefore(newNode, m_node.firstChild());
 
     return *this;
 }
@@ -324,7 +324,7 @@ DomNode &DomNode::appendChild(const DomNode & childNode)
         return *this;
     }
     QDomNode newNode = document().importNode(childNode.asQDomNode(), true);
-    node.appendChild(newNode);
+    m_node.appendChild(newNode);
 
     return *this;
 }
@@ -350,8 +350,8 @@ DomNode &DomNode::replaceWith(const DomNode & otherNode)
         return *this;
     }
     QDomNode newNode = document().importNode(otherNode.asQDomNode(), true);
-    node.parentNode().replaceChild(newNode, node);
-    node = newNode;
+    m_node.parentNode().replaceChild(newNode, m_node);
+    m_node = newNode;
 
     return *this;
 }
@@ -400,14 +400,14 @@ DomNode DomNode::clone(bool deep) const
         return *this;
     }
 
-    return node.cloneNode(deep);
+    return m_node.cloneNode(deep);
 }
 
 DomNode DomNode::remove()
 {
-    node.parentNode().removeChild(node);
-    QDomNode oldNode = node;
-    node = QDomNode();
+    m_node.parentNode().removeChild(m_node);
+    QDomNode oldNode = m_node;
+    m_node = QDomNode();
 
     return oldNode;
 }
@@ -459,7 +459,7 @@ DomNode DomNode::parent() const
     {
         return *this;
     }
-    QDomNode parentNode = node.parentNode();
+    QDomNode parentNode = m_node.parentNode();
     if (parentNode.isNull())
     {
         return DomNode();
@@ -474,7 +474,7 @@ DomNode DomNode::firstChild() const
     {
         return *this;
     }
-    QDomNode childNode = node.firstChild();
+    QDomNode childNode = m_node.firstChild();
     if (childNode.isNull())
     {
         return DomNode();
@@ -485,7 +485,7 @@ DomNode DomNode::firstChild() const
 
 bool DomNode::operator==(const DomNode & otherNode)
 {
-    return node==otherNode.node;
+    return m_node==otherNode.m_node;
 }
 
 DomNodeList DomNode::children() const
@@ -496,7 +496,7 @@ DomNodeList DomNode::children() const
     {
         return list;
     }
-    QDomNodeList childNodes = node.toElement().childNodes();
+    QDomNodeList childNodes = m_node.toElement().childNodes();
     for (int i = 0;i<childNodes.size();++i)
     {
         list << childNodes.at(i);
@@ -543,54 +543,54 @@ DomNode DomNode::findById(const QString & id) const
 
 bool DomNode::isNull() const
 {
-    return node.isNull();
+    return m_node.isNull();
 }
 
 bool DomNode::isElement() const
 {
-    return node.isElement();
+    return m_node.isElement();
 }
 
 bool DomNode::isText() const
 {
-    return node.isText();
+    return m_node.isText();
 }
 
 // ---------------------------------------
 
-QDomNodeCreator QDomNodeCreator::_instance;
+QDomNodeCreator QDomNodeCreator::s_instance;
 RawXml::RawXml(DomNode & node)
-    : node(node)
+    : m_node(node)
 {
 }
 
 const QString &RawXml::operator=(const QString & rawXml)
 {
-    node.setRaw(rawXml);
+    m_node.setRaw(rawXml);
 
     return rawXml;
 }
 
 void RawXml::writeOnStream(QTextStream & stream) const
 {
-    node.writeOnStream(stream);
+    m_node.writeOnStream(stream);
 }
 
 InnerXml::InnerXml(DomNode & node)
-    : node(node)
+    : m_node(node)
 {
 }
 
 const DomNode &InnerXml::operator=(const DomNode & otherNode)
 {
-    node.replaceChildren(DomNodeList { otherNode });
+    m_node.replaceChildren(DomNodeList { otherNode });
 
     return otherNode;
 }
 
 const DomNodeList &InnerXml::operator=(const DomNodeList & nodeList)
 {
-    node.replaceChildren(nodeList);
+    m_node.replaceChildren(nodeList);
 
     return nodeList;
 }
@@ -602,7 +602,7 @@ const DomNodeList &InnerXml::operator=(const std::initializer_list<DomNode> & in
 
 void InnerXml::writeOnStream(QTextStream & stream) const
 {
-    node.children().writeOnStream(stream);
+    m_node.children().writeOnStream(stream);
 }
 
 DomAttribute::DomAttribute()
@@ -615,14 +615,14 @@ DomAttribute::DomAttribute(const QDomNode & node, const QString & name, const QS
 
     if (!element.isNull())
     {
-        attr = element.attributeNode(name);
-        if (attr.isNull())
+        m_attr = element.attributeNode(name);
+        if (m_attr.isNull())
         {
-            attr = node.ownerDocument().createAttribute(name);
-            attr.setValue(defaultValue.isNull() ? name : defaultValue);
+            m_attr = node.ownerDocument().createAttribute(name);
+            m_attr.setValue(defaultValue.isNull() ? name : defaultValue);
             if (create)
             {
-                element.setAttributeNode(attr);
+                element.setAttributeNode(m_attr);
             }
         }
     }
@@ -630,27 +630,27 @@ DomAttribute::DomAttribute(const QDomNode & node, const QString & name, const QS
 
 QString DomAttribute::name() const
 {
-    return attr.name();
+    return m_attr.name();
 }
 
 QString DomAttribute::value() const
 {
-    return attr.value();
+    return m_attr.value();
 }
 
 QDomAttr DomAttribute::asQDomAttr() const
 {
-    return attr;
+    return m_attr;
 }
 
 void DomAttribute::remove()
 {
-    attr.ownerElement().removeAttributeNode(attr);
+    m_attr.ownerElement().removeAttributeNode(m_attr);
 }
 
 const QVariant &DomAttribute::operator=(const QVariant & value)
 {
-    attr.setValue(value.isNull() ? attr.name() : value.toString());
+    m_attr.setValue(value.isNull() ? m_attr.name() : value.toString());
 
     return value;
 }
@@ -666,7 +666,7 @@ void DomAttribute::writeOnStream(QTextStream & stream) const
 }
 
 DomAttributes::DomAttributes(const QDomNode & node)
-    : node(node)
+    : m_node(node)
 {
     QDomNamedNodeMap map = node.attributes();
 
@@ -677,80 +677,80 @@ DomAttributes::DomAttributes(const QDomNode & node)
         {
             continue;
         }
-        attributes[attr.name()] = DomAttribute(node, attr.name());
+        m_attributes[attr.name()] = DomAttribute(node, attr.name());
     }
 }
 
 int DomAttributes::size() const
 {
-    return attributes.size();
+    return m_attributes.size();
 }
 
 QHash<QString, DomAttribute>::iterator DomAttributes::begin()
 {
-    return attributes.begin();
+    return m_attributes.begin();
 }
 
 QHash<QString, DomAttribute>::iterator DomAttributes::end()
 {
-    return attributes.end();
+    return m_attributes.end();
 }
 
 QHash<QString, DomAttribute>::const_iterator DomAttributes::begin() const
 {
-    return attributes.begin();
+    return m_attributes.begin();
 }
 
 QHash<QString, DomAttribute>::const_iterator DomAttributes::end() const
 {
-    return attributes.end();
+    return m_attributes.end();
 }
 
 void DomAttributes::remove(const QString & name)
 {
-    if (attributes.contains(name))
+    if (m_attributes.contains(name))
     {
-        DomAttribute attribute = attributes[name];
+        DomAttribute attribute = m_attributes[name];
         attribute.remove();
-        attributes.remove(name);
+        m_attributes.remove(name);
     }
 }
 
 DomAttribute &DomAttributes::operator[](const QString & name)
 {
-    if (!attributes.contains(name))
+    if (!m_attributes.contains(name))
     {
-        attributes.insert(name, DomAttribute(node, name));
+        m_attributes.insert(name, DomAttribute(m_node, name));
     }
 
-    return attributes[name];
+    return m_attributes[name];
 }
 
 DomAttribute DomAttributes::operator[](const QString & name) const
 {
-    if (!attributes.contains(name))
+    if (!m_attributes.contains(name))
     {
         return DomAttribute();
     }
 
-    return attributes[name];
+    return m_attributes[name];
 }
 
 bool DomAttributes::operator==(const DomAttributes & otherAttributes) const
 {
-    return attributes == otherAttributes.attributes;
+    return m_attributes == otherAttributes.m_attributes;
 }
 
 void DomAttributes::writeOnStream(QTextStream & stream) const
 {
-    QList<QString> attributeNames = attributes.keys();
+    QList<QString> attributeNames = m_attributes.keys();
     for (int i = 0;i<attributeNames.size();++i)
     {
         if (i>0)
         {
             stream << " ";
         }
-        stream << attributes[attributeNames[i]].toString();
+        stream << m_attributes[attributeNames[i]].toString();
     }
 }
 

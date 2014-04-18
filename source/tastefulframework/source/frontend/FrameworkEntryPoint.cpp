@@ -29,13 +29,13 @@
 namespace tastefulframework {
 
 FrameworkEntryPoint::FrameworkEntryPoint(FrontController * frontController)
-    : frontController(frontController)
+    : m_frontController(frontController)
 {
 }
 
 tastefulserver::HttpResponse FrameworkEntryPoint::operator()(const tastefulserver::HttpRequest & httpRequest)
 {
-    return frontController->handleRequest(httpRequest);
+    return m_frontController->handleRequest(httpRequest);
 }
 
 } // namespace tastefulframework

@@ -50,8 +50,8 @@ private:
     bool canDeliver(const QFile & file) const;
     void checkContent(Response & response) const;
 
-    SessionPool sessionPool;
-    Dispatcher dispatcher;
+    SessionPool m_sessionPool;
+    Dispatcher m_dispatcher;
 };
 
 } // namespace tastefulframework

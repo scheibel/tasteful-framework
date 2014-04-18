@@ -44,8 +44,8 @@ Controller::~Controller()
 void Controller::initialize(Request & request)
 {
     setSession(request.getSession());
-    parameters = request.getParameters();
-    cookies = request.getCookies();
+    m_parameters = request.getParameters();
+    m_cookies = request.getCookies();
 }
 
 bool Controller::beforeAction()
@@ -59,12 +59,12 @@ void Controller::afterAction()
 
 const Response &Controller::getResponse() const
 {
-    return response;
+    return m_response;
 }
 
 void Controller::render(const View & view)
 {
-    view.renderOn(response);
+    view.renderOn(m_response);
 }
 
 void Controller::renderWithLayout(const QString & /*templateFile*/, const QString & /*layoutFile*/)
@@ -79,22 +79,22 @@ void Controller::redirect(const QString & url)
 
 const tastefulserver::RequestParameters &Controller::getParameters() const
 {
-    return parameters;
+    return m_parameters;
 }
 
 tastefulserver::RequestParameters &Controller::getParameters()
 {
-    return parameters;
+    return m_parameters;
 }
 
 const tastefulserver::Cookies &Controller::getCookies() const
 {
-    return cookies;
+    return m_cookies;
 }
 
 tastefulserver::Cookies &Controller::getCookies()
 {
-    return cookies;
+    return m_cookies;
 }
 
 } // namespace tastefulframework

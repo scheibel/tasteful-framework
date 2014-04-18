@@ -48,10 +48,10 @@ public:
     virtual void saveRelationsOf(T * model);
 
 protected:
-    QString _databaseName;
-    QList<QString> _fieldNames;
-    QString _tableName;
-    QString _primaryKeyName;
+    QString m_databaseName;
+    QList<QString> m_fieldNames;
+    QString m_tableName;
+    QString m_primaryKeyName;
 };
 
 } // namespace tastefulframework

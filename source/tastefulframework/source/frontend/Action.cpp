@@ -33,53 +33,53 @@ Action::~Action()
 }
 
 StringAction::StringAction(const QString & content)
-    : content(content)
+    : m_content(content)
 {
 }
 
 Response StringAction::operator()(Request & /*request*/) const
 {
-    return Response::forContent(content);
+    return Response::forContent(m_content);
 }
 
 FileAction::FileAction(const QFile & file)
-    : file(file.fileName())
+    : m_file(file.fileName())
 {
 }
 
 Response FileAction::operator()(Request & /*request*/) const
 {
-    return Response::forFile(file);
+    return Response::forFile(m_file);
 }
 
 DownloadAction::DownloadAction(const Download & download)
-    : download(download)
+    : m_download(download)
 {
 }
 
 Response DownloadAction::operator()(Request & /*request*/) const
 {
-    return download.getResponse();
+    return m_download.getResponse();
 }
 
 ResponseAction::ResponseAction(const Response & response)
-    : response(response)
+    : m_response(response)
 {
 }
 
 Response ResponseAction::operator()(Request & /*request*/) const
 {
-    return response;
+    return m_response;
 }
 
 LambdaAction::LambdaAction(Lambda lambda)
-    : lambda(lambda)
+    : m_lambda(lambda)
 {
 }
 
 Response LambdaAction::operator()(Request & request) const
 {
-    return lambda(request);
+    return m_lambda(request);
 }
 
 } // namespace tastefulframework

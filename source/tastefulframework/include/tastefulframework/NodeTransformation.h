@@ -53,8 +53,8 @@ public:
     void operator()(DomNode & node) const;
 
 private:
-    XmlTransform * transform;
-    MethodPointer methodPointer;
+    XmlTransform * m_transform;
+    MethodPointer m_methodPointer;
 };
 
 class TASTEFULFRAMEWORK_API LambdaNodeTransformation : public NodeTransformation
@@ -66,7 +66,7 @@ public:
     void operator()(DomNode & node) const;
 
 private:
-    Lambda lambda;
+    Lambda m_lambda;
 };
 
 } // namespace tastefulframework

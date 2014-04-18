@@ -38,9 +38,9 @@ IdentityMap<T, Identity>::IdentityMap()
 template <class T, typename Identity>
 Identity IdentityMap<T, Identity>::idOf(T * model) const
 {
-    lock.lockForRead();
-    Identity id = identities.key(model);
-    lock.unlock();
+    m_lock.lockForRead();
+    Identity id = m_identities.key(model);
+    m_lock.unlock();
 
     return id;
 }
@@ -48,9 +48,9 @@ Identity IdentityMap<T, Identity>::idOf(T * model) const
 template <class T, typename Identity>
 bool IdentityMap<T, Identity>::hasModel(Identity id) const
 {
-    lock.lockForRead();
-    bool has = identities.contains(id);
-    lock.unlock();
+    m_lock.lockForRead();
+    bool has = m_identities.contains(id);
+    m_lock.unlock();
 
     return has;
 }
@@ -58,9 +58,9 @@ bool IdentityMap<T, Identity>::hasModel(Identity id) const
 template <class T, typename Identity>
 T * IdentityMap<T, Identity>::getModel(Identity id) const
 {
-    lock.lockForRead();
-    T * model = hasModel(id) ? identities[id] : nullptr;
-    lock.unlock();
+    m_lock.lockForRead();
+    T * model = hasModel(id) ? m_identities[id] : nullptr;
+    m_lock.unlock();
 
     return model;
 }
@@ -68,9 +68,9 @@ T * IdentityMap<T, Identity>::getModel(Identity id) const
 template <class T, typename Identity>
 void IdentityMap<T, Identity>::registerModel(Identity id, T * model)
 {
-    lock.lockForWrite();
-    identities[id] = model;
-    lock.unlock();
+    m_lock.lockForWrite();
+    m_identities[id] = model;
+    m_lock.unlock();
 }
 
 } // namespace tastefulframework

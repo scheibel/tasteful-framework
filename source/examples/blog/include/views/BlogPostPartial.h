@@ -34,11 +34,11 @@
 class BlogPostPartial : public tastefulframework::Partial
 {
 public:
-    BlogPostPartial(tastefulframework::DomNode node, Session * session);
+    BlogPostPartial(tastefulframework::DomNode m_node, Session * session);
 
     void setData(BlogPost * blogPost, unsigned id);
 
-    void tags(tastefulframework::DomNode & node) const;
+    void tags(tastefulframework::DomNode & m_node) const;
 
 private:
     Session * _session;

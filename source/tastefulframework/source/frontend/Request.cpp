@@ -43,9 +43,9 @@ void Request::setUrlParameters(const QHash<QString, QString> & urlParameters)
 {
     for (QString key : urlParameters.keys())
     {
-        if (!requestParams.contains(key))
+        if (!m_requestParams.contains(key))
         {
-            requestParams.insert(key, urlParameters[key]);
+            m_requestParams.insert(key, urlParameters[key]);
         }
     }
 }

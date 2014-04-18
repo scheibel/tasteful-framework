@@ -41,7 +41,7 @@ GenericSession::~GenericSession()
 
 bool GenericSession::has(const QString & key) const
 {
-    return values.contains(key);
+    return m_values.contains(key);
 }
 
 } // namespace tastefulframework

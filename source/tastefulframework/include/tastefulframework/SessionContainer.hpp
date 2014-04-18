@@ -33,7 +33,7 @@ namespace tastefulframework {
 template <typename T>
 T * SessionContainer::getSession() const
 {
-    return (T *)session;
+    return (T *)m_session;
 }
 
 } // namespace tastefulframework

@@ -30,18 +30,18 @@
 namespace tastefulframework {
 
 TemplatedLayout::TemplatedLayout(const QString & filename)
-    : _filename(filename)
+    : m_filename(filename)
 {
 }
 
 const QString &TemplatedLayout::filename() const
 {
-    return _filename;
+    return m_filename;
 }
 
 void TemplatedLayout::setFilename(const QString & filename)
 {
-    _filename = filename;
+    m_filename = filename;
 }
 
 void TemplatedLayout::layout(DomNode & node) const
@@ -51,7 +51,7 @@ void TemplatedLayout::layout(DomNode & node) const
         return;
     }
 
-    DomNode layoutNode = transformFile(_filename);
+    DomNode layoutNode = transformFile(m_filename);
 
     mergeHead(layoutNode.first("head"), node.first("head"));
 

@@ -32,7 +32,7 @@ namespace tastefulframework {
 
 template <class T, typename Identity>
 ActiveRecord<T, Identity>::ActiveRecord()
-: saved(false)
+: m_saved(false)
 {
 }
 
@@ -74,19 +74,19 @@ Identity ActiveRecord<T, Identity>::getPrimaryKey()
 template <class T, typename Identity>
 void ActiveRecord<T, Identity>::setSaved(bool b)
 {
-	saved = b;
+	m_saved = b;
 }
 
 template <class T, typename Identity>
 bool ActiveRecord<T, Identity>::isSaved()
 {
-	return saved;
+	return m_saved;
 }
 
 template <class T, typename Identity>
 bool ActiveRecord<T, Identity>::save()
 {
-	if (saved)
+	if (m_saved)
 	{
 	    return true;
 	}

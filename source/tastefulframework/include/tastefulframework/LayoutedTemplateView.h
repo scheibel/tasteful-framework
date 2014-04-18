@@ -37,12 +37,12 @@ class TASTEFULFRAMEWORK_API LayoutedTemplateView : public TemplateView
 {
 public:
     LayoutedTemplateView() = default;
-    LayoutedTemplateView(const QString & filename);
+    LayoutedTemplateView(const QString & m_filename);
 
 protected:
     QByteArray content() const;
 
-    virtual const TemplatedLayout&getLayout() const = 0;
+    virtual const TemplatedLayout & getLayout() const = 0;
 };
 
 } // namespace tastefulframework

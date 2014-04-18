@@ -31,27 +31,27 @@
 namespace tastefulframework {
 
 TemplateView::TemplateView(const QString & filename)
-    : filename(filename)
+    : m_filename(filename)
 {
 }
 
 void TemplateView::setFilename(const QString & filename)
 {
-    this->filename = filename;
+    this->m_filename = filename;
 }
 
 void TemplateView::renderOn(Response & response) const
 {
     View::renderOn(response);
 
-    response.setMimeTypeForFileName(filename);
+    response.setMimeTypeForFileName(m_filename);
 }
 
 QByteArray TemplateView::content() const
 {
-    QByteArray content = transformFile(filename).toString().toUtf8();
+    QByteArray content = transformFile(m_filename).toString().toUtf8();
 
-    if (MimeDatabase::contentTypeForFilename(filename, "text/plain").is("text", "html"))
+    if (MimeDatabase::contentTypeForFilename(m_filename, "text/plain").is("text", "html"))
     {
         content.prepend("<!DOCTYPE html>\n");
     }

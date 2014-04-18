@@ -36,7 +36,7 @@ RestrictedController::RestrictedController()
 
 void RestrictedController::unauthorized()
 {
-    response = Response::accessDenied();
+    m_response = Response::accessDenied();
 }
 
 bool RestrictedController::beforeAction()

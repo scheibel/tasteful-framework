@@ -45,7 +45,7 @@ public:
     virtual void renderOn(Response & response) const;
 
 protected:
-    QString filename;
+    QString m_filename;
     virtual QByteArray content() const;
 };
 

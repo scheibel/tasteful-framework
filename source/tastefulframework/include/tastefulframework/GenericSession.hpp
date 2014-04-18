@@ -33,13 +33,13 @@ namespace tastefulframework {
 template <typename T>
 T GenericSession::get(const QString & key) const
 {
-	return values.value(key).value<T>();
+	return m_values.value(key).value<T>();
 }
 
 template <typename T>
 void GenericSession::set(const QString & key, T value)
 {
-	values.insert(key, QVariant::fromValue(value));
+	m_values.insert(key, QVariant::fromValue(value));
 }
 
 } // namespace tastefulframework

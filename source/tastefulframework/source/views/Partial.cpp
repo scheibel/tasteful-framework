@@ -29,7 +29,7 @@
 namespace tastefulframework {
 
 Partial::Partial(const DomNode & node)
-    : node(node.clone())
+    : m_node(node.clone())
 {
 }
 
@@ -37,12 +37,12 @@ Partial::Partial(const QString & filename)
 {
     QDomDocument document = loadDocument(filename);
 
-    node = findContentNode(document.documentElement());
+    m_node = findContentNode(document.documentElement());
 }
 
 DomNode Partial::toDomNode() const
 {
-    DomNode n = node.clone();
+    DomNode n = m_node.clone();
 
     transform(n);
 

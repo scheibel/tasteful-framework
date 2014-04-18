@@ -32,15 +32,15 @@ namespace tastefulframework {
 
 template <typename T>
 MethodNodeTransformation<T>::MethodNodeTransformation(XmlTransform * transform, MethodPointer methodPointer)
-: transform(transform)
-, methodPointer(methodPointer)
+: m_transform(transform)
+, m_methodPointer(methodPointer)
 {
 }
 
 template <typename T>
 void MethodNodeTransformation<T>::operator()(DomNode & node) const
 {
-	(dynamic_cast<const T *>(transform)->*methodPointer)(node);
+	(dynamic_cast<const T *>(m_transform)->*m_methodPointer)(node);
 }
 
 } // namespace tastefulframework

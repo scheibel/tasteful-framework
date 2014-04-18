@@ -43,7 +43,7 @@ tastefulserver::HttpResponse &Response::asHttpResponse()
 
 void Response::setMimeType(const QString & mimeType)
 {
-    contentType.setTypeAndSubtype(mimeType);
+    m_contentType.setTypeAndSubtype(mimeType);
 }
 
 void Response::setMimeTypeForFileName(const QString & filename)

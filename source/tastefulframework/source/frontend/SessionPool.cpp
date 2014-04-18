@@ -30,15 +30,15 @@
 
 namespace tastefulframework {
 
-unsigned SessionPool::defaultLifetime = 900;
+unsigned SessionPool::s_defaultLifetime = 900;
 SessionPool::SessionPool()
-    : sessionConstructor(new ObjectConstructor<AbstractSession, AbstractSession>())
+    : m_sessionConstructor(new ObjectConstructor<AbstractSession, AbstractSession>())
 {
 }
 
 SessionPool::~SessionPool()
 {
-    delete sessionConstructor;
+    delete m_sessionConstructor;
 }
 
 void SessionPool::addSessionTo(Request & request)
@@ -95,7 +95,7 @@ AbstractSession * SessionPool::obtainSession(const QString & sessionKey)
 void SessionPool::initializeSession(AbstractSession * session, const QString & sessionKey)
 {
     session->setIdentifier(sessionKey);
-    session->setTimeout(defaultLifetime);
+    session->setTimeout(s_defaultLifetime);
 
     addSession(sessionKey, session);
 
@@ -104,7 +104,7 @@ void SessionPool::initializeSession(AbstractSession * session, const QString & s
 
 AbstractSession * SessionPool::createSession()
 {
-    return (*sessionConstructor)();
+    return (*m_sessionConstructor)();
 }
 
 void SessionPool::expireSession(const QString & sessionKey)
@@ -137,34 +137,34 @@ QString SessionPool::getHash(AbstractSession * session, unsigned attempt)
 
 bool SessionPool::hasSession(const QString & sessionKey)
 {
-    lock.lockForRead();
-    bool has = sessions.contains(sessionKey);
-    lock.unlock();
+    m_lock.lockForRead();
+    bool has = m_sessions.contains(sessionKey);
+    m_lock.unlock();
 
     return has;
 }
 
 AbstractSession * SessionPool::getSession(const QString & sessionKey)
 {
-    lock.lockForRead();
-    AbstractSession * session = sessions[sessionKey];
-    lock.unlock();
+    m_lock.lockForRead();
+    AbstractSession * session = m_sessions[sessionKey];
+    m_lock.unlock();
 
     return session;
 }
 
 void SessionPool::addSession(const QString & sessionKey, AbstractSession * session)
 {
-    lock.lockForWrite();
-    sessions.insert(sessionKey, session);
-    lock.unlock();
+    m_lock.lockForWrite();
+    m_sessions.insert(sessionKey, session);
+    m_lock.unlock();
 }
 
 void SessionPool::removeSession(const QString & sessionKey)
 {
-    lock.lockForWrite();
-    sessions.remove(sessionKey);
-    lock.unlock();
+    m_lock.lockForWrite();
+    m_sessions.remove(sessionKey);
+    m_lock.unlock();
 }
 
 } // namespace tastefulframework

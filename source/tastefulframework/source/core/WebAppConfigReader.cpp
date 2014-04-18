@@ -34,23 +34,23 @@
 namespace tastefulframework {
 
 WebAppConfigReader::WebAppConfigReader(const QString & filename)
-    : filename(filename)
+    : m_filename(filename)
 {
 }
 
 QString WebAppConfigReader::getFilename() const
 {
-    return filename;
+    return m_filename;
 }
 
 WebAppConfig WebAppConfigReader::parse()
 {
-    config = WebAppConfig();
-    config.rootDir = QFileInfo(filename).path();
+    m_config = WebAppConfig();
+    m_config.rootDir = QFileInfo(m_filename).path();
 
     QXmlSimpleReader reader;
     SignalXmlContentHandler handler;
-    QFile file(filename);
+    QFile file(m_filename);
     QXmlInputSource source(&file);
 
     connect(&handler, SIGNAL(elementStart(const QString &, const QString &, const QString &, const QXmlAttributes &)), this, SLOT(startElement(const QString &, const QString &, const QString &, const QXmlAttributes &)));
@@ -60,47 +60,47 @@ WebAppConfig WebAppConfigReader::parse()
     reader.setContentHandler(&handler);
     reader.parse(&source);
 
-    return config;
+    return m_config;
 }
 
 void WebAppConfigReader::startElement(const QString & /*namespaceURI*/, const QString & localName, const QString & /*qName*/, const QXmlAttributes & /*atts*/)
 {
-    element = localName;
-    pathElements << element;
-    path = pathElements.join("/");
+    m_element = localName;
+    m_pathElements << m_element;
+    m_path = m_pathElements.join("/");
 
-    if (path=="application/server")
+    if (m_path=="application/server")
     {
-        config.servers << ServerConfig();
+        m_config.servers << ServerConfig();
     }
-    else if (path=="application/database")
+    else if (m_path=="application/database")
     {
-        config.databases << DatabaseConfig();
+        m_config.databases << DatabaseConfig();
     }
 }
 
 void WebAppConfigReader::endElement(const QString & /*namespaceURI*/, const QString & /*localName*/, const QString & /*qName*/)
 {
-    pathElements.removeLast();
-    path = pathElements.join("/");
-    element = pathElements.isEmpty() ? QString() : pathElements.last();
+    m_pathElements.removeLast();
+    m_path = m_pathElements.join("/");
+    m_element = m_pathElements.isEmpty() ? QString() : m_pathElements.last();
 }
 
 void WebAppConfigReader::characters(const QString & ch)
 {
-    if (path.startsWith("application/server/"))
+    if (m_path.startsWith("application/server/"))
     {
         handleServer(ch);
     }
-    else if (path.startsWith("application/database/"))
+    else if (m_path.startsWith("application/database/"))
     {
         handleDatabase(ch);
     }
-    else if (path.startsWith("application/directories/"))
+    else if (m_path.startsWith("application/directories/"))
     {
         handleDirectories(ch);
     }
-    else if (path.startsWith("application/"))
+    else if (m_path.startsWith("application/"))
     {
         handleApplication(ch);
     }
@@ -108,56 +108,56 @@ void WebAppConfigReader::characters(const QString & ch)
 
 void WebAppConfigReader::handleApplication(const QString & ch)
 {
-    if (pathElements.size()!=2)
+    if (m_pathElements.size()!=2)
     {
         return;
     }
-    if (element=="name")
+    if (m_element=="name")
     {
-        config.name = ch;
+        m_config.name = ch;
     }
-    else if (element=="threadcount")
+    else if (m_element=="threadcount")
     {
-        config.threadCount = ch.toInt();
+        m_config.threadCount = ch.toInt();
     }
 }
 
 void WebAppConfigReader::handleDirectories(const QString & ch)
 {
-    if (pathElements.size()!=3)
+    if (m_pathElements.size()!=3)
     {
         return;
     }
-    if (element=="public")
+    if (m_element=="public")
     {
-        config.publicDirs << ch;
+        m_config.publicDirs << ch;
     }
-    else if (element=="resource")
+    else if (m_element=="resource")
     {
-        config.resourceDirs << ch;
+        m_config.resourceDirs << ch;
     }
 }
 
 void WebAppConfigReader::handleServer(const QString & ch)
 {
-    if (pathElements.size()!=3)
+    if (m_pathElements.size()!=3)
     {
         return;
     }
-    ServerConfig & serverConfig = config.servers.last();
-    if (element=="host")
+    ServerConfig & serverConfig = m_config.servers.last();
+    if (m_element=="host")
     {
         serverConfig.host = ch;
     }
-    else if (element=="port")
+    else if (m_element=="port")
     {
         serverConfig.port = ch.toUInt();
     }
-    else if (element=="certificate")
+    else if (m_element=="certificate")
     {
         serverConfig.certificate = ch;
     }
-    else if (element=="privatekey")
+    else if (m_element=="privatekey")
     {
         serverConfig.privateKey = ch;
     }
@@ -165,32 +165,32 @@ void WebAppConfigReader::handleServer(const QString & ch)
 
 void WebAppConfigReader::handleDatabase(const QString & ch)
 {
-    if (pathElements.size()!=3)
+    if (m_pathElements.size()!=3)
     {
         return;
     }
-    DatabaseConfig & dbConfig = config.databases.last();
-    if (element=="type")
+    DatabaseConfig & dbConfig = m_config.databases.last();
+    if (m_element=="type")
     {
         dbConfig.type = ch;
     }
-    else if (element=="host")
+    else if (m_element=="host")
     {
         dbConfig.host = ch;
     }
-    else if (element=="name")
+    else if (m_element=="name")
     {
         dbConfig.name = ch;
     }
-    else if (element=="user")
+    else if (m_element=="user")
     {
         dbConfig.user = ch;
     }
-    else if (element=="password")
+    else if (m_element=="password")
     {
         dbConfig.password = ch;
     }
-    else if (element=="id")
+    else if (m_element=="id")
     {
         dbConfig.id = ch;
     }

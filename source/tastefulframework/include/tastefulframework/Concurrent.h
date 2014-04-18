@@ -50,8 +50,8 @@ private:
     Concurrent(const Concurrent &);
 
 protected:
-    QMutex mutex;
-    T * object;
+    QMutex m_mutex;
+    T * m_object;
 };
 
 } // namespace tastefulframework

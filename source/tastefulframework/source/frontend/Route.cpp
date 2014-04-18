@@ -34,46 +34,46 @@ RequestedAction::RequestedAction()
 }
 
 RequestedAction::RequestedAction(const tastefulserver::HttpMethod & method, const QString & path)
-    : method(method)
-    , path(path)
+    : m_method(method)
+    , m_path(path)
 {
 }
 
 tastefulserver::HttpMethod RequestedAction::getMethod() const
 {
-    return method;
+    return m_method;
 }
 
 QString RequestedAction::getPath() const
 {
-    return path;
+    return m_path;
 }
 
 Route::Route(const tastefulserver::HttpMethod & method, const QString & urlPattern)
-    : method(method)
-    , urlPattern(urlPattern)
-    , action(nullptr)
+    : m_method(method)
+    , m_urlPattern(urlPattern)
+    , m_action(nullptr)
 {
 }
 
 tastefulserver::HttpMethod Route::getMethod() const
 {
-    return method;
+    return m_method;
 }
 
 QString Route::getUrlPattern() const
 {
-    return urlPattern;
+    return m_urlPattern;
 }
 
 Action * Route::getAction() const
 {
-    return action.data();
+    return m_action.data();
 }
 
 void Route::setAction(QSharedPointer<Action> action)
 {
-    this->action = action;
+    this->m_action = action;
 }
 
 bool Route::isStatic() const
@@ -132,7 +132,7 @@ StaticRoute::StaticRoute(const tastefulserver::HttpMethod & method, const QStrin
 
 bool StaticRoute::match(const RequestedAction & requestedAction) const
 {
-    return method==requestedAction.getMethod() && urlPattern==requestedAction.getPath();
+    return m_method==requestedAction.getMethod() && m_urlPattern==requestedAction.getPath();
 }
 
 bool StaticRoute::isStatic() const
@@ -142,7 +142,7 @@ bool StaticRoute::isStatic() const
 
 QString StaticRoute::urlFor(const QVariantMap & parameters) const
 {
-    return urlPattern + urlParameters(parameters);
+    return m_urlPattern + urlParameters(parameters);
 }
 
 DynamicRoute::DynamicRoute(const tastefulserver::HttpMethod & method, const QString & urlPattern)
@@ -152,7 +152,7 @@ DynamicRoute::DynamicRoute(const tastefulserver::HttpMethod & method, const QStr
 
     for (QString & part : parts)
     {
-        urlParts << UrlPart(part);
+        m_urlParts << UrlPart(part);
     }
 }
 
@@ -160,29 +160,29 @@ DynamicRoute::UrlPart::UrlPart(const QString & part)
 {
     if (part.startsWith(":"))
     {
-        variable = true;
-        this->part = part.mid(1);
+        m_variable = true;
+        this->m_part = part.mid(1);
     }
     else
     {
-        variable = false;
-        this->part = part;
+        m_variable = false;
+        this->m_part = part;
     }
 }
 
 bool DynamicRoute::UrlPart::isVariable() const
 {
-    return variable;
+    return m_variable;
 }
 
 QString DynamicRoute::UrlPart::getName() const
 {
-    return part;
+    return m_part;
 }
 
 bool DynamicRoute::UrlPart::match(const QString & otherPart) const
 {
-    return variable ? true : part == otherPart;
+    return m_variable ? true : m_part == otherPart;
 }
 
 QHash<QString, QString> DynamicRoute::getMatchedParts(const QString & path) const
@@ -190,20 +190,20 @@ QHash<QString, QString> DynamicRoute::getMatchedParts(const QString & path) cons
     QHash<QString, QString> matchedUrlParts;
 
     QStringList parts = path.split("/");
-    if (urlParts.size()!=parts.size())
+    if (m_urlParts.size()!=parts.size())
     {
         return QHash<QString, QString>();
     }
 
     for (int i = 0;i<parts.size();++i)
     {
-        if (!urlParts[i].match(parts[i]))
+        if (!m_urlParts[i].match(parts[i]))
         {
             return QHash<QString, QString>();
         }
-        if (urlParts[i].isVariable())
+        if (m_urlParts[i].isVariable())
         {
-            matchedUrlParts.insert(urlParts[i].getName(), parts[i]);
+            matchedUrlParts.insert(m_urlParts[i].getName(), parts[i]);
         }
     }
 
@@ -212,20 +212,20 @@ QHash<QString, QString> DynamicRoute::getMatchedParts(const QString & path) cons
 
 bool DynamicRoute::match(const RequestedAction & requestedAction) const
 {
-    if (method!=requestedAction.getMethod())
+    if (m_method!=requestedAction.getMethod())
     {
         return false;
     }
 
     QStringList parts = requestedAction.getPath().split("/");
-    if (urlParts.size()!=parts.size())
+    if (m_urlParts.size()!=parts.size())
     {
         return false;
     }
 
     for (int i = 0;i<parts.size();++i)
     {
-        if (!urlParts[i].match(parts[i]))
+        if (!m_urlParts[i].match(parts[i]))
         {
             return false;
         }
@@ -244,7 +244,7 @@ QString DynamicRoute::urlFor(const QVariantMap & parameters) const
     QStringList list;
     QVariantMap params = parameters;
 
-    for (const UrlPart & urlPart : urlParts)
+    for (const UrlPart & urlPart : m_urlParts)
     {
         if (urlPart.isVariable())
         {
@@ -267,8 +267,8 @@ QString DynamicRoute::urlFor(const QVariantMap & parameters) const
 WildcardRoute::WildcardRoute(const tastefulserver::HttpMethod & method, const QString & urlPattern)
     : Route(method, urlPattern)
 {
-    regexp.setPatternSyntax(QRegExp::Wildcard);
-    regexp.setPattern(urlPattern);
+    m_regexp.setPatternSyntax(QRegExp::Wildcard);
+    m_regexp.setPattern(urlPattern);
 }
 
 bool WildcardRoute::isWildcard() const
@@ -278,7 +278,7 @@ bool WildcardRoute::isWildcard() const
 
 bool WildcardRoute::match(const RequestedAction & requestedAction) const
 {
-    return requestedAction.getMethod()==method && regexp.exactMatch(requestedAction.getPath());
+    return requestedAction.getMethod()==m_method && m_regexp.exactMatch(requestedAction.getPath());
 }
 
 QString WildcardRoute::urlFor(const QVariantMap & /*parameters*/) const

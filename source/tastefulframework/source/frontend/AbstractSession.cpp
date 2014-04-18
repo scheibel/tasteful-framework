@@ -29,11 +29,11 @@
 namespace tastefulframework {
 
 AbstractSession::AbstractSession()
-    : invalidState(false)
-    , milliseconds(0)
+    : m_invalidState(false)
+    , m_milliseconds(0)
 {
-    timer.setSingleShot(true);
-    connect(&timer, SIGNAL(timeout()), this, SLOT(timeout()));
+    m_timer.setSingleShot(true);
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeout()));
 }
 
 AbstractSession::~AbstractSession()
@@ -42,45 +42,45 @@ AbstractSession::~AbstractSession()
 
 bool AbstractSession::isValid() const
 {
-    return !invalidState;
+    return !m_invalidState;
 }
 
 bool AbstractSession::isInvalid() const
 {
-    return invalidState;
+    return m_invalidState;
 }
 
 void AbstractSession::setInvalid(bool newState)
 {
-    invalidState = newState;
+    m_invalidState = newState;
 }
 
 const QString &AbstractSession::getIdentifier() const
 {
-    return identifier;
+    return m_identifier;
 }
 
 void AbstractSession::setIdentifier(const QString & newIdentifier)
 {
-    identifier = newIdentifier;
+    m_identifier = newIdentifier;
 }
 
 void AbstractSession::setTimeout(unsigned seconds)
 {
-    milliseconds = 1000 * seconds;
+    m_milliseconds = 1000 * seconds;
 }
 
 void AbstractSession::touch()
 {
-    if (milliseconds)
+    if (m_milliseconds)
     {
-        timer.start(milliseconds);
+        m_timer.start(m_milliseconds);
     }
 }
 
 void AbstractSession::timeout()
 {
-    emit(expired(identifier));
+    emit(expired(m_identifier));
 }
 
 } // namespace tastefulframework

@@ -33,7 +33,7 @@ namespace tastefulframework {
 template <class SessionClass>
 void SessionPool::setSessionClass()
 {
-	sessionConstructor = new ObjectConstructor<AbstractSession, SessionClass>();
+	m_sessionConstructor = new ObjectConstructor<AbstractSession, SessionClass>();
 }
 
 } // namespace tastefulframework

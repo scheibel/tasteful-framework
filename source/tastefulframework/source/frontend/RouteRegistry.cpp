@@ -32,20 +32,20 @@ RouteRegistry::RouteRegistry()
 {
 }
 
-RouteRegistry RouteRegistry::_instance = RouteRegistry();
+RouteRegistry RouteRegistry::s_instance = RouteRegistry();
 void RouteRegistry::addMethodStringToRoutes(const QString & methodPointerString, Route * route)
 {
-    methodsToRoutes.insert(methodPointerString, route);
+    m_methodsToRoutes.insert(methodPointerString, route);
 }
 
 Route * RouteRegistry::getRouteForMethodString(const QString & methodPointerString) const
 {
-    return methodsToRoutes.value(methodPointerString, nullptr);
+    return m_methodsToRoutes.value(methodPointerString, nullptr);
 }
 
 RouteRegistry &RouteRegistry::instance()
 {
-    return _instance;
+    return s_instance;
 }
 
 QList<Route *> RouteRegistry::routes()
@@ -55,7 +55,7 @@ QList<Route *> RouteRegistry::routes()
 
 QList<Route *> RouteRegistry::getRoutes() const
 {
-    return _routes.values();
+    return m_routes.values();
 }
 
 RouteRegistry::Key RouteRegistry::keyFor(Route * route)
@@ -84,14 +84,14 @@ Route * RouteRegistry::obtain(const tastefulserver::HttpMethod & method, const Q
 {
     Key key = keyFor(method, urlPattern);
 
-    if (!_routes.contains(key))
+    if (!m_routes.contains(key))
     {
         Route * route = Route::create(method, urlPattern);
-        _routes.insert(key, route);
+        m_routes.insert(key, route);
         emit(routeAdded(route));
     }
 
-    return _routes[key];
+    return m_routes[key];
 }
 
 Route * RouteRegistry::getOrCreate(const tastefulserver::HttpMethod & method, const QString & urlPattern)

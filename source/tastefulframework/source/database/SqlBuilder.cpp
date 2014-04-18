@@ -31,7 +31,7 @@
 namespace tastefulframework {
 
 SqlBuilder::SqlBuilder(Sql::QueryType type)
-    : stream(&sql)
+    : stream(&m_sql)
 {
     switch (type)
     {
@@ -54,14 +54,14 @@ SqlBuilder::SqlBuilder(Sql::QueryType type)
 }
 
 SqlBuilder::SqlBuilder(const SqlBuilder & builder)
-    : sql(builder.sql)
-    , stream(&sql)
+    : m_sql(builder.m_sql)
+    , stream(&m_sql)
 {
 }
 
 QString SqlBuilder::getQuery() const
 {
-    return sql;
+    return m_sql;
 }
 
 SqlBuilder &SqlBuilder::setSelectVariables(const QString & selectVariables)

@@ -41,8 +41,8 @@ namespace tastefulframework {
 class TASTEFULFRAMEWORK_API Database
 {
 public:
-    static Database&get();
-    static Database&get(const QString & id);
+    static Database & get();
+    static Database & get(const QString & id);
     static void add(const DatabaseConfig & config);
 
     QSqlQuery build(const QString & sql) const;
@@ -53,10 +53,11 @@ public:
 private:
     Database(const QSqlDatabase & database);
 
-    static Database&getByIdAndThreadId(const QString & id, const QString & threadId);
-    QSqlDatabase database;
-    static QHash<QString, Database *> databases;
-    static QReadWriteLock lock;
+    static Database & getByIdAndThreadId(const QString & id, const QString & threadId);
+
+    QSqlDatabase m_database;
+    static QHash<QString, Database *> s_databases;
+    static QReadWriteLock s_lock;
 };
 
 } // namespace tastefulframework

@@ -38,7 +38,7 @@ tastefulserver::HttpResponse FrontController::handleRequest(const tastefulserver
 {
     Request request(httpRequest);
 
-    request.obtainSessionFrom(&sessionPool);
+    request.obtainSessionFrom(&m_sessionPool);
     Response response = dispatch(request);
     response.setSession(request.getSession());
 
@@ -54,7 +54,7 @@ Response FrontController::dispatch(Request & request)
         return Response::forFile(file);
     }
 
-    Response response = dispatcher.dispatch(request);
+    Response response = m_dispatcher.dispatch(request);
     checkContent(response);
 
     return response;

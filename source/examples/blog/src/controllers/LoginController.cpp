@@ -39,8 +39,8 @@ void LoginController::index()
 
 void LoginController::login()
 {
-    QString email = parameters["email"].value<QString>();
-    QString password = parameters["password"].value<QString>();
+    QString email = m_parameters["email"].value<QString>();
+    QString password = m_parameters["password"].value<QString>();
     Author * author = Author::getBy("email = '" + email + "'");
 
     if (author)

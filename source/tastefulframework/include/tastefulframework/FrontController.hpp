@@ -33,7 +33,7 @@ namespace tastefulframework {
 template <class SessionClass>
 void FrontController::setSessionClass()
 {
-    sessionPool.setSessionClass<SessionClass>();
+    m_sessionPool.setSessionClass<SessionClass>();
 }
 
 } // namespace tastefulframework

@@ -149,7 +149,7 @@ public:
     void setInner(const DomNodeList & nodeList);
 
 protected:
-    QDomNode node;
+    QDomNode m_node;
 
     DomNode findById(const QString & id) const;
 };
@@ -163,7 +163,7 @@ public:
     virtual void writeOnStream(QTextStream & stream) const;
 
 private:
-    DomNode & node;
+    DomNode & m_node;
 };
 
 class DomNodeList;
@@ -179,7 +179,7 @@ public:
     virtual void writeOnStream(QTextStream & stream) const;
 
 private:
-    DomNode & node;
+    DomNode & m_node;
 };
 
 class TASTEFULFRAMEWORK_API DomAttribute : public StringConvertible
@@ -200,7 +200,7 @@ public:
     virtual void writeOnStream(QTextStream & stream) const;
 
 private:
-    QDomAttr attr;
+    QDomAttr m_attr;
 };
 
 class TASTEFULFRAMEWORK_API DomAttributes : public StringConvertible
@@ -224,8 +224,8 @@ public:
     virtual void writeOnStream(QTextStream & stream) const;
 
 private:
-    QDomNode node;
-    QHash<QString, DomAttribute> attributes;
+    QDomNode m_node;
+    QHash<QString, DomAttribute> m_attributes;
 };
 
 class TASTEFULFRAMEWORK_API DomNodeList : public QList<DomNode>, public StringConvertible
@@ -258,27 +258,27 @@ public:
 
     static QDomNodeCreator&instance()
     {
-        return _instance;
+        return s_instance;
     }
 
 private:
-    static QDomNodeCreator _instance;
+    static QDomNodeCreator s_instance;
 
     QDomNodeCreator()
     {
-        emptyDocument.setContent(QString("<empty>"));
+        m_emptyDocument.setContent(QString("<empty>"));
     }
 
-    QDomDocument emptyDocument;
+    QDomDocument m_emptyDocument;
 
     QDomNode _create(const QString & text)
     {
-        return emptyDocument.createTextNode(text);
+        return m_emptyDocument.createTextNode(text);
     }
 
     QDomNode _create(const NodeCreator & nodeCreator)
     {
-        return nodeCreator(emptyDocument);
+        return nodeCreator(m_emptyDocument);
     }
 
 };

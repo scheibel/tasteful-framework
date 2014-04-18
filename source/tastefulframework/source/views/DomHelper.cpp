@@ -69,13 +69,13 @@ NodeCreatorPlaceholder DomHelper::tag(const QString & name) const
 }
 
 NodeCreator::NodeCreator()
-    : null(true)
+    : m_null(true)
 {
 }
 
 NodeCreator::NodeCreator(const QString & name)
-    : name(name)
-    , null(false)
+    : m_name(name)
+    , m_null(false)
 {
 }
 
@@ -86,13 +86,13 @@ NodeCreator::NodeCreator(const NodeCreatorPlaceholder & placeholder)
 
 QDomElement NodeCreator::operator()(QDomDocument document) const
 {
-    if (null)
+    if (m_null)
     {
         return QDomElement();
     }
 
-    QDomElement element = document.createElement(name);
-    for (TagModifier modify : modifiers)
+    QDomElement element = document.createElement(m_name);
+    for (TagModifier modify : m_modifiers)
     {
         modify(element);
     }
@@ -102,7 +102,7 @@ QDomElement NodeCreator::operator()(QDomDocument document) const
 
 void NodeCreator::operator()(QDomNode node) const
 {
-    if (null)
+    if (m_null)
     {
         return;
     }
@@ -113,7 +113,7 @@ void NodeCreator::operator()(QDomNode node) const
 
 void NodeCreator::addModifier(TagModifier modifier)
 {
-    modifiers << modifier;
+    m_modifiers << modifier;
 }
 
 void NodeCreator::addModifier(const NodeCreator & creator)

@@ -85,10 +85,10 @@ protected:
     QString getPath(const QString & dir) const;
 
 private:
-    QDir rootDir;
-    QCoreApplication app;
-    QList<tastefulserver::HttpServer *> servers;
-    FrontController * frontController;
+    QDir m_rootDir;
+    QCoreApplication m_app;
+    QList<tastefulserver::HttpServer *> m_servers;
+    FrontController * m_frontController;
 
     void addPublicDirectories();
     void addResourceDirectories();
@@ -100,7 +100,7 @@ private:
 template <class SessionClass>
 void WebApplication::setSessionClass()
 {
-    frontController->setSessionClass<SessionClass>();
+    m_frontController->setSessionClass<SessionClass>();
 }
 
 } // namespace tastefulframework

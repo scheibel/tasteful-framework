@@ -44,7 +44,7 @@ public:
     bool isInvalid() const;
     void setInvalid(bool newState);
 
-    const QString&getIdentifier() const;
+    const QString & getIdentifier() const;
     void setIdentifier(const QString & newIdentifier);
 
     void touch();
@@ -57,10 +57,10 @@ signals:
     void expired(const QString & sessionKey);
 
 private:
-    QString identifier;
-    bool invalidState;
-    unsigned milliseconds;
-    QTimer timer;
+    QString m_identifier;
+    bool m_invalidState;
+    unsigned m_milliseconds;
+    QTimer m_timer;
 };
 
 } // namespace tastefulframework

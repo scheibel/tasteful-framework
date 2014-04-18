@@ -38,9 +38,9 @@ void RegisterController::index()
 
 void RegisterController::signup()
 {
-    QString email = parameters["email"].value<QString>();
-    QString password = parameters["password"].value<QString>();
-    QString password2 = parameters["password2"].value<QString>();
+    QString email = m_parameters["email"].value<QString>();
+    QString password = m_parameters["password"].value<QString>();
+    QString password2 = m_parameters["password2"].value<QString>();
 
     if (Author::getBy("email = '" + email + "'"))
     {

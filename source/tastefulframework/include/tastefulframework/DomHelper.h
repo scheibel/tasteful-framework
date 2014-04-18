@@ -95,16 +95,16 @@ private:
     void addModifier(long i);
     void addModifier(double d);
 
-    QString name;
-    QList<TagModifier> modifiers;
-    bool null;
+    QString m_name;
+    QList<TagModifier> m_modifiers;
+    bool m_null;
 };
 
 class TASTEFULFRAMEWORK_API NodeCreatorPlaceholder
 {
 public:
     NodeCreatorPlaceholder(const QString & name)
-        : name(name)
+        : m_name(name)
     {
     }
 
@@ -112,7 +112,7 @@ public:
     NodeCreator operator()(Args... args) const;
 
 private:
-    QString name;
+    QString m_name;
 };
 
 class TASTEFULFRAMEWORK_API DomHelper

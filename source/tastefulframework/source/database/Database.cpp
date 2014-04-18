@@ -31,10 +31,10 @@
 
 namespace tastefulframework {
 
-QHash<QString, Database *> Database::databases;
-QReadWriteLock Database::lock;
+QHash<QString, Database *> Database::s_databases;
+QReadWriteLock Database::s_lock;
 Database::Database(const QSqlDatabase & database)
-    : database(database)
+    : m_database(database)
 {
 }
 
@@ -52,12 +52,12 @@ Database &Database::getByIdAndThreadId(const QString & id, const QString & threa
 {
     QString databaseId = id.isNull() ? threadId : id + "-" + threadId;
 
-    lock.lockForRead();
+    s_lock.lockForRead();
 
-    if (!databases.contains(databaseId))
+    if (!s_databases.contains(databaseId))
     {
-        lock.unlock();
-        lock.lockForWrite();
+        s_lock.unlock();
+        s_lock.lockForWrite();
 
         QSqlDatabase prototypeDb = id.isNull() ? QSqlDatabase::database() : QSqlDatabase::database(id);
 
@@ -73,12 +73,12 @@ Database &Database::getByIdAndThreadId(const QString & id, const QString & threa
             throw QString("Can't establish database connection " + id + ": " + threadDb.lastError().text());
         }
 
-        databases.insert(databaseId, new Database(threadDb));
+        s_databases.insert(databaseId, new Database(threadDb));
     }
 
-    lock.unlock();
+    s_lock.unlock();
 
-    return *databases[databaseId];
+    return *s_databases[databaseId];
 }
 
 void Database::add(const DatabaseConfig & config)
@@ -129,7 +129,7 @@ void Database::add(const DatabaseConfig & config)
 
 QSqlQuery Database::build(const QString & sql) const
 {
-    QSqlQuery query(database);
+    QSqlQuery query(m_database);
 
     query.prepare(sql);
 

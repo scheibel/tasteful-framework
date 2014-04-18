@@ -37,7 +37,7 @@ LayoutedTemplateView::LayoutedTemplateView(const QString & filename)
 
 QByteArray LayoutedTemplateView::content() const
 {
-    QDomDocument document = loadDocument(filename);
+    QDomDocument document = loadDocument(m_filename);
     DomNode layoutedNode = document.documentElement();
 
     getLayout().layout(layoutedNode);

@@ -57,7 +57,7 @@ public:
     Response operator()(Request & request) const;
 
 private:
-    MethodPointer methodPointer;
+    MethodPointer m_methodPointer;
 };
 
 class TASTEFULFRAMEWORK_API StringAction : public Action
@@ -68,7 +68,7 @@ public:
     Response operator()(Request & request) const;
 
 private:
-    QString content;
+    QString m_content;
 };
 
 class TASTEFULFRAMEWORK_API FileAction : public Action
@@ -79,7 +79,7 @@ public:
     Response operator()(Request & request) const;
 
 private:
-    QFile file;
+    QFile m_file;
 };
 
 class TASTEFULFRAMEWORK_API DownloadAction : public Action
@@ -90,7 +90,7 @@ public:
     Response operator()(Request & request) const;
 
 private:
-    Download download;
+    Download m_download;
 };
 
 class TASTEFULFRAMEWORK_API ResponseAction : public Action
@@ -101,7 +101,7 @@ public:
     Response operator()(Request & request) const;
 
 private:
-    Response response;
+    Response m_response;
 };
 
 class TASTEFULFRAMEWORK_API LambdaAction : public Action
@@ -113,7 +113,7 @@ public:
     Response operator()(Request & request) const;
 
 private:
-    Lambda lambda;
+    Lambda m_lambda;
 };
 
 } // namespace tastefulframework

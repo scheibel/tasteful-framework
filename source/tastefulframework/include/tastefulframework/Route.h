@@ -51,8 +51,8 @@ public:
     QString getPath() const;
 
 private:
-    tastefulserver::HttpMethod method;
-    QString path;
+    tastefulserver::HttpMethod m_method;
+    QString m_path;
 };
 
 class TASTEFULFRAMEWORK_API Route
@@ -75,9 +75,9 @@ public:
 protected:
     QString urlParameters(const QVariantMap & parameters) const;
 
-    tastefulserver::HttpMethod method;
-    QString urlPattern;
-    QSharedPointer<Action> action;
+    tastefulserver::HttpMethod m_method;
+    QString m_urlPattern;
+    QSharedPointer<Action> m_action;
 };
 
 class TASTEFULFRAMEWORK_API StaticRoute : public Route
@@ -112,11 +112,11 @@ public:
         bool match(const QString & otherPart) const;
 
 private:
-        QString part;
-        bool variable;
+        QString m_part;
+        bool m_variable;
     };
 
-    QList<UrlPart> urlParts;
+    QList<UrlPart> m_urlParts;
 };
 
 class TASTEFULFRAMEWORK_API WildcardRoute : public Route
@@ -129,7 +129,7 @@ public:
     virtual QString urlFor(const QVariantMap & parameters) const;
 
 private:
-    QRegExp regexp;
+    QRegExp m_regexp;
 };
 
 } // namespace tastefulframework

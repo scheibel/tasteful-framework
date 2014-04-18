@@ -29,27 +29,27 @@
 namespace tastefulframework {
 
 Download::Download(const Download & download)
-    : file(download.file.fileName())
-    , name(download.name)
-    , content(download.content)
+    : m_file(download.m_file.fileName())
+    , m_name(download.m_name)
+    , m_content(download.m_content)
 {
 }
 
 Download::Download(const QFile & file, const QString & name)
-    : file(file.fileName())
-    , name(name)
+    : m_file(file.fileName())
+    , m_name(name)
 {
 }
 
 Download::Download(const QByteArray & content, const QString & name)
-    : name(name)
-    , content(content)
+    : m_name(name)
+    , m_content(content)
 {
 }
 
 Response Download::getResponse() const
 {
-    return content.isNull() ? Response::download(file, name) : Response::download(content, name);
+    return m_content.isNull() ? Response::download(m_file, m_name) : Response::download(m_content, m_name);
 }
 
 } // namespace tastefulframework

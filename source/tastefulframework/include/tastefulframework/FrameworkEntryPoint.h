@@ -43,7 +43,7 @@ public:
     tastefulserver::HttpResponse operator()(const tastefulserver::HttpRequest & request);
 
 private:
-    FrontController * frontController;
+    FrontController * m_frontController;
 };
 
 } // namespace tastefulframework

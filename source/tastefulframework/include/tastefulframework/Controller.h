@@ -48,20 +48,20 @@ public:
     virtual void initialize(Request & request);
     virtual bool beforeAction();
     virtual void afterAction();
-    virtual const Response&getResponse() const;
-    const tastefulserver::RequestParameters&getParameters() const;
-    tastefulserver::RequestParameters&getParameters();
-    const tastefulserver::Cookies&getCookies() const;
-    tastefulserver::Cookies&getCookies();
+    virtual const Response & getResponse() const;
+    const tastefulserver::RequestParameters & getParameters() const;
+    tastefulserver::RequestParameters & getParameters();
+    const tastefulserver::Cookies & getCookies() const;
+    tastefulserver::Cookies & getCookies();
 
 protected:
     void render(const View & view);
     void renderWithLayout(const QString & templateFile, const QString & layoutFile);
     void redirect(const QString & url);
 
-    Response response;
-    tastefulserver::RequestParameters parameters;
-    tastefulserver::Cookies cookies;
+    Response m_response;
+    tastefulserver::RequestParameters m_parameters;
+    tastefulserver::Cookies m_cookies;
 };
 
 } // namespace tastefulframework

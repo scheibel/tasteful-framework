@@ -60,7 +60,7 @@ public:
     QString getQuery() const;
 
 private:
-    QString sql;
+    QString m_sql;
     QTextStream stream;
 };
 

@@ -41,12 +41,12 @@ DataMapper<Subclass, T, I>::~DataMapper()
 }
 
 template <class Subclass, class T, typename I>
-Subclass * DataMapper<Subclass, T, I>::_instance = new Subclass();
+Subclass * DataMapper<Subclass, T, I>::s_instance = new Subclass();
 
 template <class Subclass, class T, typename I>
 Subclass & DataMapper<Subclass, T, I>::instance()
 {
-    return *_instance;
+    return *s_instance;
 }
 
 template <class Subclass, class T, typename I>
@@ -58,7 +58,7 @@ T * DataMapper<Subclass, T, I>::newModel() const
 template <class Subclass, class T, typename I>
 I DataMapper<Subclass, T, I>::idOf(T * model) const
 {
-    return identities.idOf(model);
+    return m_identities.idOf(model);
 }
 
 template <class Subclass, class T, typename I>
@@ -74,9 +74,9 @@ T * DataMapper<Subclass, T, I>::obtainFromIdentityMap(const QVariantMap & map)
     QVariant variantId = map[identityFieldName()]; // hack because of compile errors if those two lines are just one
     Identity id = variantId.value<Identity>();
 
-    if (identities.hasModel(id))
+    if (m_identities.hasModel(id))
     {
-        model = identities.getModel(id);
+        model = m_identities.getModel(id);
     }
     else
     {
@@ -84,7 +84,7 @@ T * DataMapper<Subclass, T, I>::obtainFromIdentityMap(const QVariantMap & map)
 
         buildFromRecord(model, map);
 
-        identities.registerModel(id, model);
+        m_identities.registerModel(id, model);
     }
 
     return model;
@@ -93,9 +93,9 @@ T * DataMapper<Subclass, T, I>::obtainFromIdentityMap(const QVariantMap & map)
 template <class Subclass, class T, typename I>
 T * DataMapper<Subclass, T, I>::get(const Identity & id)
 {
-    if (identities.hasModel(id))
+    if (m_identities.hasModel(id))
     {
-        return identities.getModel(id);
+        return m_identities.getModel(id);
     }
 
     return getBy(identityFieldName() + " = " + QVariant(id).toString());
@@ -250,7 +250,7 @@ bool DataMapper<Subclass, T, I>::save(T * model)
 
             if (isValidId(id))
             {
-                identities.registerModel(id, model);
+                m_identities.registerModel(id, model);
             }
         }
     }

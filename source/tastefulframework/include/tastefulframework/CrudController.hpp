@@ -39,7 +39,7 @@ void CrudController<ControllerClass, MapperClass>::index()
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::show()
 {
-    Identity id = parameters["id"].value<Identity>();
+    Identity id = m_parameters["id"].value<Identity>();
 
     renderShowViewFor(getDataMapper().get(id), id);
 }
@@ -53,7 +53,7 @@ void CrudController<ControllerClass, MapperClass>::create()
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::edit()
 {
-    Identity id = parameters["id"].value<Identity>();
+    Identity id = m_parameters["id"].value<Identity>();
 
     renderEditViewFor(getDataMapper().get(id), id);
 }
@@ -61,7 +61,7 @@ void CrudController<ControllerClass, MapperClass>::edit()
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::save()
 {
-    Identity id = parameters["id"].value<Identity>();
+    Identity id = m_parameters["id"].value<Identity>();
     Model * model = nullptr;
     QVariantMap record;
 
@@ -76,9 +76,9 @@ void CrudController<ControllerClass, MapperClass>::save()
 
     for (const QString & key : getDataMapper().selectVariables())
     {
-        if (parameters.contains(key))
+        if (m_parameters.contains(key))
         {
-            record[key] = parameters[key].asQVariant();
+            record[key] = m_parameters[key].asQVariant();
         }
     }
 
@@ -95,7 +95,7 @@ void CrudController<ControllerClass, MapperClass>::save()
 template <class ControllerClass, class MapperClass>
 void CrudController<ControllerClass, MapperClass>::remove()
 {
-    Identity id = parameters["id"].value<Identity>();
+    Identity id = m_parameters["id"].value<Identity>();
     Model * model = getDataMapper().get(id);
 
     if (model)

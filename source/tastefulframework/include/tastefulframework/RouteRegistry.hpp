@@ -45,7 +45,7 @@ Route* RouteRegistry::routeFor(void (T::* methodPointer)())
 template <typename T>
 QSharedPointer<Action> RouteActionAssigner::operator=(void (T::* methodPointer)())
 {
-    RouteRegistry::assignMethodToRoute(methodPointer, route);
+    RouteRegistry::assignMethodToRoute(methodPointer, m_route);
 
     return *this = new ControllerAction<T>(methodPointer);
 }

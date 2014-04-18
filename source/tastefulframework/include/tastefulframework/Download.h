@@ -44,9 +44,9 @@ public:
     Response getResponse() const;
 
 private:
-    QFile file;
-    QString name;
-    QByteArray content;
+    QFile m_file;
+    QString m_name;
+    QByteArray m_content;
 };
 
 } // namespace tastefulframework

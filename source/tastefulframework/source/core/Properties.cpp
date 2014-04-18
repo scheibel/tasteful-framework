@@ -31,19 +31,19 @@
 namespace tastefulframework {
 
 Properties::Properties(const QString & filename)
-    : filename(filename)
+    : m_filename(filename)
 {
-    settings = new QSettings(filename, QSettings::IniFormat);
+    m_settings = new QSettings(filename, QSettings::IniFormat);
 }
 
 Properties::~Properties()
 {
-    delete settings;
+    delete m_settings;
 }
 
 QString Properties::getFilename() const
 {
-    return filename;
+    return m_filename;
 }
 
 } // namespace tastefulframework

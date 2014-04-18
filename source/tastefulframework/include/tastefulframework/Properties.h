@@ -46,15 +46,15 @@ public:
 
     QVariant basicProperty(const QString & key) const
     {
-        return settings->value(key);
+        return m_settings->value(key);
     }
 
     template <typename T>
     T property(const QString & section, const QString & field, const T & defaultValue) const;
 
 private:
-    QString filename;
-    QSettings * settings;
+    QString m_filename;
+    QSettings * m_settings;
 };
 
 } // namespace tastefulframework

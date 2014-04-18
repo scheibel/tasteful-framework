@@ -51,8 +51,8 @@ protected:
     void loadMimeTypesFromFilename(const QString & filename);
 
 private:
-    static MimeDatabase instance;
-    QHash<QString, QString> mimeTypes;
+    static MimeDatabase s_instance;
+    QHash<QString, QString> m_mimeTypes;
 };
 
 } // namespace tastefulframework

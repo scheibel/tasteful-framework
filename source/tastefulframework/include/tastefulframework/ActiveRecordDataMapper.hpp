@@ -33,53 +33,53 @@ namespace tastefulframework {
 template <class T, typename Identity>
 ActiveRecordDataMapper<T, Identity>::ActiveRecordDataMapper()
 {
-_databaseName = T::databaseName();
-_fieldNames = T::fieldNames();
-_tableName = T::tableName();
-_primaryKeyName = T::primaryKeyName();
+    m_databaseName = T::databaseName();
+    m_fieldNames = T::fieldNames();
+    m_tableName = T::tableName();
+    m_primaryKeyName = T::primaryKeyName();
 }
 
 template <class T, typename Identity>
 void ActiveRecordDataMapper<T, Identity>::buildFromRecord(T * model, const QVariantMap & record) const
 {
-model->initializeFromRecord(record);
-model->setSaved();
+    model->initializeFromRecord(record);
+    model->setSaved();
 }
 
 template <class T, typename Identity>
 void ActiveRecordDataMapper<T, Identity>::buildRecordFrom(T * model, QVariantMap & record) const
 {
-model->serializeToRecord(record);
+    model->serializeToRecord(record);
 }
 
 template <class T, typename Identity>
 QString ActiveRecordDataMapper<T, Identity>::table() const
 {
-return _tableName;
+    return m_tableName;
 }
 
 template <class T, typename Identity>
 QList<QString> ActiveRecordDataMapper<T, Identity>::selectVariables() const
 {
-return _fieldNames;
+    return m_fieldNames;
 }
 
 template <class T, typename Identity>
 QString ActiveRecordDataMapper<T, Identity>::identityFieldName() const
 {
-return _primaryKeyName;
+    return m_primaryKeyName;
 }
 
 template <class T, typename Identity>
 QString ActiveRecordDataMapper<T, Identity>::databaseId() const
 {
-return _databaseName;
+    return m_databaseName;
 }
 
 template <class T, typename Identity>
 void ActiveRecordDataMapper<T, Identity>::saveRelationsOf(T * model)
 {
-model->saveRelations();
+    model->saveRelations();
 }
 
 } // namespace tastefulframework

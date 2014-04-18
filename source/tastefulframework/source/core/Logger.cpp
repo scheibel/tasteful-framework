@@ -30,13 +30,13 @@
 namespace tastefulframework {
 
 LogDevice::LogDevice()
-    : logDevice(nullptr)
+    : m_logDevice(nullptr)
 {
     setLogDevice(getStdOut());
 }
 
 LogDevice::LogDevice(QFile * file)
-    : logDevice(nullptr)
+    : m_logDevice(nullptr)
 {
     setLogDevice(file);
 }
@@ -52,11 +52,11 @@ QFile * LogDevice::getStdOut()
 
 LogDevice::~LogDevice()
 {
-    if (logDevice)
+    if (m_logDevice)
     {
-        logDevice->flush();
-        logDevice->close();
-        delete logDevice;
+        m_logDevice->flush();
+        m_logDevice->close();
+        delete m_logDevice;
     }
 }
 
@@ -69,31 +69,31 @@ QFile * LogDevice::operator=(QFile * file)
 
 void LogDevice::setLogDevice(QFile * file)
 {
-    if (logDevice)
+    if (m_logDevice)
     {
-        logDevice->flush();
-        logDevice->close();
-        delete logDevice;
+        m_logDevice->flush();
+        m_logDevice->close();
+        delete m_logDevice;
     }
 
-    logDevice = file;
-    if (!logDevice->isOpen())
+    m_logDevice = file;
+    if (!m_logDevice->isOpen())
     {
-        logDevice->open(QIODevice::WriteOnly);
+        m_logDevice->open(QIODevice::WriteOnly);
     }
 
     if (!file->isWritable())
     {
-        logDevice = nullptr;
+        m_logDevice = nullptr;
     }
 }
 
 void LogDevice::directWrite(const QByteArray & val)
 {
-    if (logDevice)
+    if (m_logDevice)
     {
-        logDevice->write(val);
-        logDevice->flush();
+        m_logDevice->write(val);
+        m_logDevice->flush();
     }
 }
 
@@ -123,10 +123,10 @@ Logger &Logger::error()
     return *this;
 }
 
-LogDevice Logger::logDevice;
+LogDevice Logger::s_logDevice;
 void Logger::setLogDevice(QFile * file)
 {
-    logDevice = file;
+    s_logDevice = file;
 }
 
 Logger::Logger()
@@ -140,26 +140,26 @@ Logger::Logger(const Logger & /*logger*/)
 
 Logger::~Logger()
 {
-    if (!bytes.isEmpty())
+    if (!m_bytes.isEmpty())
     {
-        logDevice.queueWrite(bytes);
-        logDevice.queueWrite("\n");
+        s_logDevice.queueWrite(m_bytes);
+        s_logDevice.queueWrite("\n");
     }
 }
 
 void Logger::write(const QString & val)
 {
-    bytes.append(val);
+    m_bytes.append(val);
 }
 
 void Logger::write(const QByteArray & val)
 {
-    bytes.append(val);
+    m_bytes.append(val);
 }
 
 void Logger::write(const char * val)
 {
-    bytes.append(QString(val));
+    m_bytes.append(QString(val));
 }
 
 Logger &Logger::operator<<(const QString & val)

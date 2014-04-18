@@ -51,11 +51,11 @@ private slots:
     void characters(const QString & ch);
 
 private:
-    QString filename;
-    QStringList pathElements;
-    QString path;
-    QString element;
-    WebAppConfig config;
+    QString m_filename;
+    QStringList m_pathElements;
+    QString m_path;
+    QString m_element;
+    WebAppConfig m_config;
 
     void handleApplication(const QString & ch);
     void handleDirectories(const QString & ch);

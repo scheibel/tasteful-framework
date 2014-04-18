@@ -33,7 +33,7 @@
 class TagPartial : public tastefulframework::Partial
 {
 public:
-    TagPartial(tastefulframework::DomNode node);
+    TagPartial(tastefulframework::DomNode m_node);
 
     void setData(Tag * tag);
 

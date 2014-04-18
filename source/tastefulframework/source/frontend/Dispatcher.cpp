@@ -40,15 +40,15 @@ void Dispatcher::addRoute(Route * route)
 {
     if (route->isStatic())
     {
-        staticRoutes.insert(RouteRegistry::keyFor(route), route);
+        m_staticRoutes.insert(RouteRegistry::keyFor(route), route);
     }
     else if (route->isDynamic())
     {
-        dynamicRoutes << route;
+        m_dynamicRoutes << route;
     }
     else if (route->isWildcard())
     {
-        wildcardRoutes << route;
+        m_wildcardRoutes << route;
     }
 }
 
@@ -109,12 +109,12 @@ Route * Dispatcher::findMatch(const RequestedAction & requestedAction) const
 
 Route * Dispatcher::findStaticMatch(const RequestedAction & requestedAction) const
 {
-    return staticRoutes.value(RouteRegistry::keyFor(requestedAction), nullptr);
+    return m_staticRoutes.value(RouteRegistry::keyFor(requestedAction), nullptr);
 }
 
 Route * Dispatcher::findDynamicMatch(const RequestedAction & requestedAction) const
 {
-    for (Route * route : dynamicRoutes)
+    for (Route * route : m_dynamicRoutes)
     {
         if (route->match(requestedAction))
         {
@@ -127,7 +127,7 @@ Route * Dispatcher::findDynamicMatch(const RequestedAction & requestedAction) co
 
 Route * Dispatcher::findWildcardMatch(const RequestedAction & requestedAction) const
 {
-    for (Route * route : wildcardRoutes)
+    for (Route * route : m_wildcardRoutes)
     {
         if (route->match(requestedAction))
         {

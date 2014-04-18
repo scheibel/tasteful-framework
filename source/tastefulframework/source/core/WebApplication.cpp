@@ -38,10 +38,10 @@
 namespace tastefulframework {
 
 WebApplication::WebApplication(int & argc, char ** argv)
-    : app(argc, argv)
+    : m_app(argc, argv)
 {
-    rootDir = app.applicationDirPath();
-    frontController = new FrontController();
+    m_rootDir = m_app.applicationDirPath();
+    m_frontController = new FrontController();
 //	QFile* logFile = new QFile("log.txt");
 //	logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
 //	Logger::setLogDevice(logFile);
@@ -50,37 +50,37 @@ WebApplication::WebApplication(int & argc, char ** argv)
 WebApplication::~WebApplication()
 {
     stopServers();
-    delete frontController;
+    delete m_frontController;
 }
 
 int WebApplication::run() const
 {
-    return app.exec();
+    return m_app.exec();
 }
 
 void WebApplication::shutdown(int /*exitCode*/)
 {
     stopServers();
     logger() << "shutting down...";
-    QTimer::singleShot(0, &app, SLOT(quit()));
+    QTimer::singleShot(0, &m_app, SLOT(quit()));
 }
 
 void WebApplication::stopServers()
 {
-    qDeleteAll(servers);
-    servers.clear();
+    qDeleteAll(m_servers);
+    m_servers.clear();
 }
 
 QStringList WebApplication::arguments() const
 {
-    static QStringList _arguments = app.arguments();
+    static QStringList _arguments = m_app.arguments();
 
     return _arguments;
 }
 
 QString WebApplication::getPath(const QString & dir) const
 {
-    return QDir::isRelativePath(dir) ? rootDir.filePath(dir) : dir;
+    return QDir::isRelativePath(dir) ? m_rootDir.filePath(dir) : dir;
 }
 
 void WebApplication::addPublicDirectory(const QString & dir)
@@ -145,10 +145,10 @@ void WebApplication::addServer(const ServerConfig & serverConfig)
 
 void WebApplication::addServer(const QHostAddress & address, unsigned port)
 {
-    tastefulserver::HttpServer * server = new tastefulserver::HttpServer(FrameworkEntryPoint(frontController));
+    tastefulserver::HttpServer * server = new tastefulserver::HttpServer(FrameworkEntryPoint(m_frontController));
 
     server->listen(address, port);
-    servers << server;
+    m_servers << server;
 }
 
 void WebApplication::addSecureServer(const QHostAddress & address, unsigned port, const QString & certificateFile, const QString & privateKeyFile)
@@ -181,10 +181,10 @@ void WebApplication::addSecureServer(const QHostAddress & address, unsigned port
 
 void WebApplication::addSecureServer(const QHostAddress & address, unsigned port, const QSslCertificate & certificate, const QSslKey & privateKey)
 {
-    tastefulserver::HttpsServer * server = new tastefulserver::HttpsServer(certificate, privateKey, FrameworkEntryPoint(frontController));
+    tastefulserver::HttpsServer * server = new tastefulserver::HttpsServer(certificate, privateKey, FrameworkEntryPoint(m_frontController));
 
     server->listen(address, port);
-    servers << server;
+    m_servers << server;
 }
 
 void WebApplication::addMySqlDatabase(const QString & hostName, const QString & databaseName, const QString & userName, const QString & password, const QString & id)
@@ -228,7 +228,7 @@ void WebApplication::setUpFromConfig(const QString & configFile)
 
 void WebApplication::setUpFromConfig(const WebAppConfig & config)
 {
-    rootDir = config.rootDir;
+    m_rootDir = config.rootDir;
     tastefulserver::TcpServer::setNumThreads(config.threadCount);
 
     addResourceDirectories(config.resourceDirs);

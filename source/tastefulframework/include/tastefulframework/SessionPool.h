@@ -68,10 +68,10 @@ protected:
     QString getUniqueId(AbstractSession * session);
     QString getHash(AbstractSession * session, unsigned attempt);
 
-    QReadWriteLock lock;
-    QHash<QString, AbstractSession *> sessions;
-    AbstractObjectConstructor<AbstractSession> * sessionConstructor;
-    static unsigned defaultLifetime;
+    QReadWriteLock m_lock;
+    QHash<QString, AbstractSession *> m_sessions;
+    AbstractObjectConstructor<AbstractSession> * m_sessionConstructor;
+    static unsigned s_defaultLifetime;
 };
 
 } // namespace tastefulframework

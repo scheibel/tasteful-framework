@@ -55,7 +55,7 @@ protected:
     virtual void renderShowViewFor(Model * model, Identity id) = 0;
     virtual void renderEditViewFor(Model * model, Identity id) = 0;
     virtual QList<Model *> findAll();
-    MapperClass&getDataMapper();
+    MapperClass & getDataMapper();
     QHash<Identity, Model *> allModels();
 };
 

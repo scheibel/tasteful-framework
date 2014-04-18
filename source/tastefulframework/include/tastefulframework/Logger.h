@@ -53,7 +53,7 @@ private slots:
     void directWrite(const QByteArray & val);
 
 private:
-    QFile * logDevice;
+    QFile * m_logDevice;
     static QFile* getStdOut();
 
     void setLogDevice(QFile * file);
@@ -90,8 +90,8 @@ public:
     Logger &operator<<(const void * val);
 
 private:
-    static LogDevice logDevice;
-    QByteArray bytes;
+    static LogDevice s_logDevice;
+    QByteArray m_bytes;
 
     void write(const char * val);
     void write(const QString & val);

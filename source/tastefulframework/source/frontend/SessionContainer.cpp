@@ -29,18 +29,18 @@
 namespace tastefulframework {
 
 SessionContainer::SessionContainer()
-    : session(nullptr)
+    : m_session(nullptr)
 {
 }
 
 SessionContainer::SessionContainer(AbstractSession * session)
-    : session(session)
+    : m_session(session)
 {
 }
 
 void SessionContainer::setSession(AbstractSession * newSession)
 {
-    session = newSession;
+    m_session = newSession;
 }
 
 } // namespace tastefulframework
