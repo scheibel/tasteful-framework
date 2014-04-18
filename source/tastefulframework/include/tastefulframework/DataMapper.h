@@ -26,15 +26,15 @@
 
 #pragma once
 
-#include <tastefulframework/IdentityMap.h>
-#include <tastefulframework/Database.h>
-#include <tastefulframework/SqlHelper.h>
-#include <tastefulframework/IdentityMap.h>
-
 #include <QList>
 #include <QString>
 #include <QVariantMap>
 #include <QSqlRecord>
+
+#include <tastefulframework/IdentityMap.h>
+#include <tastefulframework/Database.h>
+#include <tastefulframework/SqlHelper.h>
+#include <tastefulframework/IdentityMap.h>
 
 namespace tastefulframework {
 

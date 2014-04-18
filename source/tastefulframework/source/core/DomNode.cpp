@@ -25,9 +25,11 @@
  **/
 
 #include <tastefulframework/DomNode.h>
-#include <tastefulframework/DomHelper.h>
+
 #include <QStringList>
 #include <QRegExp>
+
+#include <tastefulframework/DomHelper.h>
 
 namespace tastefulframework {
 

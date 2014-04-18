@@ -25,6 +25,7 @@
  **/
 
 #include <tastefulframework/Logger.h>
+
 #include <stdio.h>
 
 namespace tastefulframework {

@@ -27,10 +27,11 @@
 #pragma once
 
 #include <QDomNode>
-#include <tastefulframework/View.h>
-#include <tastefulframework/XmlTransform.h>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/View.h>
+#include <tastefulframework/XmlTransform.h>
 
 namespace tastefulframework {
 

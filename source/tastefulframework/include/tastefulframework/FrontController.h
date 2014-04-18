@@ -26,12 +26,10 @@
 
 #pragma once
 
+#include <tastefulframework/tastefulframework_api.h>
+
 #include <tastefulframework/Dispatcher.h>
 #include <tastefulframework/SessionPool.h>
-#include <QDir>
-#include <tastefulserver/http.h>
-
-#include <tastefulframework/tastefulframework_api.h>
 
 namespace tastefulframework {
 

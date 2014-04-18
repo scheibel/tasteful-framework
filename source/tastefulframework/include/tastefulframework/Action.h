@@ -26,14 +26,16 @@
 
 #pragma once
 
-#include <tastefulframework/Response.h>
-#include <tastefulframework/Request.h>
-#include <tastefulframework/Download.h>
 #include <functional>
+
 #include <QString>
 #include <QFile>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/Response.h>
+#include <tastefulframework/Request.h>
+#include <tastefulframework/Download.h>
 
 namespace tastefulframework {
 

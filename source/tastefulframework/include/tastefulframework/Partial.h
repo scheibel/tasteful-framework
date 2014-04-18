@@ -26,12 +26,13 @@
 
 #pragma once
 
-#include <tastefulframework/DomNode.h>
-#include <tastefulframework/XmlTransform.h>
-#include <tastefulframework/UrlHelper.h>
 #include <QString>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/DomNode.h>
+#include <tastefulframework/XmlTransform.h>
+#include <tastefulframework/UrlHelper.h>
 
 namespace tastefulframework {
 

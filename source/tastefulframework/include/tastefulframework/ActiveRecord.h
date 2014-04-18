@@ -31,8 +31,6 @@
 #include <QVariant>
 #include <QVariantMap>
 
-#include <QDebug>
-
 #include <tastefulframework/ActiveRecordDataMapper.h>
 
 namespace tastefulframework {
@@ -121,8 +119,6 @@ private:
 public: \
     void serializeToRecord(QVariantMap & record) { \
         code; \
-        \
-        qDebug() << record; \
     }; \
 private:
 

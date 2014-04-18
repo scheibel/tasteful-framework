@@ -26,9 +26,9 @@
 
 #pragma once
 
-#include <tastefulframework/Controller.h>
-
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/Controller.h>
 
 namespace tastefulframework {
 

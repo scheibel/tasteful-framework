@@ -26,14 +26,15 @@
 
 #pragma once
 
-#include <tastefulframework/AbstractSession.h>
-#include <tastefulframework/ObjectConstructor.h>
-#include <tastefulframework/Request.h>
-#include <tastefulframework/Response.h>
 #include <QTimer>
 #include <QReadWriteLock>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/AbstractSession.h>
+#include <tastefulframework/ObjectConstructor.h>
+#include <tastefulframework/Request.h>
+#include <tastefulframework/Response.h>
 
 namespace tastefulframework {
 

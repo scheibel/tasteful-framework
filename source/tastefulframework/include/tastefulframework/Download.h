@@ -26,13 +26,14 @@
 
 #pragma once
 
-#include <tastefulframework/Response.h>
 #include <QFile>
 #include <QByteArray>
 
 #include <tastefulframework/tastefulframework_api.h>
 
 namespace tastefulframework {
+
+class Response;
 
 class TASTEFULFRAMEWORK_API Download
 {

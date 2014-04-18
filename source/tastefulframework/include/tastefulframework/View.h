@@ -26,13 +26,14 @@
 
 #pragma once
 
-#include <tastefulframework/UrlHelper.h>
-#include <tastefulframework/Response.h>
 #include <QList>
 #include <QString>
 #include <QByteArray>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/UrlHelper.h>
+#include <tastefulframework/Response.h>
 
 namespace tastefulframework {
 

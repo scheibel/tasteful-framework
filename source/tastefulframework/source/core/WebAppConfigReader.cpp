@@ -25,11 +25,10 @@
  **/
 
 #include <tastefulframework/WebAppConfigReader.h>
-#include <tastefulframework/SignalXmlContentHandler.h>
 
 #include <QFileInfo>
 
-#include <QDebug>
+#include <tastefulframework/SignalXmlContentHandler.h>
 
 namespace tastefulframework {
 

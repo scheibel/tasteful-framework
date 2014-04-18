@@ -25,6 +25,7 @@
  **/
 
 #include <tastefulframework/Dispatcher.h>
+
 #include <tastefulframework/RedirectException.h>
 #include <tastefulframework/Logger.h>
 

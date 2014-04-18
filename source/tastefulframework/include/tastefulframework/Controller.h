@@ -27,15 +27,17 @@
 #pragma once
 
 #include <QString>
+#include <QHash>
+
+#include <tastefulserver/Cookie.h>
+
+#include <tastefulframework/tastefulframework_api.h>
+
 #include <tastefulframework/View.h>
 #include <tastefulframework/Request.h>
 #include <tastefulframework/Response.h>
 #include <tastefulframework/SessionContainer.h>
-#include <tastefulserver/Cookie.h>
 #include <tastefulframework/UrlHelper.h>
-#include <QHash>
-
-#include <tastefulframework/tastefulframework_api.h>
 
 namespace tastefulframework {
 

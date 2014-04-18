@@ -26,14 +26,16 @@
 
 #pragma once
 
-#include <tastefulframework/WebAppConfig.h>
 #include <QCoreApplication>
-#include <tastefulserver/HttpServer.h>
-#include <tastefulserver/HttpsServer.h>
 #include <QDir>
-#include <tastefulframework/FrontController.h>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulserver/HttpServer.h>
+#include <tastefulserver/HttpsServer.h>
+
+#include <tastefulframework/WebAppConfig.h>
+#include <tastefulframework/FrontController.h>
 
 namespace tastefulframework {
 

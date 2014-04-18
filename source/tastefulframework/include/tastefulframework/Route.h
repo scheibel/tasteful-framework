@@ -26,18 +26,21 @@
 
 #pragma once
 
-#include <tastefulframework/Action.h>
-#include <tastefulserver/http.h>
+#include <string>
+
 #include <QString>
 #include <QPair>
 #include <QHash>
 #include <QList>
 #include <QRegExp>
 #include <QVariantMap>
-#include <string>
 #include <QSharedPointer>
 
+#include <tastefulserver/http.h>
+
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/Action.h>
 
 namespace tastefulframework {
 

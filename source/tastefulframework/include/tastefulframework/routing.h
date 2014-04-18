@@ -26,9 +26,9 @@
 
 #pragma once
 
-#include <tastefulframework/RouteRegistry.h>
-
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/RouteRegistry.h>
 
 namespace tastefulframework {
 

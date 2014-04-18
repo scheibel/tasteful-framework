@@ -25,6 +25,7 @@
  **/
 
 #include <tastefulframework/TemplatedLayout.h>
+
 #include <QTextStream>
 
 namespace tastefulframework {

@@ -26,9 +26,10 @@
 
 #pragma once
 
+#include <initializer_list>
+
 #include <QHash>
 #include <QString>
-#include <initializer_list>
 
 namespace tastefulframework {
 

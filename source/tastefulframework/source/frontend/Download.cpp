@@ -26,6 +26,8 @@
 
 #include <tastefulframework/Download.h>
 
+#include <tastefulframework/Response.h>
+
 namespace tastefulframework {
 
 Download::Download(const Download & download)

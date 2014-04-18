@@ -26,12 +26,14 @@
 
 #pragma once
 
-#include <QString>
-#include <QVariant>
-#include <tastefulframework/RouteRegistry.h>
 #include <initializer_list>
 
+#include <QString>
+#include <QVariant>
+
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/RouteRegistry.h>
 
 namespace tastefulframework {
 

@@ -27,9 +27,10 @@
 #pragma once
 
 #include <QString>
-#include <tastefulframework/Response.h>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/Response.h>
 
 namespace tastefulframework {
 

@@ -26,10 +26,11 @@
 
 #pragma once
 
+#include <string>
+
 #include <QObject>
 #include <QString>
 #include <QByteArray>
-#include <string>
 #include <QFile>
 
 #include <tastefulframework/tastefulframework_api.h>

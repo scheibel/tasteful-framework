@@ -30,11 +30,12 @@
 #include <QSqlQuery>
 #include <QString>
 #include <QVariantMap>
-#include <tastefulframework/SqlBuilder.h>
-#include <tastefulframework/WebAppConfig.h>
 #include <QReadWriteLock>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/SqlBuilder.h>
+#include <tastefulframework/WebAppConfig.h>
 
 namespace tastefulframework {
 

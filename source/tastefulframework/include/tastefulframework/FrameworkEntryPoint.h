@@ -26,14 +26,18 @@
 
 #pragma once
 
-#include <tastefulframework/FrontController.h>
-
-#include <tastefulserver/HttpRequest.h>
-#include <tastefulserver/HttpResponse.h>
-
 #include <tastefulframework/tastefulframework_api.h>
 
+namespace tastefulserver {
+
+class HttpRequest;
+class HttpResponse;
+
+}
+
 namespace tastefulframework {
+
+class FrontController;
 
 class TASTEFULFRAMEWORK_API FrameworkEntryPoint
 {

@@ -25,6 +25,7 @@
  **/
 
 #include <tastefulframework/XmlTransform.h>
+
 #include <QStringList>
 #include <QDomDocument>
 #include <QtAlgorithms>

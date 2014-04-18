@@ -30,10 +30,12 @@
 #include <QHash>
 #include <QString>
 #include <QFile>
+
 #include <tastefulserver/HttpResponse.h>
-#include <tastefulframework/AbstractSession.h>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/AbstractSession.h>
 
 namespace tastefulframework {
 

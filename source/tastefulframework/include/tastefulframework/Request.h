@@ -26,12 +26,15 @@
 
 #pragma once
 
-#include <tastefulframework/SessionContainer.h>
 #include <tastefulserver/HttpRequest.h>
-#include <tastefulserver/Cookie.h>
-#include <QHash>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/SessionContainer.h>
+
+template <typename Key, typename Value>
+class QHash;
+class QString;
 
 namespace tastefulframework {
 

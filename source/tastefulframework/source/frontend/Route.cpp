@@ -25,6 +25,7 @@
  **/
 
 #include <tastefulframework/Route.h>
+
 #include <QTextStream>
 
 namespace tastefulframework {

@@ -26,13 +26,14 @@
 
 #pragma once
 
-#include <tastefulframework/Route.h>
 #include <QObject>
 #include <QHash>
-#include <tastefulframework/Request.h>
-#include <tastefulframework/QHashExtension.h>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/Route.h>
+#include <tastefulframework/Request.h>
+#include <tastefulframework/QHashExtension.h>
 
 namespace tastefulframework {
 

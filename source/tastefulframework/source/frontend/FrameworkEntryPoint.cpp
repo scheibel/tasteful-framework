@@ -26,6 +26,11 @@
 
 #include <tastefulframework/FrameworkEntryPoint.h>
 
+#include <tastefulserver/HttpRequest.h>
+#include <tastefulserver/HttpResponse.h>
+
+#include <tastefulframework/FrontController.h>
+
 namespace tastefulframework {
 
 FrameworkEntryPoint::FrameworkEntryPoint(FrontController * frontController)

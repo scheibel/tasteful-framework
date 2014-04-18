@@ -25,8 +25,12 @@
  **/
 
 #include <tastefulframework/FrontController.h>
-#include <tastefulframework/Logger.h>
+
 #include <QDir>
+
+#include <tastefulserver/http.h>
+
+#include <tastefulframework/Logger.h>
 
 namespace tastefulframework {
 

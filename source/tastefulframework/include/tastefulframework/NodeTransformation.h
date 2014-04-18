@@ -26,11 +26,11 @@
 
 #pragma once
 
-#include <tastefulframework/DomNode.h>
-
 #include <functional>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/DomNode.h>
 
 namespace tastefulframework {
 

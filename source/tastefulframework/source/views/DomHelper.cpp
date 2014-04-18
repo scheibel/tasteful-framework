@@ -25,9 +25,12 @@
  **/
 
 #include <tastefulframework/DomHelper.h>
-#include <tastefulframework/DomNode.h>
+
 #include <iostream>
+
 #include <QFile>
+
+#include <tastefulframework/DomNode.h>
 
 namespace tastefulframework {
 

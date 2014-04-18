@@ -26,6 +26,8 @@
 
 #include <tastefulframework/Request.h>
 
+#include <QHash>
+
 #include <tastefulframework/SessionPool.h>
 
 namespace tastefulframework {

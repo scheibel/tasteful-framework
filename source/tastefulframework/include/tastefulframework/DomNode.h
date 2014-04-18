@@ -27,17 +27,19 @@
 #pragma once
 
 #include <functional>
+#include <initializer_list>
+
 #include <QString>
 #include <QDomNode>
 #include <QList>
 #include <QHash>
-#include <tastefulframework/DomHelper.h>
 #include <QTextStream>
 #include <QSharedPointer>
-#include <initializer_list>
-#include <tastefulframework/StringConvertible.h>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/StringConvertible.h>
+#include <tastefulframework/DomHelper.h>
 
 namespace tastefulframework {
 

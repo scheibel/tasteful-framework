@@ -28,11 +28,12 @@
 
 #include <QString>
 #include <QHash>
+
+#include <tastefulframework/tastefulframework_api.h>
+
 #include <tastefulframework/DomHelper.h>
 #include <tastefulframework/DomNode.h>
 #include <tastefulframework/NodeTransformation.h>
-
-#include <tastefulframework/tastefulframework_api.h>
 
 namespace tastefulframework {
 

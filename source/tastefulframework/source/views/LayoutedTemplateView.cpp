@@ -25,8 +25,8 @@
  **/
 
 #include <tastefulframework/LayoutedTemplateView.h>
+
 #include <tastefulframework/MimeDatabase.h>
-#include <QFileInfo>
 
 namespace tastefulframework {
 

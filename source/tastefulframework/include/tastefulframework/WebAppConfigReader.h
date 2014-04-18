@@ -26,11 +26,11 @@
 
 #pragma once
 
-#include <tastefulframework/WebAppConfig.h>
-
 #include <QXmlSimpleReader>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/WebAppConfig.h>
 
 namespace tastefulframework {
 

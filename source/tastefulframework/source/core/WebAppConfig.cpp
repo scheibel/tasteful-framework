@@ -25,6 +25,7 @@
  **/
 
 #include <tastefulframework/WebAppConfig.h>
+
 #include <tastefulframework/WebAppConfigReader.h>
 
 namespace tastefulframework {

@@ -25,7 +25,9 @@
  **/
 
 #include <tastefulframework/Response.h>
+
 #include <QFileInfo>
+
 #include <tastefulframework/MimeDatabase.h>
 
 namespace tastefulframework {

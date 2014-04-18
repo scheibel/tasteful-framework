@@ -26,9 +26,9 @@
 
 #pragma once
 
-#include <tastefulframework/SqlBuilder.h>
-
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/SqlBuilder.h>
 
 namespace tastefulframework {
 

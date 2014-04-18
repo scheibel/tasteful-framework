@@ -28,6 +28,7 @@
 
 #include <QString>
 #include <QHash>
+
 #include <tastefulserver/ContentType.h>
 
 #include <tastefulframework/tastefulframework_api.h>

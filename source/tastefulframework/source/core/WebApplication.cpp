@@ -26,13 +26,13 @@
 
 #include <tastefulframework/WebApplication.h>
 
-#include <tastefulframework/Database.h>
-#include <tastefulframework/FrontController.h>
 #include <QString>
 #include <QFileInfo>
 #include <QStringList>
-#include <tastefulframework/Logger.h>
 
+#include <tastefulframework/Database.h>
+#include <tastefulframework/FrontController.h>
+#include <tastefulframework/Logger.h>
 #include <tastefulframework/FrameworkEntryPoint.h>
 
 namespace tastefulframework {
@@ -42,9 +42,6 @@ WebApplication::WebApplication(int & argc, char ** argv)
 {
     m_rootDir = m_app.applicationDirPath();
     m_frontController = new FrontController();
-//	QFile* logFile = new QFile("log.txt");
-//	logFile->open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
-//	Logger::setLogDevice(logFile);
 }
 
 WebApplication::~WebApplication()

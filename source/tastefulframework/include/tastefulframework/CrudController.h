@@ -26,8 +26,9 @@
 
 #pragma once
 
-#include <tastefulframework/Controller.h>
 #include <tastefulserver/QVariantTree.h>
+
+#include <tastefulframework/Controller.h>
 
 namespace tastefulframework {
 

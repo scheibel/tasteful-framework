@@ -28,10 +28,11 @@
 
 #include <QString>
 #include <QHash>
-#include <tastefulframework/AbstractSession.h>
 #include <QVariant>
 
 #include <tastefulframework/tastefulframework_api.h>
+
+#include <tastefulframework/AbstractSession.h>
 
 namespace tastefulframework {
 
