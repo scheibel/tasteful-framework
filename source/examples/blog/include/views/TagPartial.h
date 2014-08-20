@@ -28,7 +28,7 @@
 
 #include <models/Tag.h>
 
-#include <tastefulframework/Partial.h>
+#include <tasteful-framework/Partial.h>
 
 class TagPartial : public tastefulframework::Partial
 {

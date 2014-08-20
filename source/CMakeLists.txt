@@ -1,5 +1,5 @@
 # Generate meta-header
-configure_file(tastefulframework-version.h.in ${CMAKE_CURRENT_BINARY_DIR}/tastefulframework-version.h)
+configure_file(tasteful-framework-version.h.in ${CMAKE_CURRENT_BINARY_DIR}/tasteful-framework-version.h)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -31,7 +31,7 @@ set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
 
 # Libraries
 set(IDE_FOLDER "")
-add_subdirectory(tastefulframework)
+add_subdirectory(tasteful-framework)
 
 # Examples
 set(IDE_FOLDER "Examples")

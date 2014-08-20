@@ -29,7 +29,7 @@
 #include <controllers/HomeController.h>
 #include <views/Registration.h>
 #include <models/Author.h>
-#include <tastefulserver/QVariantTree.h>
+#include <tasteful-server/QVariantTree.h>
 
 void RegisterController::index()
 {

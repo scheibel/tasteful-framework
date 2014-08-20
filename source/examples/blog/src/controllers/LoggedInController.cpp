@@ -26,7 +26,7 @@
 
 #include <controllers/LoggedInController.h>
 
-#include <tastefulframework/RedirectException.h>
+#include <tasteful-framework/RedirectException.h>
 #include <controllers/HomeController.h>
 
 bool LoggedInController::isAuthorized() const

@@ -7,19 +7,19 @@ message(STATUS "Example ${target}")
 #
 
 find_package(Qt5Core 5.0 REQUIRED)
-find_package(TastefulServer REQUIRED)
+find_package(Tasteful-Server REQUIRED)
 
 #
 # Includes
 #
 
 include_directories(
-	${TASTEFULSERVER_INCLUDES}
+	${TASTEFUL_SERVER_INCLUDES}
 )
 
 include_directories(
     BEFORE
-    ${CMAKE_SOURCE_DIR}/source/tastefulframework/include
+    ${CMAKE_SOURCE_DIR}/source/tasteful-framework/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
@@ -29,8 +29,8 @@ include_directories(
 #
 
 set(libs
-	${TASTEFULSERVER_LIBRARIES}
-	tastefulframework
+	${TASTEFUL_SERVER_LIBRARIES}
+	tasteful-framework
 )
 
 #

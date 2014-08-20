@@ -35,7 +35,7 @@
 
 #include <QString>
 #include <QList>
-#include <tastefulframework/ActiveRecord.h>
+#include <tasteful-framework/ActiveRecord.h>
 
 class BlogPost : public tastefulframework::ActiveRecord<BlogPost, unsigned>
 {

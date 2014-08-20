@@ -30,7 +30,7 @@
 #include <views/SearchForm.h>
 #include <views/SearchResult.h>
 
-#include <tastefulserver/QVariantTree.h>
+#include <tasteful-server/QVariantTree.h>
 
 void SearchController::index()
 {

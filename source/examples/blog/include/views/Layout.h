@@ -28,7 +28,7 @@
 
 #include <session/Session.h>
 
-#include <tastefulframework/TemplatedLayout.h>
+#include <tasteful-framework/TemplatedLayout.h>
 
 class Layout : public tastefulframework::TemplatedLayout
 {

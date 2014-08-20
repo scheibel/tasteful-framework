@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 
 # PROJECT DESCRIPTION
 
-set(META_PROJECT_NAME        "TastefulFramework")
+set(META_PROJECT_NAME        "Tasteful Framework")
 set(META_VERSION_MAJOR       "0")
 set(META_VERSION_MINOR       "1")
 set(META_VERSION_PATCH       "0")
 set(META_VERSION             "${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH}")
 set(META_AUTHOR_ORGANIZATION "Tasteful Revolution")
-set(META_AUTHOR_DOMAIN       "https://github.com/scheibel/tastefulframework/")
+set(META_AUTHOR_DOMAIN       "https://github.com/scheibel/tastefulf-ramework/")
 
 
 # OPTIONS
@@ -126,7 +126,7 @@ endif()
 #
 
 # Project meta files
-install(FILES tastefulframework-config.cmake DESTINATION ${INSTALL_ROOT})
+install(FILES tasteful-framework-config.cmake DESTINATION ${INSTALL_ROOT})
 install(FILES AUTHORS           DESTINATION ${INSTALL_ROOT})
 install(FILES COPYING           DESTINATION ${INSTALL_ROOT})
 install(FILES GPL           DESTINATION ${INSTALL_ROOT})

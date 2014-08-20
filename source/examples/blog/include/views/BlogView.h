@@ -29,7 +29,7 @@
 #include <session/Session.h>
 #include <views/Layout.h>
 
-#include <tastefulframework/LayoutedTemplateView.h>
+#include <tasteful-framework/LayoutedTemplateView.h>
 
 class BlogView : public tastefulframework::LayoutedTemplateView
 {

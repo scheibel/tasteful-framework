@@ -29,7 +29,7 @@
 #include <models/BlogPost.h>
 #include <session/Session.h>
 
-#include <tastefulframework/Partial.h>
+#include <tasteful-framework/Partial.h>
 
 class BlogPostPartial : public tastefulframework::Partial
 {

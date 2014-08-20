@@ -29,7 +29,7 @@
 #include <controllers/LoggedInController.h>
 #include <models/BlogPost.h>
 
-#include <tastefulframework/CrudController.h>
+#include <tasteful-framework/CrudController.h>
 
 class BlogPostController : public LoggedInController, public tastefulframework::CrudController<BlogPostController, BlogPost::DataMapper>
 {

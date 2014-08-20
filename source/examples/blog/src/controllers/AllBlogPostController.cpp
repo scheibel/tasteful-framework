@@ -30,7 +30,7 @@
 #include <views/BlogPostShow.h>
 #include <models/BlogPost.h>
 
-#include <tastefulserver/QVariantTree.h>
+#include <tasteful-server/QVariantTree.h>
 
 void AllBlogPostController::index()
 {

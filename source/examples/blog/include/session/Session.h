@@ -28,7 +28,7 @@
 
 #include <models/Author.h>
 
-#include <tastefulframework/AbstractSession.h>
+#include <tasteful-framework/AbstractSession.h>
 
 class Session : public tastefulframework::AbstractSession
 {

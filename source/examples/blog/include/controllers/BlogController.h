@@ -28,7 +28,7 @@
 
 #include <session/Session.h>
 
-#include <tastefulframework/RestrictedController.h>
+#include <tasteful-framework/RestrictedController.h>
 
 class BlogController : public tastefulframework::RestrictedController
 {

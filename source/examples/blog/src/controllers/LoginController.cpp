@@ -30,7 +30,7 @@
 #include <views/Login.h>
 #include <models/Author.h>
 
-#include <tastefulserver/QVariantTree.h>
+#include <tasteful-server/QVariantTree.h>
 
 void LoginController::index()
 {

@@ -27,7 +27,7 @@
 #pragma once
 
 #include <QString>
-#include <tastefulframework/ActiveRecord.h>
+#include <tasteful-framework/ActiveRecord.h>
 
 class Tag : public tastefulframework::ActiveRecord<Tag, unsigned>
 {

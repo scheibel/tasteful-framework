@@ -24,7 +24,7 @@
  * along with Tasteful Framework.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#include <tastefulframework/startup.h>
+#include <tasteful-framework/startup.h>
 
 #include <controllers/HomeController.h>
 #include <controllers/LoginController.h>
